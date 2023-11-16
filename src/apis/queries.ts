@@ -8,7 +8,7 @@ export const fetchAllProducts = async ({
 }) => {
   try {
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/getdat?page=${pageParam}&limit=10`
+      `http://localhost:8000/api/getdat?page=${pageParam}&limit=10`
     );
     return response.data;
   } catch (error) {

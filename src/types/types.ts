@@ -1,3 +1,5 @@
+// Types for Single Product
+
 type Product = {
   id: number;
   user_id: number;
@@ -22,4 +24,11 @@ type Image = {
   image_url: string;
   created_at: string | null;
   updated_at: string | null;
+};
+
+// Types for Category selection
+
+type CategoryList = {
+  name: string;
+  subcategories: string[];
 };
