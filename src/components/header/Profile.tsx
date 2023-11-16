@@ -1,8 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Image from "next/image";
 import React from "react";
 
-const Profile = () => {
+const Profile: React.FC = () => {
   return (
     <div className="relative w-[40px] h-[40px] cursor-pointer">
       <Image
