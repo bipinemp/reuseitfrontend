@@ -1,88 +1,143 @@
-export const category_list: CategoryList[] = [
+import { MdMonitor, MdOutlineToys } from "react-icons/md";
+import { RiHomeOfficeLine } from "react-icons/ri";
+import { LuSofa } from "react-icons/lu";
+import { IoShirtOutline } from "react-icons/io5";
+import { CgGym } from "react-icons/cg";
+import { LiaBookSolid, LiaCarSideSolid } from "react-icons/lia";
+import { GiPorcelainVase } from "react-icons/gi";
+import { PiGuitarBold, PiDotsNine } from "react-icons/pi";
+
+export const category_list = [
   {
-    name: "Cars",
-    subcategories: ["Cars"],
+    name: "Electronics",
+    icon: MdMonitor,
+    link: "electronics",
   },
   {
-    name: "Properties",
-    subcategories: [
-      "For Sale: Houses & Apartments",
-      "For Rent: Houses & Apartments",
-      "Lands & Plots",
-      "For Rent: Shops & Offices",
-      "For Sale: Shops & Offices",
-      "PG & Guest Houses",
-    ],
+    name: "Home Appliances",
+    icon: RiHomeOfficeLine,
+    link: "home_appliances",
+  },
+  { name: "Furniture", icon: LuSofa, link: "furniture" },
+  {
+    name: "Clothing and Accessories",
+    icon: IoShirtOutline,
+    link: "clothing_accessories",
   },
   {
-    name: "Mobiles",
-    subcategories: ["Mobile Phones", "Accessories", "Tablets"],
+    name: "Toys and Games",
+    icon: MdOutlineToys,
+    link: "toys_games",
   },
   {
-    name: "Jobs",
-    subcategories: [
-      "Data entry & Back office",
-      "Sales & Marketing",
-      "BPO & Telecaller",
-      "Driver",
-      "Office Assistent",
-      "Delivery & Collection",
-      "Teacher",
-      "Cook",
-      "Receptionist & Front office",
-      "Operator & Technician",
-      "IT Engineer & Developer",
-      "Hotel & Travel Executive",
-      "Accountant",
-      "Designer",
-      "Other Jobs",
-    ],
+    name: "Sports and Fitness",
+    icon: CgGym,
+    link: "sports_fitness",
   },
   {
-    name: "Bikes",
-    subcategories: ["Motorcycles", "Scooters", "Spare Parts", "Bicycles"],
+    name: "Books and Media",
+    icon: LiaBookSolid,
+    link: "books_media",
   },
   {
-    name: "Electronics & Appliances",
-    subcategories: [
-      "TVs, Video - Audio",
-      "Kitchen & Other Appliances",
-      "Computers & Laptops",
-      "Cameras & Lenses",
-      "Games & Entertainment",
-      "Fridges",
-      "Computer Accessories",
-      "Hard Disks, Printers & Monitors",
-      "ACs",
-      "Washing Machines",
-    ],
+    name: "Antiques and Collectibles",
+    icon: GiPorcelainVase,
+    link: "antiques_collectibles",
   },
+  { name: "Vehicles", icon: LiaCarSideSolid },
   {
-    name: "Commercial Vehicles & Spares",
-    subcategories: ["Commercial & Other Vehicles", "Spare Parts"],
+    name: "Musical Instruments",
+    icon: PiGuitarBold,
+    link: "musical_instruments",
   },
-  {
-    name: "Furniture",
-    subcategories: [
-      "Sofa & Dining",
-      "Beds & Wardrobes",
-      "Home Decor & Garden",
-      "Kids Furniture",
-      "Other Household Items",
-    ],
-  },
-  {
-    name: "Fashion",
-    subcategories: ["Men", "Women", "Kids"],
-  },
-  {
-    name: "Books, Sports & Hobbies",
-    subcategories: [
-      "Books",
-      "Gym & Fitness",
-      "Musical Instruments",
-      "Sports Equipment",
-      "Other Hobbies",
-    ],
-  },
+  { name: "Others", icon: PiDotsNine, link: "others" },
 ];
+
+// export const category_list: CategoryList[] = [
+//   {
+//     name: "Cars",
+//     subcategories: ["Cars"],
+//   },
+//   {
+//     name: "Properties",
+//     subcategories: [
+//       "For Sale: Houses & Apartments",
+//       "For Rent: Houses & Apartments",
+//       "Lands & Plots",
+//       "For Rent: Shops & Offices",
+//       "For Sale: Shops & Offices",
+//       "PG & Guest Houses",
+//     ],
+//   },
+//   {
+//     name: "Mobiles",
+//     subcategories: ["Mobile Phones", "Accessories", "Tablets"],
+//   },
+//   {
+//     name: "Jobs",
+//     subcategories: [
+//       "Data entry & Back office",
+//       "Sales & Marketing",
+//       "BPO & Telecaller",
+//       "Driver",
+//       "Office Assistent",
+//       "Delivery & Collection",
+//       "Teacher",
+//       "Cook",
+//       "Receptionist & Front office",
+//       "Operator & Technician",
+//       "IT Engineer & Developer",
+//       "Hotel & Travel Executive",
+//       "Accountant",
+//       "Designer",
+//       "Other Jobs",
+//     ],
+//   },
+//   {
+//     name: "Bikes",
+//     subcategories: ["Motorcycles", "Scooters", "Spare Parts", "Bicycles"],
+//   },
+//   {
+//     name: "Electronics & Appliances",
+//     subcategories: [
+//       "TVs, Video - Audio",
+//       "Kitchen & Other Appliances",
+//       "Computers & Laptops",
+//       "Cameras & Lenses",
+//       "Games & Entertainment",
+//       "Fridges",
+//       "Computer Accessories",
+//       "Hard Disks, Printers & Monitors",
+//       "ACs",
+//       "Washing Machines",
+//     ],
+//   },
+//   {
+//     name: "Commercial Vehicles & Spares",
+//     subcategories: ["Commercial & Other Vehicles", "Spare Parts"],
+//   },
+//   {
+//     name: "Furniture",
+//     subcategories: [
+//       "Sofa & Dining",
+//       "Beds & Wardrobes",
+//       "Home Decor & Garden",
+//       "Kids Furniture",
+//       "Other Household Items",
+//     ],
+//   },
+//   {
+//     name: "Fashion",
+//     subcategories: ["Men", "Women", "Kids"],
+//   },
+//   {
+//     name: "Books, Sports & Hobbies",
+//     subcategories: [
+//       "Books",
+//       "Gym & Fitness",
+//       "Musical Instruments",
+//       "Sports Equipment",
+//       "Other Hobbies",
+//     ],
+//   },
+// ];

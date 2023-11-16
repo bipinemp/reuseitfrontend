@@ -44,7 +44,9 @@ const Products: React.FC = () => {
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-5 mb-5">
               {content}
-              {hasNextPage && isFetchingNextPage ? <ProductLoading2 /> : null}
+              {!hasNextPage ? null : isFetchingNextPage ? (
+                <ProductLoading2 />
+              ) : null}
             </div>
           </>
         )}

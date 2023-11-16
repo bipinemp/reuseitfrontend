@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
       </div>
       <div className="px-2 flex flex-col gap-5">
         <div>
-          <h3 className="font-bold">Rs. {product.price}</h3>
+          <h2 className="font-bold">Rs. {product.price}</h2>
           <p className="text-content">{product.pname}</p>
         </div>
         <div className="text-xs text-content flex justify-between items-center">
