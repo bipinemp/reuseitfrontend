@@ -15,7 +15,7 @@ const Search: React.FC = () => {
         type="submit"
         className="rounded-tl-none rounded-bl-none h-[3rem]"
       >
-        <IoSearch size={25} />
+        <IoSearch size={30} />
       </Button>
     </div>
   );
