@@ -17,6 +17,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
         <Image
           fill
           src={
+            !product?.image ||
             product?.image[0]?.image_url === null ||
             product?.image[0]?.image_url === undefined
               ? fallbackimage
