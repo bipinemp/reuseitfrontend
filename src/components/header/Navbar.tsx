@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import React from "react";
-import Location from "./Location";
+import { Location } from "./Location";
 import Search from "./Search";
 import Chat from "./Chat";
 import Notification from "./Notification";
@@ -10,19 +10,27 @@ import Sell from "./Sell";
 import Profile from "./Profile";
 import Link from "next/link";
 import { PiArrowLeftBold } from "react-icons/pi";
+import Sidebar from "./Sidebar";
 
 const mainNavbar = (
-  <div className="flex gap-5 justify-between items-center px-10">
-    <div className="flex gap-5 items-center">
-      <h3 className="font-black">ReUseIt</h3>
-      <Location />
-      <Search />
-    </div>
-    <div className="flex items-center gap-2">
-      <Profile />
-      <Chat />
-      <Notification />
-      <Sell />
+  <div className=" max-w-[1920px] mx-auto 2xl:px-72 flex gap-5 justify-between items-center px-4 lg:px-10">
+    <div className="w-full flex flex-col lg:flex-row gap-3 lg:gap-5 items-start">
+      <div className="w-full lg:w-[280px] flex justify-between items-center ">
+        <h3 className="font-black">ReUseIt</h3>
+        <div className="flex gap-2 items-center">
+          <Location />
+          <Sidebar />
+        </div>
+      </div>
+      <div className="w-full items-center flex gap-3 justify-between">
+        <Search />
+        <div className="hidden lg:flex gap-2 items-center">
+          <Profile />
+          <Chat />
+          <Notification />
+          <Sell />
+        </div>
+      </div>
     </div>
   </div>
 );

@@ -4,18 +4,14 @@ import { IoSearch } from "react-icons/io5";
 
 const Search: React.FC = () => {
   return (
-    <div className="flex w-full max-w-sm items-center gap-1">
+    <div className="relative w-full flex items-center gap-1">
       <Input
-        className="w-[370px] rounded-tr-none rounded-br-none ring-2 ring-ring outline-primary ring-offset-2"
+        className="w-full xl:w-[600px] border-gray-400 py-6 pl-11 rounded-lg"
         type="text"
         placeholder="Find Cars, Mobile Phones and more..."
       />
-      <Button
-        variant="default"
-        type="submit"
-        className="rounded-tl-none rounded-bl-none h-[3rem]"
-      >
-        <IoSearch size={30} />
+      <Button variant="ghost" type="submit" className="absolute p-0 left-2">
+        <IoSearch size={30} color="gray" />
       </Button>
     </div>
   );
