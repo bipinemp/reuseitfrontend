@@ -18,7 +18,7 @@ const CategoryItem: React.FC<CategoryProps> = ({
   return (
     <div
       className={clsx(
-        `flex items-center p-4 hover:bg-neutral-100 cursor-pointer transition`,
+        `flex items-center p-4 hover:bg-neutral-200 cursor-pointer transition`,
         {
           "border-b-gray border-b-[1px]": i !== length - 1,
         }

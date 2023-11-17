@@ -18,6 +18,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "ReUseIt",
   description: "Platform for buying and selling Second Hand Products",
+  icons: {
+    icon: ["/favicon.ico?v=4"],
+  },
 };
 
 export default function RootLayout({
@@ -26,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={roboto.className}>
-      <body>
+    <html lang="en">
+      <body className={`${roboto.className}`}>
         <QueryProvider>
           <Navbar />
           {children}

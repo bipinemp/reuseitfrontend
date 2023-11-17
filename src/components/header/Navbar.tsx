@@ -8,6 +8,8 @@ import Chat from "./Chat";
 import Notification from "./Notification";
 import Sell from "./Sell";
 import Profile from "./Profile";
+import Link from "next/link";
+import { PiArrowLeftBold } from "react-icons/pi";
 
 const mainNavbar = (
   <div className="flex gap-5 justify-between items-center px-10">
@@ -30,7 +32,15 @@ const Navbar: React.FC = () => {
   return (
     <div className="sticky top-0 left-0 z-50 py-4 mb-5 bg-zinc-200">
       {pathname === "/post" ? (
-        <h2 className="text-center font-bold">{"< "}Home</h2>
+        <div className="font-bold text-xl px-10">
+          <Link
+            href={"/"}
+            className="flex w-fit items-center gap-2 transition hover:bg-neutral-300 p-2 rounded-lg"
+          >
+            <PiArrowLeftBold size={25} />
+            Home
+          </Link>
+        </div>
       ) : (
         mainNavbar
       )}

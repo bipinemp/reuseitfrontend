@@ -30,7 +30,7 @@ const Location: React.FC = () => {
           <DropdownMenuTrigger className="flex items-end">
             <IoIosArrowDown size={25} color="gray" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-[350px] -ml-[19.2rem] mt-[3px]">
+          <DropdownMenuContent className="w-[349px] -ml-[19.2rem] mt-[9px] border-gray-400">
             <DropdownMenuLabel className="flex items-center gap-3 cursor-pointer py-3">
               <FaLocationCrosshairs size={25} color="#2562EA" />
               <h3 className="text-primary hover:underline transition">
