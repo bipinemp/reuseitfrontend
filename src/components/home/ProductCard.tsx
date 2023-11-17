@@ -9,7 +9,7 @@ type ProductProps = {
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const formattedDate = useFormatTime(product?.created_at);
-  const imgurl = "http://127.0.0.1:8000/";
+  const imgurl = "http://127.0.0.1:8000/images/";
 
   return (
     <div className="cursor-pointer hover:border-primary transition w-full max-h-[310px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
