@@ -125,7 +125,6 @@ const HomeAppliances: React.FC = () => {
         price: parseInt(data.price),
       };
 
-      console.log(actualData);
       const response = await axios.post(
         "http://127.0.0.1:8000/api/homeappliances",
         actualData,
@@ -142,9 +141,16 @@ const HomeAppliances: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-
-    // console.log(actualData);
   };
+
+  useEffect(() => {
+    if (files.length === 0) {
+      setImgError("Image is required");
+    }
+    if (files.length !== 0) {
+      setImgError("");
+    }
+  }, [files]);
 
   return (
     <div className="max-w-[1920px] mx-auto px-4 md:px-10 xl:px-52 2xl:px-80">
@@ -515,7 +521,7 @@ const HomeAppliances: React.FC = () => {
             </div>
             {/* {JSON.stringify(errors?.image_urls?.message)} */}
           </div>
-          <p>{imgError && imgError}</p>
+          <p>{imgError}</p>
           <div className="flex gap-5 items-center">
             {files.map((file, i) => (
               <div
@@ -547,7 +553,7 @@ const HomeAppliances: React.FC = () => {
 
         <div className="px-10 py-8">
           <Button
-            disabled={files.length === 0}
+            // disabled={files.length === 0}
             type="submit"
             size="lg"
             className="text-lg w-fit"
