@@ -40,6 +40,7 @@ export const ApplianceSchema = z.object({
     .optional(),
   user_id: z.number().optional(),
   category_id: z.number().optional(),
+
   pname: z
     .string({ required_error: "Title is required" })
     .min(1, { message: "You must enter a Title" }),

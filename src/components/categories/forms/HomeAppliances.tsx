@@ -76,13 +76,12 @@ const HomeAppliances: React.FC = () => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles?.length) {
-        const remainingSlots = 5 - files.length;
-        const newFiles = acceptedFiles.slice(0, remainingSlots).map((file) => ({
-          id: uuidv4(), // Generate a unique identifier
-          preview: URL.createObjectURL(file),
-          ...file,
-        }));
-        setFiles((previousFiles) => [...previousFiles, ...newFiles]);
+        setFiles((previousFiles: any) => [
+          ...previousFiles,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, { preview: URL.createObjectURL(file) })
+          ),
+        ]);
       }
     },
     [files]
@@ -96,6 +95,7 @@ const HomeAppliances: React.FC = () => {
       "image/webp": [".webp"],
     },
     maxFiles: 5,
+    multiple: true,
     onDrop,
   });
 
@@ -106,7 +106,7 @@ const HomeAppliances: React.FC = () => {
 
   const removeFile = (id: string) => {
     setFiles((files) => {
-      const updatedFiles = files.filter((file) => file.id !== id);
+      const updatedFiles = files.filter((file) => file.name !== id);
       updatedFiles.forEach((file) => URL.revokeObjectURL(file.preview));
       return updatedFiles;
     });
@@ -120,15 +120,35 @@ const HomeAppliances: React.FC = () => {
 
   const onSubmit = async (data: TAppliance) => {
     try {
-      data.image_urls = files;
+      const formData = new FormData();
+
+      // Object.entries(data).forEach(([key, value]) => {
+      //   formData.append(key, value);
+      // });
+
+      // files.forEach((file, index) => {
+      //   formData.append(`image_urls[${index}]`, file);
+      // });
+
+      // console.log(formData);
+      console.log(files);
+
       const actualData = {
         ...data,
+        image_urls: files,
         user_id: 1,
         price: parseInt(data.price),
       };
+
+      console.log(actualData);
       const response = await axios.post(
         "http://127.0.0.1:8000/api/homeappliances",
-        actualData
+        actualData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       console.log(response);
       if (response.status === 200) {
@@ -487,7 +507,11 @@ const HomeAppliances: React.FC = () => {
                 render={({ field }) => {
                   return ( */}
               <div>
-                <Input {...getInputProps()} />
+                <Input
+                  {...getInputProps()}
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg, image/webp"
+                />
 
                 {isDragActive ? (
                   <p className="font-semibold text-destructive text-center">
@@ -528,7 +552,7 @@ const HomeAppliances: React.FC = () => {
                   </span>
                 )}
                 <X
-                  onClick={() => removeFile(file.id)}
+                  onClick={() => removeFile(file.name)}
                   className="z-20 absolute right-1 cursor-pointer hover:opacity-90 bg-destructive-foreground font-bold transition p-[0.3rem] top-1 h-8 w-8 rounded-full brightness-150 text-destructive"
                 />
               </div>
