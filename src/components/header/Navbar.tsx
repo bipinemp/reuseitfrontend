@@ -11,6 +11,7 @@ import Profile from "./Profile";
 import Link from "next/link";
 import { PiArrowLeftBold } from "react-icons/pi";
 import Sidebar from "./Sidebar";
+import { nonavbarlist } from "@/lib/lists";
 
 const mainNavbar = (
   <div className=" max-w-[1920px] mx-auto 2xl:px-72 flex gap-5 justify-between items-center px-4 lg:px-10">
@@ -37,9 +38,10 @@ const mainNavbar = (
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
+
   return (
     <div className="sticky top-0 left-0 z-50 py-4 mb-5 bg-zinc-200">
-      {pathname === "/post" ? (
+      {nonavbarlist.includes(pathname) ? (
         <div className="font-bold text-xl px-10">
           <Link
             href={"/"}

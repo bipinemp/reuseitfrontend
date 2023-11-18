@@ -1,12 +1,14 @@
 import React from "react";
 import { IconType } from "react-icons";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface CategoryProps {
   length: number;
   i: number;
   icon: IconType;
   name: string;
+  link: string;
 }
 
 const CategoryItem: React.FC<CategoryProps> = ({
@@ -14,9 +16,11 @@ const CategoryItem: React.FC<CategoryProps> = ({
   name,
   i,
   length,
+  link,
 }) => {
   return (
-    <div
+    <Link
+      href={`/post/${link}`}
       className={clsx(
         `flex items-center p-4 hover:bg-neutral-200 cursor-pointer transition`,
         {
@@ -26,7 +30,7 @@ const CategoryItem: React.FC<CategoryProps> = ({
     >
       <Icon size={30} color="gray" />
       <p className="p-2">{name}</p>
-    </div>
+    </Link>
   );
 };
 

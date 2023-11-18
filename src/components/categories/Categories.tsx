@@ -17,6 +17,7 @@ const Categories: React.FC = () => {
               key={category.name}
               name={category.name}
               icon={category.icon}
+              link={category.link}
               i={i}
               length={category_list.length}
             />

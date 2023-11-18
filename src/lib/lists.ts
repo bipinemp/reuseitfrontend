@@ -44,13 +44,54 @@ export const category_list = [
     icon: GiPorcelainVase,
     link: "antiques_collectibles",
   },
-  { name: "Vehicles", icon: LiaCarSideSolid },
+  { name: "Vehicles", icon: LiaCarSideSolid, link: "vehicles" },
   {
     name: "Musical Instruments",
     icon: PiGuitarBold,
     link: "musical_instruments",
   },
   { name: "Others", icon: PiDotsNine, link: "others" },
+];
+
+export const nonavbarlist = ["/post", "/post/home_appliances"];
+
+export const homeapplianceslist = [
+  {
+    name: "type",
+    list: [
+      "Refrigerator",
+      "Washing Machine",
+      "Dishwasher",
+      "Microwave Oven",
+      "Air Conditioner",
+      "Blender",
+      "Others",
+    ],
+  },
+  {
+    name: "brand",
+    list: ["Samsung", "LG", "Whirlpool", "Bosch", "Panasonic", "KitchenAid"],
+  },
+  {
+    name: "warrenty",
+    list: [
+      "1-year manufacturer's warranty",
+      "Extended warranty available",
+      "No warranty (sold as-is)",
+      "Home warranty included",
+      "Limited lifetime warranty on certain parts",
+    ],
+  },
+  {
+    name: "condition",
+    list: [
+      "Brand New (never used)",
+      "Like New (gently used with minimal signs of wear)",
+      "Good (used with some signs of wear but functions well)",
+      "Fair (visible wear and tear but still functional)",
+      "Poor (may require repairs or refurbishment)",
+    ],
+  },
 ];
 
 // export const category_list: CategoryList[] = [
