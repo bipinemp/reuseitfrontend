@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useCallback } from "react";
+import { v4 as uuidv4 } from "uuid";
+import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Locations from "@/json/nepal_location.json";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,17 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { homeapplianceslist } from "@/lib/lists";
 import { useState } from "react";
+import Image from "next/image";
+import { X } from "lucide-react";
+
+interface PreviewFile extends File {
+  id: string;
+  preview: string;
+}
 
 const HomeAppliances: React.FC = () => {
+  const [files, setFiles] = useState<PreviewFile[]>([]);
+
   const AllProvinces = Locations.provinceList.flatMap((val) => val.name);
 
   const [province, setProvince] = useState<string>("");
@@ -47,12 +57,44 @@ const HomeAppliances: React.FC = () => {
     (val) => val.name === "warrenty"
   );
 
-  const onDrop = useCallback((acceptedFiles: FileList) => {
-    console.log(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (acceptedFiles?.length) {
+        const remainingSlots = 5 - files.length;
+        const newFiles = acceptedFiles.slice(0, remainingSlots).map((file) => ({
+          id: uuidv4(), // Generate a unique identifier
+          preview: URL.createObjectURL(file),
+          ...file,
+        }));
+        setFiles((previousFiles) => [...previousFiles, ...newFiles]);
+      }
+    },
+    [files]
+  );
 
-  // console.log(Locations.provinceList);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    accept: {
+      "image/png": [".png"],
+      "image/jpg": [".jpg"],
+      "image/jpeg": [".jpeg"],
+      "image/webp": [".webp"],
+    },
+    maxFiles: 5,
+    onDrop,
+  });
+
+  useEffect(() => {
+    // Revoke the data uris to avoid memory leaks
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, [files]);
+
+  const removeFile = (id: string) => {
+    setFiles((files) => {
+      const updatedFiles = files.filter((file) => file.id !== id);
+      updatedFiles.forEach((file) => URL.revokeObjectURL(file.preview));
+      return updatedFiles;
+    });
+  };
 
   return (
     <div className="max-w-[1920px] mx-auto px-4 md:px-10 xl:px-52 2xl:px-80">
@@ -279,16 +321,48 @@ const HomeAppliances: React.FC = () => {
             <div
               {...getRootProps({
                 className:
-                  "p-10 border-[2px] border-primary border-dashed rounded-lg cursor-pointer",
+                  "p-10 border-[2px] border-primary border-dashed rounded-lg cursor-pointer hover:bg-neutral-100 transition",
               })}
             >
               <Input {...getInputProps()} />
               {isDragActive ? (
-                <p>Drop the files here ...</p>
+                <p className="font-semibold text-destructive text-center">
+                  Drop the Images here ...
+                </p>
               ) : (
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p className="font-semibold text-destructive text-center">
+                  Drag and Drop Images here , or click to select images <br />{" "}
+                  "First Selected Image will be the cover of AD"
+                </p>
               )}
             </div>
+          </div>
+          <div className="flex gap-5 items-center">
+            {files.map((file, i) => (
+              <div
+                key={file.id}
+                className="relative w-[150px] h-[100px] rounded-lg"
+              >
+                <Image
+                  src={file.preview}
+                  alt="image preview"
+                  fill
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                  className="rounded-lg brightness-90 z-10"
+                />
+                {i === 0 && (
+                  <span className="rounded-lg rounded-tl-none rounded-tr-none absolute text-sm font-semibold tracking-wide py-1 z-20 text-white bg-primary w-full text-center bottom-0">
+                    Cover
+                  </span>
+                )}
+                <X
+                  onClick={() => removeFile(file.id)}
+                  className="z-20 absolute right-1 cursor-pointer hover:opacity-90 bg-destructive-foreground font-bold transition p-[0.3rem] top-1 h-8 w-8 rounded-full brightness-150 text-destructive"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
