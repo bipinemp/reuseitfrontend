@@ -123,6 +123,7 @@ const HomeAppliances: React.FC = () => {
       data.image_urls = files;
       const actualData = {
         ...data,
+        user_id: 1,
         price: parseInt(data.price),
       };
       const response = await axios.post(
