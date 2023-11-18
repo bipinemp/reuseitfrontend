@@ -79,7 +79,10 @@ const HomeAppliances: React.FC = () => {
         setFiles((previousFiles: any) => [
           ...previousFiles,
           ...acceptedFiles.map((file) =>
-            Object.assign(file, { preview: URL.createObjectURL(file) })
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+              id: uuidv4(),
+            })
           ),
         ]);
       }
@@ -106,7 +109,7 @@ const HomeAppliances: React.FC = () => {
 
   const removeFile = (id: string) => {
     setFiles((files) => {
-      const updatedFiles = files.filter((file) => file.name !== id);
+      const updatedFiles = files.filter((file) => file.id !== id);
       updatedFiles.forEach((file) => URL.revokeObjectURL(file.preview));
       return updatedFiles;
     });
@@ -552,7 +555,7 @@ const HomeAppliances: React.FC = () => {
                   </span>
                 )}
                 <X
-                  onClick={() => removeFile(file.name)}
+                  onClick={() => removeFile(file.id)}
                   className="z-20 absolute right-1 cursor-pointer hover:opacity-90 bg-destructive-foreground font-bold transition p-[0.3rem] top-1 h-8 w-8 rounded-full brightness-150 text-destructive"
                 />
               </div>
