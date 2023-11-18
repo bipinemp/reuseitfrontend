@@ -76,9 +76,10 @@ const HomeAppliances: React.FC = () => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles?.length) {
+        const newFiles = acceptedFiles.slice(0, 5 - files.length);
         setFiles((previousFiles: any) => [
           ...previousFiles,
-          ...acceptedFiles.map((file) =>
+          ...newFiles.map((file) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file),
               id: uuidv4(),
@@ -91,6 +92,7 @@ const HomeAppliances: React.FC = () => {
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
     accept: {
       "image/png": [".png"],
       "image/jpg": [".jpg"],
@@ -99,7 +101,6 @@ const HomeAppliances: React.FC = () => {
     },
     maxFiles: 5,
     multiple: true,
-    onDrop,
   });
 
   useEffect(() => {
@@ -115,27 +116,8 @@ const HomeAppliances: React.FC = () => {
     });
   };
 
-  // const handleSubmit = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   files.forEach((file) => formData.append("image_urls", file));
-  // };
-
   const onSubmit = async (data: TAppliance) => {
     try {
-      const formData = new FormData();
-
-      // Object.entries(data).forEach(([key, value]) => {
-      //   formData.append(key, value);
-      // });
-
-      // files.forEach((file, index) => {
-      //   formData.append(`image_urls[${index}]`, file);
-      // });
-
-      // console.log(formData);
-      console.log(files);
-
       const actualData = {
         ...data,
         image_urls: files,
