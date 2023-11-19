@@ -1,16 +1,10 @@
 "use client";
 
-import { v4 as uuidv4 } from "uuid";
-import React, { useCallback, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import Locations from "@/json/nepal_location.json";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { homeapplianceslist } from "@/lib/lists";
 import { useState } from "react";
-import Image from "next/image";
-import { X } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ApplianceSchema, TAppliance } from "@/types/postTypes";
 import axios from "axios";
