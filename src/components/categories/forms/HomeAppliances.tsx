@@ -17,6 +17,10 @@ import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNewAppliance } from "@/apis/apicalls";
+import { Loader2 } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 interface PreviewFile extends File {
   id: string;
@@ -24,6 +28,7 @@ interface PreviewFile extends File {
 }
 
 const HomeAppliances: React.FC = () => {
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -51,33 +56,41 @@ const HomeAppliances: React.FC = () => {
     (val) => val.name === "warrenty"
   );
 
-  const onSubmit = async (data: TAppliance) => {
-    try {
-      const actualData = {
-        ...data,
-        image_urls: files,
-        user_id: 1,
-        price: parseInt(data.price),
-      };
+  // mutation function for creating Home Appliance AD
+  const {
+    mutate: CreateBlog,
+    isPending,
+    isSuccess,
+    isError,
+  } = useMutation({
+    mutationFn: createNewAppliance,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast.success("Post Successfull");
+      reset();
+      router.push("/post");
+    },
+    // onSettled(data) {
+    //   router.push(`/details/${data?.blog._id}`);
+    // },
+    onError: () => toast.error("Something went wrong try again"),
+  });
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/homeappliances",
-        actualData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 200) {
-        alert("Post successfull");
-        reset();
-        router.push("/post");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  // actual form submission function
+  const onSubmit = async (data: TAppliance) => {
+    handleCreateAppliance(data);
   };
+
+  // for mutation function
+  async function handleCreateAppliance(data: TAppliance) {
+    const actualData = {
+      ...data,
+      image_urls: files,
+      user_id: 1,
+      price: parseInt(data.price),
+    };
+    CreateBlog(actualData);
+  }
 
   useEffect(() => {
     if (files.length === 0) {
@@ -212,13 +225,15 @@ const HomeAppliances: React.FC = () => {
 
         {/* Submitting Post Button */}
         <div className="px-10 py-8">
-          <Button
-            // disabled={files.length === 0}
-            type="submit"
-            size="lg"
-            className="text-lg w-fit"
-          >
-            Post now
+          <Button type="submit" size="lg" className="text-lg w-fit">
+            {isPending ? (
+              <div className="flex gap-2 items-center">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <p>Posting..</p>
+              </div>
+            ) : (
+              "Post now"
+            )}
           </Button>
         </div>
       </form>

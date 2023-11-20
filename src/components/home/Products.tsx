@@ -1,12 +1,11 @@
 "use client";
 
-import { fetchAllProducts } from "@/apis/queries";
-import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
 import { Button } from "../ui/button";
 import Container from "../Container";
 import ProductCard from "./ProductCard";
 import { ProductLoading2, ProductsLoading } from "@/loading/ProductsLoading";
+import { useFetchAllProducts } from "@/apis/queries";
 
 const Products: React.FC = () => {
   const {
@@ -16,15 +15,7 @@ const Products: React.FC = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
-  } = useInfiniteQuery({
-    queryKey: ["products"],
-    queryFn: fetchAllProducts,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) => {
-      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
-      return nextPage;
-    },
-  });
+  } = useFetchAllProducts();
 
   const content = data?.pages.map((products) =>
     products.map((product: Product) => {
@@ -39,7 +30,7 @@ const Products: React.FC = () => {
         {status === "pending" ? (
           <ProductsLoading />
         ) : status === "error" ? (
-          <p>Error: {error.message}</p>
+          <p>Error: {error?.message && error.message}</p>
         ) : (
           <>
             <div className="grid grid-cols-1 vsm vsm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-5 mb-5">

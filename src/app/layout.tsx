@@ -3,6 +3,7 @@ import { Poppins, Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/header/Navbar";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${poppins.className}`}>
         <QueryProvider>
+          <Toaster position="top-center" />
           <Navbar />
           {children}
         </QueryProvider>

@@ -1,17 +1,30 @@
-import axios from "axios";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { fetchAllProducts } from "./apicalls";
 
-// for fetcing all Products
-export const fetchAllProducts = async ({
-  pageParam,
-}: {
-  pageParam: number;
-}) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:8000/api/getdat?page=${pageParam}&limit=10`
-    );
-    return response.data;
-  } catch (error) {
-    return error;
-  }
+export const useFetchAllProducts = () => {
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["products"],
+    queryFn: fetchAllProducts,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
+      return nextPage;
+    },
+  });
+
+  return {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  };
 };
