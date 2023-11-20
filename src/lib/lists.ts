@@ -18,7 +18,7 @@ export const category_list = [
     icon: RiHomeOfficeLine,
     link: "home_appliances",
   },
-  { name: "Furniture", icon: LuSofa, link: "furniture" },
+  { name: "Furniture", icon: LuSofa, link: "furnitures" },
   {
     name: "Clothing and Accessories",
     icon: IoShirtOutline,
@@ -132,5 +132,72 @@ export const electronicsList = [
       "Fair (visible wear and tear but still functional)",
       "Poor (may require repairs or refurbishment)",
     ],
+  },
+];
+
+export const furnitureList = [
+  {
+    name: "type",
+    list: [
+      "Chair",
+      "Table",
+      "Sofa",
+      "Bed",
+      "Cabinet",
+      "Shelf",
+      "Desk",
+      "Dresser",
+      "Wardrobe",
+      "Others",
+    ],
+  },
+  {
+    name: "material",
+    list: [
+      "Wood",
+      "Metal",
+      "Plastic",
+      "Glass",
+      "Leather",
+      "Fabric",
+      "Rattan",
+      "Wicker",
+      "Concrete",
+      "Others",
+    ],
+  },
+  {
+    name: "color",
+    list: [
+      "White",
+      "Black",
+      "Brown",
+      "Gray",
+      "Blue",
+      "Red",
+      "Green",
+      "Yellow",
+      "Purple",
+      "Others",
+    ],
+  },
+  {
+    name: "style",
+    list: [
+      "Modern",
+      "Traditional",
+      "Contemporary",
+      "Vintage",
+      "Rustic",
+      "Industrial",
+      "Bohemian",
+      "Scandinavian",
+      "Mid-Century Modern",
+      "Others",
+    ],
+  },
+  {
+    name: "condition",
+    list: ["Brand New", "Like New", "Good", "Fair", "Poor"],
   },
 ];

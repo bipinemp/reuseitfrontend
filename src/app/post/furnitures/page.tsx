@@ -1,9 +1,9 @@
-import HomeAppliances from "@/components/categories/forms/HomeAppliances";
+import Furnitures from "@/components/categories/forms/Furnitures";
 
 const page: React.FC = () => {
   return (
     <div>
-      <HomeAppliances />
+      <Furnitures />
     </div>
   );
 };

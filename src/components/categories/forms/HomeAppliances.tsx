@@ -7,7 +7,6 @@ import { homeapplianceslist } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ApplianceSchema, TAppliance } from "@/types/postTypes";
-import axios from "axios";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
@@ -57,12 +56,7 @@ const HomeAppliances: React.FC = () => {
   );
 
   // mutation function for creating Home Appliance AD
-  const {
-    mutate: CreateBlog,
-    isPending,
-    isSuccess,
-    isError,
-  } = useMutation({
+  const { mutate: CreateBlog, isPending } = useMutation({
     mutationFn: createNewAppliance,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });

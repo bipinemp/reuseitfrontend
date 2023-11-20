@@ -3,17 +3,15 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { homeapplianceslist } from "@/lib/lists";
+import { furnitureList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApplianceSchema, TAppliance } from "@/types/postTypes";
-import axios from "axios";
+import { FurnitureSchema, TFurnitures } from "@/types/postTypes";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
-import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
@@ -21,6 +19,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import FurnitureLocation from "./components/locations/FurnitureLocation";
 
 interface PreviewFile extends File {
   id: string;
@@ -40,29 +39,20 @@ const HomeAppliances: React.FC = () => {
     control,
     formState: { errors },
     reset,
-  } = useForm<TAppliance>({
-    resolver: zodResolver(ApplianceSchema),
+  } = useForm<TFurnitures>({
+    resolver: zodResolver(FurnitureSchema),
   });
 
-  const typeofappliance = homeapplianceslist.filter(
-    (val) => val.name === "type"
-  );
-
-  const typeofcondition = homeapplianceslist.filter(
+  const typeoffurniture = furnitureList.filter((val) => val.name === "type");
+  const typeofcondition = furnitureList.filter(
     (val) => val.name === "condition"
   );
-
-  const typeofwarrenty = homeapplianceslist.filter(
-    (val) => val.name === "warrenty"
-  );
+  const material = furnitureList.filter((val) => val.name === "material");
+  const style = furnitureList.filter((val) => val.name === "style");
+  const color = furnitureList.filter((val) => val.name === "color");
 
   // mutation function for creating Home Appliance AD
-  const {
-    mutate: CreateBlog,
-    isPending,
-    isSuccess,
-    isError,
-  } = useMutation({
+  const { mutate: CreateBlog, isPending } = useMutation({
     mutationFn: createNewAppliance,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -77,12 +67,12 @@ const HomeAppliances: React.FC = () => {
   });
 
   // actual form submission function
-  const onSubmit = async (data: TAppliance) => {
+  const onSubmit = async (data: TFurnitures) => {
     handleCreateAppliance(data);
   };
 
   // for mutation function
-  async function handleCreateAppliance(data: TAppliance) {
+  async function handleCreateAppliance(data: TFurnitures) {
     const actualData = {
       ...data,
       image_urls: files,
@@ -114,7 +104,7 @@ const HomeAppliances: React.FC = () => {
             INCLUDE SOME DETAILS :
           </h3>
 
-          <InputBox<TAppliance>
+          <InputBox<TFurnitures>
             name="pname"
             id="pname"
             placeholder="Enter Title..."
@@ -125,7 +115,7 @@ const HomeAppliances: React.FC = () => {
             label="Ad Title"
           />
 
-          <TextareaBox<TAppliance>
+          <TextareaBox<TFurnitures>
             name="description"
             id="description"
             placeholder="Enter Description..."
@@ -136,81 +126,73 @@ const HomeAppliances: React.FC = () => {
           />
 
           <div>
-            <SelectBox<TAppliance>
-              name="type_of_appliance"
+            <SelectBox<TFurnitures>
+              name="type_of_furniture"
               control={control}
-              array={typeofappliance[0]?.list}
-              placeholder="Select Type of Appliance"
-              label="Appliances:"
-              error={errors.type_of_appliance?.message || ""}
+              array={typeoffurniture[0]?.list}
+              placeholder="Select Type of Furniture"
+              label="Furnitures:"
+              error={errors.type_of_furniture?.message || ""}
             />
           </div>
 
-          <InputBox<TAppliance>
-            id="brand"
-            name="brand"
-            placeholder="Enter Brand Name..."
-            error={errors?.brand?.message || ""}
-            desc="Enter the name of the Brand"
-            register={register}
-            label="Brand"
-          />
+          <div>
+            <SelectBox<TFurnitures>
+              name="material"
+              control={control}
+              array={material[0]?.list}
+              placeholder="Select Type of Material"
+              label="Materials:"
+              error={errors.material?.message || ""}
+            />
+          </div>
 
-          <InputBox<TAppliance>
-            id="model"
-            name="model"
-            placeholder="Enter Model Name..."
-            error={errors?.model?.message || ""}
-            desc="Enter the name of the Model"
+          <InputBox<TFurnitures>
+            id="dimensions"
+            name="dimensions"
+            placeholder="Enter Dimensions of Furniture..."
+            error={errors?.dimensions?.message || ""}
+            desc="Enter the proper Dimensions of ( 10x20x30 ) format"
             register={register}
-            label="Model"
-          />
-
-          <InputBox<TAppliance>
-            id="capacity"
-            name="capacity"
-            placeholder="Enter Capacity..."
-            error={errors?.capacity?.message || ""}
-            desc="Enter the Capacity"
-            register={register}
-            label="Capacity"
-          />
-
-          <TextareaBox<TAppliance>
-            id="features"
-            name="features"
-            placeholder="Enter Features..."
-            error={errors?.features?.message || ""}
-            desc="Enter all the features of the Product"
-            register={register}
-            label="Features"
+            label="Dimensions"
           />
 
           <div>
-            <SelectBox<TAppliance>
+            <SelectBox<TFurnitures>
+              name="color"
+              control={control}
+              array={color[0]?.list}
+              placeholder="Select Type of color"
+              label="colors:"
+              error={errors.color?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TFurnitures>
+              name="style"
+              control={control}
+              array={style[0]?.list}
+              placeholder="Select Type of style"
+              label="styles:"
+              error={errors.style?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TFurnitures>
               name="condition"
               control={control}
               array={typeofcondition[0]?.list}
-              placeholder="Select Condition"
-              label="Conditions:"
+              placeholder="Select Type of condition"
+              label="conditions:"
               error={errors.condition?.message || ""}
-            />
-          </div>
-
-          <div>
-            <SelectBox<TAppliance>
-              name="warranty_information"
-              control={control}
-              array={typeofwarrenty[0]?.list}
-              placeholder="Select the Warranty"
-              label="Available Warrenties:"
-              error={errors?.warranty_information?.message || ""}
             />
           </div>
         </div>
 
         {/* Price Section */}
-        <PriceBox<TAppliance>
+        <PriceBox<TFurnitures>
           name="price"
           id="price"
           register={register}
@@ -218,7 +200,7 @@ const HomeAppliances: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        <ApplianceLocationBox control={control} errors={errors} />
+        <FurnitureLocation control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
