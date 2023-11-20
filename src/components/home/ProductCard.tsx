@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import fallbackimage from "../../../public/image/fallbackimage.jpg";
 import useFormatTime from "@/hooks/useFormatTime";
+import useFormatPrice from "@/hooks/useFormatPrice";
 
 type ProductProps = {
   product: Product;
@@ -10,6 +11,7 @@ type ProductProps = {
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const formattedDate = useFormatTime(product?.created_at);
   const imgurl = "http://127.0.0.1:8000/images/";
+  const { formattedPrice } = useFormatPrice(product.price);
 
   return (
     <div className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
@@ -31,7 +33,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
       </div>
       <div className="sm:px-2 flex flex-col gap-5">
         <div>
-          <h2 className="font-bold">Rs.{product.price}</h2>
+          <h2 className="font-bold">{formattedPrice}</h2>
           <p className="text-content text-lg">{product.pname}</p>
         </div>
         <div className="text-xs text-content flex justify-between items-center">
