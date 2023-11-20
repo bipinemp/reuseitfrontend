@@ -4,17 +4,14 @@ import clsx from "clsx";
 import React from "react";
 import { RegisterOptions, UseFormRegisterReturn } from "react-hook-form";
 
-interface PriceBoxProps {
-  name: keyof TAppliance;
+interface PriceBoxProps<T> {
+  name: keyof T;
   id: string;
-  register: (
-    name: keyof TAppliance,
-    options?: RegisterOptions
-  ) => UseFormRegisterReturn;
+  register: (name: keyof T, options?: RegisterOptions) => UseFormRegisterReturn;
   error: string;
 }
 
-const PriceBox: React.FC<PriceBoxProps> = ({ name, id, register, error }) => {
+const PriceBox = <T,>({ name, id, register, error }: PriceBoxProps<T>) => {
   return (
     <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-10 py-8">
       <h3 className="font-semibold underline underline-offset-2">

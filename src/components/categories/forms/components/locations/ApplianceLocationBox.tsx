@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Locations from "@/json/nepal_location.json";
-import LocSelectBox from "./LocSelectBox";
+import LocSelectBox from "../LocSelectBox";
 import { TAppliance } from "@/types/postTypes";
 import { Control, FieldErrors } from "react-hook-form";
 
@@ -11,7 +11,10 @@ interface LocationBoxProps {
   errors: FieldErrors<TAppliance>;
 }
 
-const LocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
+const ApplianceLocationBox: React.FC<LocationBoxProps> = ({
+  control,
+  errors,
+}) => {
   const AllProvinces = Locations.provinceList.flatMap((val) => val.name);
 
   const [province, setProvince] = useState<string>("");
@@ -36,7 +39,7 @@ const LocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
         CONFIRM YOUR LOCATION
       </h3>
 
-      <LocSelectBox
+      <LocSelectBox<TAppliance>
         name="Province"
         control={control}
         array={AllProvinces}
@@ -48,7 +51,7 @@ const LocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
 
       {province !== "" ? (
         <>
-          <LocSelectBox
+          <LocSelectBox<TAppliance>
             name="District"
             control={control}
             array={DistrictList}
@@ -62,7 +65,7 @@ const LocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
 
       {district !== "" ? (
         <>
-          <LocSelectBox
+          <LocSelectBox<TAppliance>
             name="Municipality"
             control={control}
             array={MunicipilityList}
@@ -76,4 +79,4 @@ const LocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
   );
 };
 
-export default LocationBox;
+export default ApplianceLocationBox;

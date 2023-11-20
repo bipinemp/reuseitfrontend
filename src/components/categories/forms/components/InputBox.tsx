@@ -1,24 +1,20 @@
 import clsx from "clsx";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TAppliance } from "@/types/postTypes";
 import React from "react";
 import { RegisterOptions, UseFormRegisterReturn } from "react-hook-form";
 
-interface InputBoxProps {
-  name: keyof TAppliance;
+interface InputBoxProps<T> {
+  name: keyof T;
   placeholder: string;
   id: string;
-  register: (
-    name: keyof TAppliance,
-    options?: RegisterOptions
-  ) => UseFormRegisterReturn;
+  register: (name: keyof T, options?: RegisterOptions) => UseFormRegisterReturn;
   desc: string;
   error: string;
   label?: string;
 }
 
-const InputBox: React.FC<InputBoxProps> = ({
+const InputBox = <T,>({
   name,
   placeholder,
   id,
@@ -26,27 +22,29 @@ const InputBox: React.FC<InputBoxProps> = ({
   desc,
   error,
   label,
-}) => {
+}: InputBoxProps<T>) => {
   return (
     <div className="flex flex-col gap-1">
-      <Label htmlFor={name}>{label}</Label>
+      {label && <Label htmlFor={name as string}>{label}</Label>}
       <Input
         {...register(name)}
         id={id}
-        name={name}
+        name={name as string}
         placeholder={placeholder}
         className={clsx("border-content py-6", {
           "border-destructive border-[2px] placeholder:text-destructive":
             error !== "",
         })}
       />
-      <span
-        className={clsx("text-xs text-content", {
-          hidden: error !== "",
-        })}
-      >
-        {desc}
-      </span>
+      {label && (
+        <span
+          className={clsx("text-xs text-content", {
+            hidden: error !== "",
+          })}
+        >
+          {desc}
+        </span>
+      )}
       {error && (
         <span className="text-destructive text-sm font-semibold pl-3">
           ** {error}

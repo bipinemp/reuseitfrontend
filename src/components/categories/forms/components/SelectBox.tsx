@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -7,33 +8,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TAppliance } from "@/types/postTypes";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import clsx from "clsx";
-import React from "react";
-import { Controller, Control } from "react-hook-form";
 
-interface SelectBoxProps {
-  name: keyof TAppliance;
-  control: Control<TAppliance>;
-  onChange?: (value: string) => void;
+interface SelectBoxProps<T extends FieldValues> {
+  name: keyof T;
+  control: Control<T>;
   array: string[];
   placeholder: string;
   label: string;
   error: string;
 }
 
-const SelectBox: React.FC<SelectBoxProps> = ({
+const SelectBox = <T extends FieldValues>({
   control,
   name,
   array,
   label,
   error,
   placeholder,
-}) => {
+}: SelectBoxProps<T>) => {
   return (
     <>
       <Controller
-        name={name}
+        name={name as Path<T>}
         control={control}
         render={({ field }) => {
           return (

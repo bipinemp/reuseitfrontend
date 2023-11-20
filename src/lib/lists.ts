@@ -53,7 +53,11 @@ export const category_list = [
   { name: "Others", icon: PiDotsNine, link: "others" },
 ];
 
-export const nonavbarlist = ["/post", "/post/home_appliances"];
+export const nonavbarlist = [
+  "/post",
+  "/post/home_appliances",
+  "/post/electronics",
+];
 
 export const homeapplianceslist = [
   {
@@ -94,91 +98,39 @@ export const homeapplianceslist = [
   },
 ];
 
-// export const category_list: CategoryList[] = [
-//   {
-//     name: "Cars",
-//     subcategories: ["Cars"],
-//   },
-//   {
-//     name: "Properties",
-//     subcategories: [
-//       "For Sale: Houses & Apartments",
-//       "For Rent: Houses & Apartments",
-//       "Lands & Plots",
-//       "For Rent: Shops & Offices",
-//       "For Sale: Shops & Offices",
-//       "PG & Guest Houses",
-//     ],
-//   },
-//   {
-//     name: "Mobiles",
-//     subcategories: ["Mobile Phones", "Accessories", "Tablets"],
-//   },
-//   {
-//     name: "Jobs",
-//     subcategories: [
-//       "Data entry & Back office",
-//       "Sales & Marketing",
-//       "BPO & Telecaller",
-//       "Driver",
-//       "Office Assistent",
-//       "Delivery & Collection",
-//       "Teacher",
-//       "Cook",
-//       "Receptionist & Front office",
-//       "Operator & Technician",
-//       "IT Engineer & Developer",
-//       "Hotel & Travel Executive",
-//       "Accountant",
-//       "Designer",
-//       "Other Jobs",
-//     ],
-//   },
-//   {
-//     name: "Bikes",
-//     subcategories: ["Motorcycles", "Scooters", "Spare Parts", "Bicycles"],
-//   },
-//   {
-//     name: "Electronics & Appliances",
-//     subcategories: [
-//       "TVs, Video - Audio",
-//       "Kitchen & Other Appliances",
-//       "Computers & Laptops",
-//       "Cameras & Lenses",
-//       "Games & Entertainment",
-//       "Fridges",
-//       "Computer Accessories",
-//       "Hard Disks, Printers & Monitors",
-//       "ACs",
-//       "Washing Machines",
-//     ],
-//   },
-//   {
-//     name: "Commercial Vehicles & Spares",
-//     subcategories: ["Commercial & Other Vehicles", "Spare Parts"],
-//   },
-//   {
-//     name: "Furniture",
-//     subcategories: [
-//       "Sofa & Dining",
-//       "Beds & Wardrobes",
-//       "Home Decor & Garden",
-//       "Kids Furniture",
-//       "Other Household Items",
-//     ],
-//   },
-//   {
-//     name: "Fashion",
-//     subcategories: ["Men", "Women", "Kids"],
-//   },
-//   {
-//     name: "Books, Sports & Hobbies",
-//     subcategories: [
-//       "Books",
-//       "Gym & Fitness",
-//       "Musical Instruments",
-//       "Sports Equipment",
-//       "Other Hobbies",
-//     ],
-//   },
-// ];
+export const electronicsList = [
+  {
+    name: "type",
+    list: [
+      "Laptop",
+      "Desktop Computer",
+      "Smartphone",
+      "Tablet",
+      "Digital Camera",
+      "Headphones",
+      "Smartwatch",
+      "Gaming Console",
+      "Printer",
+      "Others",
+    ],
+  },
+  {
+    name: "warrenty",
+    list: [
+      "1-year manufacturer's warranty",
+      "Extended warranty available",
+      "No warranty (sold as-is)",
+      "Limited lifetime warranty on certain parts",
+    ],
+  },
+  {
+    name: "condition",
+    list: [
+      "Brand New (never used)",
+      "Like New (gently used with minimal signs of wear)",
+      "Good (used with some signs of wear but functions well)",
+      "Fair (visible wear and tear but still functional)",
+      "Poor (may require repairs or refurbishment)",
+    ],
+  },
+];

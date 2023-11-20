@@ -3,18 +3,20 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { homeapplianceslist } from "@/lib/lists";
+import { electronicsList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApplianceSchema, TAppliance } from "@/types/postTypes";
+import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
 import axios from "axios";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
-import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
+import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import Title from "./components/Title";
 
 interface PreviewFile extends File {
@@ -22,7 +24,7 @@ interface PreviewFile extends File {
   preview: string;
 }
 
-const HomeAppliances: React.FC = () => {
+const Electronics: React.FC = () => {
   const pathname = usePathname();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
@@ -33,23 +35,21 @@ const HomeAppliances: React.FC = () => {
     control,
     formState: { errors },
     reset,
-  } = useForm<TAppliance>({
-    resolver: zodResolver(ApplianceSchema),
+  } = useForm<TElectronics>({
+    resolver: zodResolver(ElectronicsSchema),
   });
 
-  const typeofappliance = homeapplianceslist.filter(
-    (val) => val.name === "type"
-  );
+  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
 
-  const typeofcondition = homeapplianceslist.filter(
+  const typeofcondition = electronicsList.filter(
     (val) => val.name === "condition"
   );
 
-  const typeofwarrenty = homeapplianceslist.filter(
+  const typeofwarrenty = electronicsList.filter(
     (val) => val.name === "warrenty"
   );
 
-  const onSubmit = async (data: TAppliance) => {
+  const onSubmit = async (data: TElectronics) => {
     try {
       const actualData = {
         ...data,
@@ -77,6 +77,9 @@ const HomeAppliances: React.FC = () => {
   };
 
   useEffect(() => {
+    if (files.length === 0) {
+      setImgError("Image is required");
+    }
     if (files.length > 0) {
       setImgError("");
     }
@@ -95,7 +98,7 @@ const HomeAppliances: React.FC = () => {
             INCLUDE SOME DETAILS :
           </h3>
 
-          <InputBox<TAppliance>
+          <InputBox<TElectronics>
             name="pname"
             id="pname"
             placeholder="Enter Title..."
@@ -106,7 +109,7 @@ const HomeAppliances: React.FC = () => {
             label="Ad Title"
           />
 
-          <TextareaBox<TAppliance>
+          <TextareaBox<TElectronics>
             name="description"
             id="description"
             placeholder="Enter Description..."
@@ -117,17 +120,17 @@ const HomeAppliances: React.FC = () => {
           />
 
           <div>
-            <SelectBox<TAppliance>
-              name="type_of_appliance"
+            <SelectBox<TElectronics>
+              name="type_of_electronic"
               control={control}
-              array={typeofappliance[0]?.list}
-              placeholder="Select Type of Appliance"
+              array={typeofelectronic[0].list}
+              placeholder="Select Type of Electronic"
               label="Appliances:"
-              error={errors.type_of_appliance?.message || ""}
+              error={errors.type_of_electronic?.message || ""}
             />
           </div>
 
-          <InputBox<TAppliance>
+          <InputBox<TElectronics>
             id="brand"
             name="brand"
             placeholder="Enter Brand Name..."
@@ -137,7 +140,7 @@ const HomeAppliances: React.FC = () => {
             label="Brand"
           />
 
-          <InputBox<TAppliance>
+          <InputBox<TElectronics>
             id="model"
             name="model"
             placeholder="Enter Model Name..."
@@ -147,28 +150,8 @@ const HomeAppliances: React.FC = () => {
             label="Model"
           />
 
-          <InputBox<TAppliance>
-            id="capacity"
-            name="capacity"
-            placeholder="Enter Capacity..."
-            error={errors?.capacity?.message || ""}
-            desc="Enter the Capacity"
-            register={register}
-            label="Capacity"
-          />
-
-          <TextareaBox<TAppliance>
-            id="features"
-            name="features"
-            placeholder="Enter Features..."
-            error={errors?.features?.message || ""}
-            desc="Enter all the features of the Product"
-            register={register}
-            label="Features"
-          />
-
           <div>
-            <SelectBox<TAppliance>
+            <SelectBox<TElectronics>
               name="condition"
               control={control}
               array={typeofcondition[0]?.list}
@@ -179,7 +162,7 @@ const HomeAppliances: React.FC = () => {
           </div>
 
           <div>
-            <SelectBox<TAppliance>
+            <SelectBox<TElectronics>
               name="warranty_information"
               control={control}
               array={typeofwarrenty[0]?.list}
@@ -191,7 +174,7 @@ const HomeAppliances: React.FC = () => {
         </div>
 
         {/* Price Section */}
-        <PriceBox<TAppliance>
+        <PriceBox<TElectronics>
           name="price"
           id="price"
           register={register}
@@ -199,7 +182,7 @@ const HomeAppliances: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        <ApplianceLocationBox control={control} errors={errors} />
+        <ElectronicsLocationBox control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
@@ -220,4 +203,4 @@ const HomeAppliances: React.FC = () => {
   );
 };
 
-export default HomeAppliances;
+export default Electronics;

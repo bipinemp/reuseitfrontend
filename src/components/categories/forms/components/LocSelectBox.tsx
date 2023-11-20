@@ -10,11 +10,11 @@ import {
 import { TAppliance } from "@/types/postTypes";
 import clsx from "clsx";
 import React from "react";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 
-interface LocSelectBox {
-  name: keyof TAppliance;
-  control: Control<TAppliance>;
+interface LocSelectBoxProps<T extends FieldValues> {
+  name: keyof T;
+  control: Control<T>;
   onChange?: (value: string) => void;
   array?: string[];
   placeholder: string;
@@ -22,7 +22,7 @@ interface LocSelectBox {
   error: string;
 }
 
-const LocSelectBox: React.FC<LocSelectBox> = ({
+const LocSelectBox = <T extends FieldValues>({
   control,
   name,
   array = [],
@@ -30,11 +30,11 @@ const LocSelectBox: React.FC<LocSelectBox> = ({
   error,
   onChange,
   placeholder,
-}) => {
+}: LocSelectBoxProps<T>) => {
   return (
     <>
       <Controller
-        name={name}
+        name={name as Path<T>}
         control={control}
         render={({ field }) => {
           return (
