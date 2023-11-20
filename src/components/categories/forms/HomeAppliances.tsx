@@ -22,7 +22,7 @@ interface PreviewFile extends File {
 
 const HomeAppliances: React.FC = () => {
   const [files, setFiles] = useState<PreviewFile[]>([]);
-  const [imgError, setImgError] = useState<string>("");
+  const [imgError, setImgError] = useState<string>("Image is required");
 
   const {
     register,
@@ -74,10 +74,7 @@ const HomeAppliances: React.FC = () => {
   };
 
   useEffect(() => {
-    if (files.length === 0) {
-      setImgError("Image is required");
-    }
-    if (files.length !== 0) {
+    if (files.length > 0) {
       setImgError("");
     }
   }, [files]);
