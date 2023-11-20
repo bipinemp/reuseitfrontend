@@ -57,6 +57,7 @@ export const nonavbarlist = [
   "/post",
   "/post/home_appliances",
   "/post/electronics",
+  "/post/furnitures",
 ];
 
 export const homeapplianceslist = [

@@ -119,7 +119,7 @@ export const FurnitureSchema = z.object({
     .min(1, { message: "You must select a Type of Furniture" }),
   material: z
     .string({ required_error: "Material is required" })
-    .min(1, { message: "You must enter a Material" }),
+    .min(1, { message: "You must enter a Material." }),
   dimensions: z.string().refine((value) => /^\d+x\d+x\d+$/.test(value), {
     message: "Dimensions must be of 10x10x10 format.",
   }),
