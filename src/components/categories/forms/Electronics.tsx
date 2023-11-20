@@ -15,8 +15,6 @@ import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import Title from "./components/Title";
 
 interface PreviewFile extends File {
@@ -190,7 +188,7 @@ const Electronics: React.FC = () => {
         {/* Submitting Post Button */}
         <div className="px-10 py-8">
           <Button
-            // disabled={files.length === 0}
+            disabled={files.length === 0}
             type="submit"
             size="lg"
             className="text-lg w-fit"

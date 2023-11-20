@@ -29,7 +29,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
               : imgurl + product.image[0]?.image_url
           }
           alt="product image"
-          className="rounded-md w-full h-full object-cover mix-blend-darken bg-gray-300"
+          className="rounded-md w-full h-full object-fill mix-blend-darken bg-gray-300"
           // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>

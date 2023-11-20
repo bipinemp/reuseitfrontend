@@ -207,7 +207,12 @@ const HomeAppliances: React.FC = () => {
 
         {/* Submitting Post Button */}
         <div className="px-10 py-8">
-          <Button type="submit" size="lg" className="text-lg w-fit">
+          <Button
+            disabled={files.length === 0}
+            type="submit"
+            size="lg"
+            className="text-lg w-fit"
+          >
             {isPending ? (
               <div className="flex gap-2 items-center">
                 <Loader2 className="h-5 w-5 animate-spin" />
