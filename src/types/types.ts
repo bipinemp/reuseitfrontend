@@ -9,6 +9,9 @@ type Product = {
   price: number;
   created_at: string;
   updated_at: string;
+  Province: string;
+  District: string;
+  Municipality: string;
   category: {
     id: number;
     category_name: string;
