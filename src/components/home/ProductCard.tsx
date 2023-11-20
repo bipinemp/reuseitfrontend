@@ -12,7 +12,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const imgurl = "http://127.0.0.1:8000/images/";
 
   return (
-    <div className="cursor-pointer hover:border-primary transition w-full max-h-[310px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
+    <div className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
           fill

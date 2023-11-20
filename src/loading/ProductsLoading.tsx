@@ -2,7 +2,7 @@ import React from "react";
 
 export function ProductsLoading() {
   const product = (
-    <div className="aspect-square w-full h-[314px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
+    <div className="aspect-square w-full h-[310px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
       <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
       <div className="px-2 flex flex-col gap-5 mt-1">
         <div className="flex flex-col gap-2">
@@ -34,7 +34,7 @@ export function ProductsLoading() {
 
 export function ProductLoading2() {
   const product = (
-    <div className="aspect-square w-full h-[328px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
+    <div className="aspect-square w-full h-[310px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
       <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
       <div className="px-2 flex flex-col gap-5 mt-1">
         <div className="flex flex-col gap-2">

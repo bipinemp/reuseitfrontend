@@ -71,7 +71,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           className: clsx(
             "p-10 border-[2px] border-primary border-dashed rounded-lg cursor-pointer hover:bg-neutral-100 transition",
             {
-              "border-destructive border-[3px] placeholder:text-destructive bg-destructive/20":
+              "border-[3px] border-red-500 placeholder:text-destructive bg-destructive/20":
                 imgError !== "",
             }
           ),
