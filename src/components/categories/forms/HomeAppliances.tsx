@@ -74,6 +74,9 @@ const HomeAppliances: React.FC = () => {
   };
 
   useEffect(() => {
+    if (files.length === 0) {
+      setImgError("Image is required");
+    }
     if (files.length > 0) {
       setImgError("");
     }
