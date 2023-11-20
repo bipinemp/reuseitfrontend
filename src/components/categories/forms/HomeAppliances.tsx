@@ -15,6 +15,7 @@ import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
 import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 
 interface PreviewFile extends File {
@@ -24,6 +25,7 @@ interface PreviewFile extends File {
 
 const HomeAppliances: React.FC = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
 
@@ -70,6 +72,7 @@ const HomeAppliances: React.FC = () => {
       if (response.status === 200) {
         alert("Post successfull");
         reset();
+        router.push("/post");
       }
     } catch (error) {
       console.log(error);

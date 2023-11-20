@@ -35,11 +35,7 @@ const SelectBox = <T extends FieldValues>({
         control={control}
         render={({ field }) => {
           return (
-            <Select
-              onValueChange={(e) => {
-                field.onChange(e);
-              }}
-            >
+            <Select onValueChange={field.onChange}>
               <SelectTrigger
                 className={clsx(
                   "w-full border-content text-lg font-semibold text-content",
