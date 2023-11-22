@@ -15,6 +15,8 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const location =
     (product.District + ", " + product.Municipality).substring(0, 25) + "...";
 
+  const formattedtitle = product.pname.substring(0, 25) + "...";
+
   return (
     <div className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
       <div className="relative w-full aspect-square overflow-hidden">
@@ -36,7 +38,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
       <div className="sm:px-2 flex flex-col gap-5">
         <div>
           <h2 className="font-bold">{formattedPrice}</h2>
-          <p className="text-content text-lg">{product.pname}</p>
+          <p className="text-content text-lg">{formattedtitle}</p>
         </div>
         <div className="text-xs text-content flex justify-between items-center">
           <p>{location.toUpperCase()}</p>
