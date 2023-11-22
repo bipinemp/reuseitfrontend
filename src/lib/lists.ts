@@ -5,7 +5,7 @@ import { IoShirtOutline } from "react-icons/io5";
 import { CgGym } from "react-icons/cg";
 import { LiaBookSolid, LiaCarSideSolid } from "react-icons/lia";
 import { GiPorcelainVase } from "react-icons/gi";
-import { PiGuitarBold, PiDotsNine } from "react-icons/pi";
+import { PiGuitarBold } from "react-icons/pi";
 
 export const category_list = [
   {
@@ -50,7 +50,6 @@ export const category_list = [
     icon: PiGuitarBold,
     link: "musical_instruments",
   },
-  { name: "Others", icon: PiDotsNine, link: "others" },
 ];
 
 export const nonavbarlist = [
@@ -58,6 +57,8 @@ export const nonavbarlist = [
   "/post/home_appliances",
   "/post/electronics",
   "/post/furnitures",
+  "/post/clothing_accessories",
+  "/post/toys_games",
 ];
 
 export const homeapplianceslist = [
@@ -200,5 +201,158 @@ export const furnitureList = [
   {
     name: "condition",
     list: ["Brand New", "Like New", "Good", "Fair", "Poor"],
+  },
+];
+
+export const clothingAccessoryList = [
+  {
+    name: "type",
+    list: [
+      "Hat",
+      "Scarf",
+      "Gloves",
+      "Socks",
+      "Tie",
+      "Belt",
+      "Handbag",
+      "Backpack",
+      "Jewelry",
+      "Others",
+    ],
+  },
+  {
+    name: "size",
+    list: ["XS", "S", "M", "L", "XL", "XXL", "One Size", "Custom", "Others"],
+  },
+  {
+    name: "color",
+    list: [
+      "White",
+      "Black",
+      "Brown",
+      "Gray",
+      "Blue",
+      "Red",
+      "Green",
+      "Yellow",
+      "Purple",
+      "Others",
+    ],
+  },
+  {
+    name: "brand",
+    list: [
+      "Nike",
+      "Adidas",
+      "Gucci",
+      "Zara",
+      "H&M",
+      "Calvin Klein",
+      "Puma",
+      "Levi's",
+      "Chanel",
+      "Others",
+    ],
+  },
+  {
+    name: "material",
+    list: [
+      "Cotton",
+      "Wool",
+      "Leather",
+      "Silk",
+      "Polyester",
+      "Denim",
+      "Linen",
+      "Knit",
+      "Synthetic",
+      "Others",
+    ],
+  },
+  {
+    name: "condition",
+    list: ["Brand New", "Like New", "Good", "Fair", "Poor"],
+  },
+  {
+    name: "care_instructions",
+    list: [
+      "Machine wash cold",
+      "Hand wash only",
+      "Dry clean recommended",
+      "Do not bleach",
+      "Tumble dry low",
+      "Iron on low heat",
+      "No special care required",
+      "Others",
+    ],
+  },
+];
+
+export const toyGameList = [
+  {
+    name: "type",
+    list: [
+      "Board Game",
+      "Puzzle",
+      "Action Figure",
+      "Doll",
+      "Building Blocks",
+      "Educational Toy",
+      "Electronic Toy",
+      "Outdoor Toy",
+      "Remote Control Toy",
+      "Others",
+    ],
+  },
+  {
+    name: "age_group",
+    list: [
+      "0-2 years",
+      "3-5 years",
+      "6-8 years",
+      "9-12 years",
+      "13-18 years",
+      "Adults",
+    ],
+  },
+  {
+    name: "brand",
+    list: [
+      "LEGO",
+      "Hasbro",
+      "Mattel",
+      "Fisher-Price",
+      "Nintendo",
+      "PlayStation",
+      "Xbox",
+      "Melissa & Doug",
+      "VTech",
+      "Others",
+    ],
+  },
+  {
+    name: "condition",
+    list: ["Brand New", "Like New", "Good", "Fair", "Poor"],
+  },
+  {
+    name: "safety_information",
+    list: [
+      "Meets safety standards",
+      "Choking hazard, not suitable for children under 3 years",
+      "Contains small parts",
+      "No safety information available",
+    ],
+  },
+
+  {
+    name: "recommended_use",
+    list: [
+      "Indoor play",
+      "Outdoor play",
+      "Educational purposes",
+      "Entertainment",
+      "Collectible",
+      "Others",
+    ],
   },
 ];

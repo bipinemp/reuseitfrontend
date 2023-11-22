@@ -3,16 +3,15 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { homeapplianceslist } from "@/lib/lists";
+import { clothingAccessoryList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApplianceSchema, TAppliance } from "@/types/postTypes";
+import { ClothingSchema, TClothing } from "@/types/postTypes";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
-import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
@@ -20,13 +19,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import ClothingLocationBox from "./components/locations/ClothingLocationBox";
 
 interface PreviewFile extends File {
   id: string;
   preview: string;
 }
 
-const HomeAppliances: React.FC = () => {
+const Clothing: React.FC = () => {
   const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
@@ -39,20 +39,24 @@ const HomeAppliances: React.FC = () => {
     control,
     formState: { errors },
     reset,
-  } = useForm<TAppliance>({
-    resolver: zodResolver(ApplianceSchema),
+  } = useForm<TClothing>({
+    resolver: zodResolver(ClothingSchema),
   });
 
-  const typeofappliance = homeapplianceslist.filter(
+  const typeofclothing = clothingAccessoryList.filter(
     (val) => val.name === "type"
   );
-
-  const typeofcondition = homeapplianceslist.filter(
+  const size = clothingAccessoryList.filter((val) => val.name === "size");
+  const color = clothingAccessoryList.filter((val) => val.name === "color");
+  const brand = clothingAccessoryList.filter((val) => val.name === "brand");
+  const material = clothingAccessoryList.filter(
+    (val) => val.name === "material"
+  );
+  const typeofcondition = clothingAccessoryList.filter(
     (val) => val.name === "condition"
   );
-
-  const typeofwarrenty = homeapplianceslist.filter(
-    (val) => val.name === "warrenty"
+  const care_instructions = clothingAccessoryList.filter(
+    (val) => val.name === "care_instructions"
   );
 
   // mutation function for creating Home Appliance AD
@@ -71,12 +75,12 @@ const HomeAppliances: React.FC = () => {
   });
 
   // actual form submission function
-  const onSubmit = async (data: TAppliance) => {
+  const onSubmit = async (data: TClothing) => {
     handleCreateAppliance(data);
   };
 
   // for mutation function
-  async function handleCreateAppliance(data: TAppliance) {
+  async function handleCreateAppliance(data: TClothing) {
     const actualData = {
       ...data,
       image_urls: files,
@@ -108,7 +112,7 @@ const HomeAppliances: React.FC = () => {
             INCLUDE SOME DETAILS :
           </h3>
 
-          <InputBox<TAppliance>
+          <InputBox<TClothing>
             name="pname"
             id="pname"
             placeholder="Enter Title..."
@@ -119,7 +123,7 @@ const HomeAppliances: React.FC = () => {
             label="Ad Title"
           />
 
-          <TextareaBox<TAppliance>
+          <TextareaBox<TClothing>
             name="description"
             id="description"
             placeholder="Enter Description..."
@@ -130,81 +134,85 @@ const HomeAppliances: React.FC = () => {
           />
 
           <div>
-            <SelectBox<TAppliance>
-              name="type_of_appliance"
+            <SelectBox<TClothing>
+              name="type_of_clothing_accessory"
               control={control}
-              array={typeofappliance[0]?.list}
-              placeholder="Select Type of Appliance"
-              label="Appliances:"
-              error={errors.type_of_appliance?.message || ""}
+              array={typeofclothing[0]?.list}
+              placeholder="Select Type of Clothing"
+              label="Clothings:"
+              error={errors.type_of_clothing_accessory?.message || ""}
             />
           </div>
 
-          <InputBox<TAppliance>
-            id="brand"
-            name="brand"
-            placeholder="Enter Brand Name..."
-            error={errors?.brand?.message || ""}
-            desc="Enter the name of the Brand"
-            register={register}
-            label="Brand"
-          />
-
-          <InputBox<TAppliance>
-            id="model"
-            name="model"
-            placeholder="Enter Model Name..."
-            error={errors?.model?.message || ""}
-            desc="Enter the name of the Model"
-            register={register}
-            label="Model"
-          />
-
-          <InputBox<TAppliance>
-            id="capacity"
-            name="capacity"
-            placeholder="Enter Capacity..."
-            error={errors?.capacity?.message || ""}
-            desc="Enter the Capacity"
-            register={register}
-            label="Capacity"
-          />
-
-          <TextareaBox<TAppliance>
-            id="features"
-            name="features"
-            placeholder="Enter Features..."
-            error={errors?.features?.message || ""}
-            desc="Enter all the features of the Product"
-            register={register}
-            label="Features"
-          />
+          <div>
+            <SelectBox<TClothing>
+              name="size"
+              control={control}
+              array={size[0]?.list}
+              placeholder="Select the Size"
+              label="Sizes:"
+              error={errors.size?.message || ""}
+            />
+          </div>
 
           <div>
-            <SelectBox<TAppliance>
+            <SelectBox<TClothing>
+              name="color"
+              control={control}
+              array={color[0]?.list}
+              placeholder="Select the color"
+              label="colors:"
+              error={errors.color?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TClothing>
+              name="brand"
+              control={control}
+              array={brand[0]?.list}
+              placeholder="Select the Brand"
+              label="brands:"
+              error={errors.brand?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TClothing>
+              name="material"
+              control={control}
+              array={material[0]?.list}
+              placeholder="Select Type of material"
+              label="materials:"
+              error={errors.material?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TClothing>
               name="condition"
               control={control}
               array={typeofcondition[0]?.list}
-              placeholder="Select Condition"
-              label="Conditions:"
+              placeholder="Select Type of condition"
+              label="conditions:"
               error={errors.condition?.message || ""}
             />
           </div>
 
           <div>
-            <SelectBox<TAppliance>
-              name="warranty_information"
+            <SelectBox<TClothing>
+              name="care_instructions"
               control={control}
-              array={typeofwarrenty[0]?.list}
-              placeholder="Select the Warranty"
-              label="Available Warrenties:"
-              error={errors?.warranty_information?.message || ""}
+              array={care_instructions[0]?.list}
+              placeholder="Select Care Instructions"
+              label="Care Instructions:"
+              error={errors.care_instructions?.message || ""}
             />
           </div>
         </div>
 
         {/* Price Section */}
-        <PriceBox<TAppliance>
+        <PriceBox<TClothing>
           name="price"
           id="price"
           register={register}
@@ -212,7 +220,7 @@ const HomeAppliances: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        <ApplianceLocationBox control={control} errors={errors} />
+        <ClothingLocationBox control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
@@ -235,4 +243,4 @@ const HomeAppliances: React.FC = () => {
   );
 };
 
-export default HomeAppliances;
+export default Clothing;

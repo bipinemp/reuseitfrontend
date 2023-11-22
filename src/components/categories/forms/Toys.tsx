@@ -3,16 +3,15 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { homeapplianceslist } from "@/lib/lists";
+import { furnitureList, toyGameList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ApplianceSchema, TAppliance } from "@/types/postTypes";
+import { TToys, ToysSchema } from "@/types/postTypes";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
-import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
@@ -20,13 +19,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
+import RadioBox from "./components/RadioBox";
+import ToysLocationBox from "./components/locations/ToysLocationBox";
 
 interface PreviewFile extends File {
   id: string;
   preview: string;
 }
 
-const HomeAppliances: React.FC = () => {
+const Toys: React.FC = () => {
   const queryClient = useQueryClient();
   const pathname = usePathname();
   const router = useRouter();
@@ -39,21 +40,26 @@ const HomeAppliances: React.FC = () => {
     control,
     formState: { errors },
     reset,
-  } = useForm<TAppliance>({
-    resolver: zodResolver(ApplianceSchema),
+  } = useForm<TToys>({
+    resolver: zodResolver(ToysSchema),
   });
 
-  const typeofappliance = homeapplianceslist.filter(
-    (val) => val.name === "type"
+  const typeoftoy = toyGameList.filter((val) => val.name === "type");
+  const brands = toyGameList.filter((val) => val.name === "brand");
+  const agegroups = toyGameList.filter((val) => val.name === "age_group");
+  const safetystandards = toyGameList.filter(
+    (val) => val.name === "safety_information"
   );
-
-  const typeofcondition = homeapplianceslist.filter(
+  const typeofcondition = furnitureList.filter(
     (val) => val.name === "condition"
   );
-
-  const typeofwarrenty = homeapplianceslist.filter(
-    (val) => val.name === "warrenty"
-  );
+  const material = furnitureList.filter((val) => val.name === "material");
+  const style = furnitureList.filter((val) => val.name === "style");
+  const color = furnitureList.filter((val) => val.name === "color");
+  const assemblyarray = [
+    { name: "Yes", value: "true" },
+    { name: "No", value: "false" },
+  ];
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
@@ -71,12 +77,12 @@ const HomeAppliances: React.FC = () => {
   });
 
   // actual form submission function
-  const onSubmit = async (data: TAppliance) => {
+  const onSubmit = async (data: TToys) => {
     handleCreateAppliance(data);
   };
 
   // for mutation function
-  async function handleCreateAppliance(data: TAppliance) {
+  async function handleCreateAppliance(data: TToys) {
     const actualData = {
       ...data,
       image_urls: files,
@@ -108,7 +114,7 @@ const HomeAppliances: React.FC = () => {
             INCLUDE SOME DETAILS :
           </h3>
 
-          <InputBox<TAppliance>
+          <InputBox<TToys>
             name="pname"
             id="pname"
             placeholder="Enter Title..."
@@ -119,7 +125,7 @@ const HomeAppliances: React.FC = () => {
             label="Ad Title"
           />
 
-          <TextareaBox<TAppliance>
+          <TextareaBox<TToys>
             name="description"
             id="description"
             placeholder="Enter Description..."
@@ -130,81 +136,81 @@ const HomeAppliances: React.FC = () => {
           />
 
           <div>
-            <SelectBox<TAppliance>
-              name="type_of_appliance"
+            <SelectBox<TToys>
+              name="type_of_toy_game"
               control={control}
-              array={typeofappliance[0]?.list}
-              placeholder="Select Type of Appliance"
-              label="Appliances:"
-              error={errors.type_of_appliance?.message || ""}
+              array={typeoftoy[0]?.list}
+              placeholder="Select Type of Toys/Games"
+              label="Toys/Games:"
+              error={errors.type_of_toy_game?.message || ""}
             />
           </div>
 
-          <InputBox<TAppliance>
-            id="brand"
-            name="brand"
-            placeholder="Enter Brand Name..."
-            error={errors?.brand?.message || ""}
-            desc="Enter the name of the Brand"
-            register={register}
-            label="Brand"
-          />
-
-          <InputBox<TAppliance>
-            id="model"
-            name="model"
-            placeholder="Enter Model Name..."
-            error={errors?.model?.message || ""}
-            desc="Enter the name of the Model"
-            register={register}
-            label="Model"
-          />
-
-          <InputBox<TAppliance>
-            id="capacity"
-            name="capacity"
-            placeholder="Enter Capacity..."
-            error={errors?.capacity?.message || ""}
-            desc="Enter the Capacity"
-            register={register}
-            label="Capacity"
-          />
-
-          <TextareaBox<TAppliance>
-            id="features"
-            name="features"
-            placeholder="Enter Features..."
-            error={errors?.features?.message || ""}
-            desc="Enter all the features of the Product"
-            register={register}
-            label="Features"
-          />
+          <div>
+            <SelectBox<TToys>
+              name="age_group"
+              control={control}
+              array={agegroups[0]?.list}
+              placeholder="Select the Age-Group"
+              label="Age-Groups:"
+              error={errors.age_group?.message || ""}
+            />
+          </div>
 
           <div>
-            <SelectBox<TAppliance>
+            <SelectBox<TToys>
+              name="brand"
+              control={control}
+              array={brands[0]?.list}
+              placeholder="Select the Brand"
+              label="Brands:"
+              error={errors.brand?.message || ""}
+            />
+          </div>
+
+          <div>
+            <SelectBox<TToys>
               name="condition"
               control={control}
               array={typeofcondition[0]?.list}
-              placeholder="Select Condition"
-              label="Conditions:"
+              placeholder="Select Type of condition"
+              label="conditions:"
               error={errors.condition?.message || ""}
             />
           </div>
 
           <div>
-            <SelectBox<TAppliance>
-              name="warranty_information"
+            <SelectBox<TToys>
+              name="safety_information"
               control={control}
-              array={typeofwarrenty[0]?.list}
-              placeholder="Select the Warranty"
-              label="Available Warrenties:"
-              error={errors?.warranty_information?.message || ""}
+              array={safetystandards[0]?.list}
+              placeholder="Select Safety Standard"
+              label="Safety Standards:"
+              error={errors.safety_information?.message || ""}
             />
           </div>
+
+          <RadioBox<TToys>
+            array={assemblyarray}
+            control={control}
+            error={errors?.assembly_required?.message || ""}
+            name="assembly_required"
+            placeholder="Assembly Required:"
+          />
+
+          <TextareaBox<TToys>
+            name="recommended_use"
+            id="recommended_use"
+            placeholder="Enter Recommendation..."
+            register={register}
+            error={errors?.recommended_use?.message || ""}
+            desc="Include how to use the Toys/Games"
+            label="Recommendation"
+          />
         </div>
 
         {/* Price Section */}
-        <PriceBox<TAppliance>
+        <PriceBox<TToys>
           name="price"
           id="price"
           register={register}
@@ -212,7 +218,7 @@ const HomeAppliances: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        <ApplianceLocationBox control={control} errors={errors} />
+        <ToysLocationBox control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
@@ -235,4 +241,4 @@ const HomeAppliances: React.FC = () => {
   );
 };
 
-export default HomeAppliances;
+export default Toys;

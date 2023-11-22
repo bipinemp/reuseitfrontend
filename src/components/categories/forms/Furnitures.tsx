@@ -20,6 +20,9 @@ import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import FurnitureLocation from "./components/locations/FurnitureLocation";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import RadioBox from "./components/RadioBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -50,6 +53,10 @@ const HomeAppliances: React.FC = () => {
   const material = furnitureList.filter((val) => val.name === "material");
   const style = furnitureList.filter((val) => val.name === "style");
   const color = furnitureList.filter((val) => val.name === "color");
+  const assemblyarray = [
+    { name: "Yes", value: "true" },
+    { name: "No", value: "false" },
+  ];
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
@@ -189,6 +196,14 @@ const HomeAppliances: React.FC = () => {
               error={errors.condition?.message || ""}
             />
           </div>
+
+          <RadioBox<TFurnitures>
+            array={assemblyarray}
+            control={control}
+            error={errors?.assembly_required?.message || ""}
+            name="assembly_required"
+            placeholder="Assembly Required:"
+          />
         </div>
 
         {/* Price Section */}
@@ -207,12 +222,7 @@ const HomeAppliances: React.FC = () => {
 
         {/* Submitting Post Button */}
         <div className="px-10 py-8">
-          <Button
-            disabled={files.length === 0}
-            type="submit"
-            size="lg"
-            className="text-lg w-fit"
-          >
+          <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (
               <div className="flex gap-2 items-center">
                 <Loader2 className="h-5 w-5 animate-spin" />
