@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}`}>
+      <body className={`${inter.className}`}>
         <QueryProvider>
           <Toaster position="top-center" reverseOrder={true} />
           <Navbar />
