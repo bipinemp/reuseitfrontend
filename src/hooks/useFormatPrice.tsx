@@ -1,5 +1,5 @@
 function useFormatPrice(price: number) {
-  const formattedPrice = Intl.NumberFormat("ne-NP", {
+  const formattedPrice = Intl.NumberFormat("en-NP", {
     style: "currency",
     currency: "NPR",
     maximumFractionDigits: 0,
