@@ -12,6 +12,7 @@ interface InputBoxProps<T> {
   desc: string;
   error: string;
   label?: string;
+  type?: string;
 }
 
 const InputBox = <T,>({
@@ -22,6 +23,7 @@ const InputBox = <T,>({
   desc,
   error,
   label,
+  type,
 }: InputBoxProps<T>) => {
   return (
     <div className="flex flex-col gap-1">
@@ -29,6 +31,7 @@ const InputBox = <T,>({
       <Input
         {...register(name)}
         id={id}
+        type={type !== "" ? type : "text"}
         name={name as string}
         placeholder={placeholder}
         className={clsx("border-content py-6", {
