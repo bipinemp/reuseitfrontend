@@ -46,21 +46,6 @@ const Vehicle: React.FC = () => {
   });
 
   const typeoftoy = toyGameList.filter((val) => val.name === "type");
-  const brands = toyGameList.filter((val) => val.name === "brand");
-  const agegroups = toyGameList.filter((val) => val.name === "age_group");
-  const safetystandards = toyGameList.filter(
-    (val) => val.name === "safety_information"
-  );
-  const typeofcondition = furnitureList.filter(
-    (val) => val.name === "condition"
-  );
-  const material = furnitureList.filter((val) => val.name === "material");
-  const style = furnitureList.filter((val) => val.name === "style");
-  const color = furnitureList.filter((val) => val.name === "color");
-  const assemblyarray = [
-    { name: "Yes", value: "true" },
-    { name: "No", value: "false" },
-  ];
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
@@ -136,7 +121,7 @@ const Vehicle: React.FC = () => {
             label="Description"
           />
 
-          <div>
+          {/* <div>
             <SelectBox<TVehicle>
               name="type_of_toy_game"
               control={control}
@@ -208,6 +193,7 @@ const Vehicle: React.FC = () => {
             desc="Include how to use the Toys/Games"
             label="Recommendation"
           />
+        </div> */}
         </div>
 
         {/* Price Section */}

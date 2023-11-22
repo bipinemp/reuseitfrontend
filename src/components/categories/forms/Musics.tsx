@@ -199,6 +199,7 @@ const Musics: React.FC = () => {
               placeholder="Select Type of Sound Characteristics"
               label="Sound Characteristicss:"
               error={errors.sound_characteristics?.message || ""}
+              extra="( Optional )"
             />
           </div>
         </div>

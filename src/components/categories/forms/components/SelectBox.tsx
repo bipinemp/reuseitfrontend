@@ -18,6 +18,7 @@ interface SelectBoxProps<T extends FieldValues> {
   placeholder: string;
   label: string;
   error: string;
+  extra?: string;
 }
 
 const SelectBox = <T extends FieldValues>({
@@ -27,7 +28,9 @@ const SelectBox = <T extends FieldValues>({
   label,
   error,
   placeholder,
+  extra,
 }: SelectBoxProps<T>) => {
+  const placeholderText = extra ? `${placeholder} ${extra}` : placeholder;
   return (
     <>
       <Controller
@@ -45,7 +48,10 @@ const SelectBox = <T extends FieldValues>({
                   }
                 )}
               >
-                <SelectValue className="text-lg" placeholder={placeholder} />
+                <SelectValue
+                  className="text-lg"
+                  placeholder={placeholderText}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
