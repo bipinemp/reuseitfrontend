@@ -184,7 +184,7 @@ export const createNewCars = async (data: any) => {
 
 export const createNewBikes = async (data: any) => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/bikes", data, {
+    const response = await axios.post("http://127.0.0.1:8000/api/motorcycles", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
