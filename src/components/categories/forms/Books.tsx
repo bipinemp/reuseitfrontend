@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewAppliance } from "@/apis/apicalls";
+import { createNewBooks } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import BooksLocationBox from "./components/locations/BooksLocationBox";
@@ -50,7 +50,7 @@ const Books: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewAppliance,
+    mutationFn: createNewBooks,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Post Successfull");

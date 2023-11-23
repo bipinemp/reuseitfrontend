@@ -41,3 +41,196 @@ export const createNewAppliance = async (data: any) => {
     return error;
   }
 };
+
+export const createNewElectronics = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/electronics",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewFurniture = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/furnitures",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewClothing = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/clothings",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewToys = async (data: any) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/toys", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewSports = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/sports",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewBooks = async (data: any) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/books", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewAntiques = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/antiques",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewCars = async (data: any) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/cars", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewBikes = async (data: any) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/api/bikes", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewScooters = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/scooters",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const createNewBicycles = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/bicycles",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};

@@ -7,7 +7,6 @@ import { electronicsList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
-import axios from "axios";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
@@ -16,9 +15,10 @@ import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
-import { createNewAppliance } from "@/apis/apicalls";
+import { createNewElectronics } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 interface PreviewFile extends File {
   id: string;
@@ -54,7 +54,7 @@ const Electronics: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewAppliance,
+    mutationFn: createNewElectronics,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Post Successfull");
@@ -199,13 +199,15 @@ const Electronics: React.FC = () => {
 
         {/* Submitting Post Button */}
         <div className="px-10 py-8">
-          <Button
-            disabled={files.length === 0}
-            type="submit"
-            size="lg"
-            className="text-lg w-fit"
-          >
-            Post now
+          <Button type="submit" size="lg" className="text-lg w-fit">
+            {isPending ? (
+              <div className="flex gap-2 items-center">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <p>Posting..</p>
+              </div>
+            ) : (
+              "Post now"
+            )}
           </Button>
         </div>
       </form>

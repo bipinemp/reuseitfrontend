@@ -10,7 +10,7 @@ import TextareaBox from "../TextareaBox";
 import FileUpload from "../FileUpload";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewAppliance } from "@/apis/apicalls";
+import { createNewBicycles } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -43,7 +43,7 @@ const Bicycles: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewAppliance,
+    mutationFn: createNewBicycles,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Post Successfull");
