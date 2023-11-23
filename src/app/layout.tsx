@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className}`}>
+      <body className={`${roboto.className}`}>
         <QueryProvider>
           <Toaster position="top-center" reverseOrder={true} />
           <Navbar />

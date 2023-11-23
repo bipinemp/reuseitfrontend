@@ -11,7 +11,7 @@ import clsx from "clsx";
 import React from "react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 
-interface LocSelectBoxProps<T extends FieldValues> {
+interface CarSelectBoxProps<T extends FieldValues> {
   name: keyof T;
   control: Control<T>;
   onChange?: (value: string) => void;
@@ -21,7 +21,7 @@ interface LocSelectBoxProps<T extends FieldValues> {
   error: string;
 }
 
-const LocSelectBox = <T extends FieldValues>({
+const CarSelectBox = <T extends FieldValues>({
   control,
   name,
   array = [],
@@ -29,7 +29,7 @@ const LocSelectBox = <T extends FieldValues>({
   error,
   onChange,
   placeholder,
-}: LocSelectBoxProps<T>) => {
+}: CarSelectBoxProps<T>) => {
   return (
     <>
       <Controller
@@ -85,4 +85,4 @@ const LocSelectBox = <T extends FieldValues>({
   );
 };
 
-export default LocSelectBox;
+export default CarSelectBox;

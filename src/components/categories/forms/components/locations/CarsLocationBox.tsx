@@ -3,18 +3,15 @@
 import React, { useState } from "react";
 import Locations from "@/json/nepal_location.json";
 import LocSelectBox from "../LocSelectBox";
-import { TVehicle } from "@/types/postTypes";
+import { TCars } from "@/types/postTypes";
 import { Control, FieldErrors } from "react-hook-form";
 
 interface LocationBoxProps {
-  control: Control<TVehicle>;
-  errors: FieldErrors<TVehicle>;
+  control: Control<TCars>;
+  errors: FieldErrors<TCars>;
 }
 
-const VehicleLocationBox: React.FC<LocationBoxProps> = ({
-  control,
-  errors,
-}) => {
+const CarsLocationBox: React.FC<LocationBoxProps> = ({ control, errors }) => {
   const AllProvinces = Locations.provinceList.flatMap((val) => val.name);
 
   const [province, setProvince] = useState<string>("");
@@ -39,7 +36,7 @@ const VehicleLocationBox: React.FC<LocationBoxProps> = ({
         CONFIRM YOUR LOCATION
       </h3>
 
-      <LocSelectBox<TVehicle>
+      <LocSelectBox<TCars>
         name="Province"
         control={control}
         array={AllProvinces}
@@ -51,7 +48,7 @@ const VehicleLocationBox: React.FC<LocationBoxProps> = ({
 
       {province !== "" ? (
         <>
-          <LocSelectBox<TVehicle>
+          <LocSelectBox<TCars>
             name="District"
             control={control}
             array={DistrictList}
@@ -65,7 +62,7 @@ const VehicleLocationBox: React.FC<LocationBoxProps> = ({
 
       {district !== "" ? (
         <>
-          <LocSelectBox<TVehicle>
+          <LocSelectBox<TCars>
             name="Municipality"
             control={control}
             array={MunicipilityList}
@@ -79,4 +76,4 @@ const VehicleLocationBox: React.FC<LocationBoxProps> = ({
   );
 };
 
-export default VehicleLocationBox;
+export default CarsLocationBox;
