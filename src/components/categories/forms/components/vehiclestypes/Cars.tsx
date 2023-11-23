@@ -111,7 +111,7 @@ const Cars: React.FC = () => {
   return (
     <div className="mt-10">
       <form
-        action=""
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col border-[1px] border-content rounded-lg mb-10"
       >
         {/* Details Section  */}
