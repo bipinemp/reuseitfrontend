@@ -1,9 +1,6 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
-import CarsData from "@/json/cars.json";
 import CarSelectBox from "../CarSelectBox";
 import { BikesSchema, TBikes } from "@/types/postTypes";
 import { useForm } from "react-hook-form";
@@ -19,11 +16,9 @@ import { createNewAppliance } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import CarsLocationBox from "../locations/CarsLocationBox";
 import PriceBox from "../PriceBox";
-import BikesBrands from "@/json/bikesbrands.json";
-import BikesModels from "@/json/bikesmodels.json";
-import BikeSelectBox from "../BikeSelectBox";
+import ScooterData from "@/json/scooter.json";
+import BikesLocationBox from "../locations/BikesLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -36,14 +31,14 @@ const Scooters: React.FC = () => {
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
 
-  const brands = BikesBrands.data.map((bike) => bike);
+  const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
+  const [brand, setBrand] = useState("");
 
-  const [brandId, setBrandId] = useState<number>();
-
-  const modelsDetails = BikesModels.data.filter(
-    (bike) => bike.brand_id === brandId
-  );
-  const models = modelsDetails.map((bike) => bike.name);
+  const models = ScooterData.Scooters.filter(
+    (scooter) => scooter.brand === brand
+  )
+    .map((scooter) => scooter.models)
+    .flat();
 
   const {
     register,
@@ -55,8 +50,6 @@ const Scooters: React.FC = () => {
     resolver: zodResolver(BikesSchema),
   });
 
-  const fuels = ["CNG & Hybrids", "Diesel", "Electric", "LPG", "Petrol"];
-  const tranmissions = ["Automatic", "Manual"];
   const owners = ["1st", "2nd", "3rd", "4th", "4+"];
   const usedtimes = [
     "1 Year",
@@ -91,6 +84,9 @@ const Scooters: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TBikes) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 
@@ -147,17 +143,17 @@ const Scooters: React.FC = () => {
             label="Description"
           />
 
-          <BikeSelectBox
+          <CarSelectBox
             name="brand"
             control={control}
             array={brands}
             placeholder="Select Brand"
             label="All Brands"
             error={errors?.brand?.message || ""}
-            onChange={(val) => setBrandId(val)}
+            onChange={(val) => setBrand(val)}
           />
 
-          {brandId !== 0 ? (
+          {brand !== "" ? (
             <CarSelectBox<TBikes>
               name="model"
               control={control}
@@ -247,7 +243,7 @@ const Scooters: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        {/* <CarsLocationBox control={control} errors={errors} /> */}
+        <BikesLocationBox control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />

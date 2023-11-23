@@ -1,9 +1,6 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
-import CarsData from "@/json/cars.json";
 import CarSelectBox from "../CarSelectBox";
 import { BikesSchema, TBikes } from "@/types/postTypes";
 import { useForm } from "react-hook-form";
@@ -19,11 +16,11 @@ import { createNewAppliance } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
-import CarsLocationBox from "../locations/CarsLocationBox";
 import PriceBox from "../PriceBox";
 import BikesBrands from "@/json/bikesbrands.json";
 import BikesModels from "@/json/bikesmodels.json";
 import BikeSelectBox from "../BikeSelectBox";
+import BikesLocationBox from "../locations/BikesLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -91,6 +88,9 @@ const Bikes: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TBikes) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 
@@ -247,7 +247,7 @@ const Bikes: React.FC = () => {
         />
 
         {/*Location selection Section */}
-        {/* <CarsLocationBox control={control} errors={errors} /> */}
+        <BikesLocationBox control={control} errors={errors} />
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />

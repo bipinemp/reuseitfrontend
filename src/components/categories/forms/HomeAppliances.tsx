@@ -72,6 +72,9 @@ const HomeAppliances: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TAppliance) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

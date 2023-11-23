@@ -53,9 +53,7 @@ const Toys: React.FC = () => {
   const typeofcondition = furnitureList.filter(
     (val) => val.name === "condition"
   );
-  const material = furnitureList.filter((val) => val.name === "material");
-  const style = furnitureList.filter((val) => val.name === "style");
-  const color = furnitureList.filter((val) => val.name === "color");
+
   const assemblyarray = [
     { name: "Yes", value: "true" },
     { name: "No", value: "false" },
@@ -78,6 +76,9 @@ const Toys: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TToys) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

@@ -3,10 +3,10 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { furnitureList, musicalInstrumentsList } from "@/lib/lists";
+import { musicalInstrumentsList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FurnitureSchema, MusicsSchema, TMusic } from "@/types/postTypes";
+import { MusicsSchema, TMusic } from "@/types/postTypes";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
@@ -19,9 +19,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import FurnitureLocation from "./components/locations/FurnitureLocation";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import RadioBox from "./components/RadioBox";
 import MusicLocationBox from "./components/locations/MusicLocationBox";
 
@@ -82,6 +79,9 @@ const Musics: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TMusic) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

@@ -20,8 +20,6 @@ import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import FurnitureLocation from "./components/locations/FurnitureLocation";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import RadioBox from "./components/RadioBox";
 
 interface PreviewFile extends File {
@@ -75,6 +73,9 @@ const HomeAppliances: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TFurnitures) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

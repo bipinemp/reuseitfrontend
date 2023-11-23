@@ -14,8 +14,11 @@ import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
+import { createNewAppliance } from "@/apis/apicalls";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface PreviewFile extends File {
   id: string;
@@ -23,6 +26,8 @@ interface PreviewFile extends File {
 }
 
 const Electronics: React.FC = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const pathname = usePathname();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
@@ -47,32 +52,39 @@ const Electronics: React.FC = () => {
     (val) => val.name === "warrenty"
   );
 
-  const onSubmit = async (data: TElectronics) => {
-    try {
-      const actualData = {
-        ...data,
-        image_urls: files,
-        user_id: 1,
-        price: parseInt(data.price),
-      };
+  // mutation function for creating Home Appliance AD
+  const { mutate: CreateBlog, isPending } = useMutation({
+    mutationFn: createNewAppliance,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      toast.success("Post Successfull");
+      reset();
+      router.push("/post");
+    },
+    // onSettled(data) {
+    //   router.push(`/details/${data?.blog._id}`);
+    // },
+    onError: () => toast.error("Something went wrong try again"),
+  });
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/homeappliances",
-        actualData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 200) {
-        alert("Post successfull");
-        reset();
-      }
-    } catch (error) {
-      console.log(error);
+  // actual form submission function
+  const onSubmit = async (data: TElectronics) => {
+    if (files.length === 0) {
+      return;
     }
+    handleCreateAppliance(data);
   };
+
+  // for mutation function
+  async function handleCreateAppliance(data: TElectronics) {
+    const actualData = {
+      ...data,
+      image_urls: files,
+      user_id: 1,
+      price: parseInt(data.price),
+    };
+    CreateBlog(actualData);
+  }
 
   useEffect(() => {
     if (files.length === 0) {

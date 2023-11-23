@@ -3,15 +3,10 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { antiquesCollectiblesList, clothingAccessoryList } from "@/lib/lists";
+import { antiquesCollectiblesList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  AntiquesSchema,
-  BooksSchema,
-  TAntiques,
-  TBooks,
-} from "@/types/postTypes";
+import { AntiquesSchema, TAntiques } from "@/types/postTypes";
 import InputBox from "./components/InputBox";
 import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
@@ -24,7 +19,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewAppliance } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import BooksLocationBox from "./components/locations/BooksLocationBox";
 import AntiquesLocationBox from "./components/locations/AntiquesLocationBox";
 
 interface PreviewFile extends File {
@@ -90,6 +84,9 @@ const Antiques: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TAntiques) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

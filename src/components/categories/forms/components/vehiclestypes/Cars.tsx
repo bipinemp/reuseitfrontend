@@ -85,6 +85,9 @@ const Cars: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TCars) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

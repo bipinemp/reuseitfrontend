@@ -65,6 +65,9 @@ const Books: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TBooks) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

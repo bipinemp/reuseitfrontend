@@ -76,6 +76,9 @@ const Clothing: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TClothing) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 

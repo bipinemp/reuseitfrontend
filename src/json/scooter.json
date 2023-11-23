@@ -1,0 +1,134 @@
+{
+  "Scooters": [
+    {
+      "brand": "Yamaha",
+      "models": [
+        "Fascino",
+        "Ray Z",
+        "Ray ZR",
+        "Yamaha Alpha",
+        "Yamaha Ray ZR Street Rally",
+        "NMAX 125",
+        "NMAX 155",
+        "Aerox 155",
+        "Yamaha Tricity",
+        "Cygnus Alpha",
+        "Cygnus Ray-ZR",
+        "Yamaha TMAX",
+        "Yamaha Jog"
+      ]
+    },
+    {
+      "brand": "TVS",
+      "models": [
+        "Jupiter",
+        "Jupiter ZX",
+        "Jupiter Classic",
+        "Jupiter Grande",
+        "Jupiter X",
+        "Ntorq 125",
+        "Ntorq Race Edition",
+        "Scooty Pep+",
+        "Scooty Zest 110",
+        "TVS iQube Electric"
+      ]
+    },
+    {
+      "brand": "Aprilia",
+      "models": [
+        "SR 50",
+        "SR 125",
+        "SR 160",
+        "Aprilia Storm",
+        "Aprilia SRV 850",
+        "Aprilia SR Max",
+        "Aprilia Tuono 50",
+        "Atlantic 300",
+        "Atlantic 500",
+        "Aprilia Mana 850 GT ABS",
+        "Aprilia Scarabeo"
+      ]
+    },
+    {
+      "brand": "Piaggio",
+      "models": [
+        "Vespa Primavera",
+        "Vespa GTS",
+        "Vespa Sprint",
+        "Vespa Elettrica",
+        "Liberty 50",
+        "Liberty 125",
+        "Beverly 300",
+        "Beverly 350",
+        "MP3 300",
+        "MP3 500",
+        "Piaggio Typhoon",
+        "Fly 50",
+        "Fly 150"
+      ]
+    },
+    {
+      "brand": "Hero",
+      "models": [
+        "Maestro Edge 110",
+        "Maestro Edge 125",
+        "Hero Pleasure",
+        "Hero Destini 125",
+        "Hero Duet",
+        "Photon Electric",
+        "Optima Electric",
+        "Hero Dash",
+        "Hero Pleasure+",
+        "Hero eMaestro Electric"
+      ]
+    },
+    {
+      "brand": "Mahindra",
+      "models": [
+        "Gusto 110",
+        "Gusto 125",
+        "Rodeo UZO 125",
+        "Mahindra Duro DZ",
+        "Mahindra Flyte",
+        "Mahindra Kine",
+        "Mahindra Mojo Electric"
+      ]
+    },
+    {
+      "brand": "Bajaj",
+      "models": ["Chetak Electric"]
+    },
+    {
+      "brand": "Honda",
+      "models": [
+        "Activa 6G",
+        "Activa 125",
+        "Activa 5G",
+        "Activa i",
+        "Dio",
+        "Honda Grazia",
+        "Honda Aviator",
+        "Honda Cliq",
+        "Honda Navi",
+        "PCX125",
+        "PCX150",
+        "Forza 125",
+        "Forza 300",
+        "Honda Metropolitan",
+        "Honda Elite"
+      ]
+    },
+    {
+      "brand": "Suzuki",
+      "models": [
+        "Access 125",
+        "Burgman Street",
+        "Suzuki Swish",
+        "Suzuki Let's",
+        "Suzuki Hayate",
+        "Suzuki Address"
+      ]
+    },
+    { "brand": "Unknown", "models": ["Unknown"] }
+  ]
+}

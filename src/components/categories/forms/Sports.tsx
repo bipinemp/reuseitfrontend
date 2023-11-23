@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { homeapplianceslist, sportsFitnessList } from "@/lib/lists";
+import { sportsFitnessList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SportsSchema, TSports } from "@/types/postTypes";
@@ -12,7 +12,6 @@ import TextareaBox from "./components/TextareaBox";
 import SelectBox from "./components/SelectBox";
 import FileUpload from "./components/FileUpload";
 import PriceBox from "./components/PriceBox";
-import ApplianceLocationBox from "./components/locations/ApplianceLocationBox";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
@@ -80,6 +79,9 @@ const Sports: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TSports) => {
+    if (files.length === 0) {
+      return;
+    }
     handleCreateAppliance(data);
   };
 
