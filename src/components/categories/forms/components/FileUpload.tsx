@@ -61,7 +61,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-10 py-8">
+    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 lg:px-10 py-8">
       <h3 className="font-semibold underline underline-offset-2">
         UPLOAD UPTO 5 PHOTOS
       </h3>
@@ -69,7 +69,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       <div
         {...getRootProps({
           className: clsx(
-            "p-10 border-[2px] border-primary border-dashed rounded-lg cursor-pointer hover:bg-neutral-100 transition",
+            "p-5 lg:p-10 border-[2px] border-primary border-dashed rounded-lg cursor-pointer hover:bg-neutral-100 transition",
             {
               "border-[3px] border-red-500 placeholder:text-destructive bg-destructive/20":
                 imgError !== "",
@@ -89,7 +89,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               Drop the Images here ...
             </p>
           ) : (
-            <p className="font-semibold text-destructive text-center">
+            <p className="text-sm lg:text-[1.125rem] font-semibold text-destructive text-center">
               Drag and Drop Images here, or click to select images <br />
               "First Selected Image will be the cover of AD"
             </p>

@@ -47,7 +47,7 @@ const CarSelectBox = <T extends FieldValues>({
             >
               <SelectTrigger
                 className={clsx(
-                  "w-full border-content text-lg font-semibold text-content",
+                  "w-full border-content text-[0.9rem] lg:text-lg font-semibold text-content",
                   {
                     "border-destructive border-[2px] placeholder:text-destructive":
                       error !== "",
@@ -63,7 +63,7 @@ const CarSelectBox = <T extends FieldValues>({
                   </SelectLabel>
                   {array.map((type) => (
                     <SelectItem
-                      className="text-lg cursor-pointer"
+                      className="text-[0.9rem] lg:text-lg cursor-pointer"
                       value={type}
                       key={type}
                     >

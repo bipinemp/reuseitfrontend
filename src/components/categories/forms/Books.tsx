@@ -92,14 +92,14 @@ const Books: React.FC = () => {
   }, [files]);
 
   return (
-    <div className="max-w-[1920px] mx-auto px-4 md:px-10 xl:px-52 2xl:px-80">
+    <div className="max-w-[1920px] mx-auto px-2 md:px-10 xl:px-52 2xl:px-80">
       <Title array={pathname.split("/")} />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col border-[1px] border-content rounded-lg mb-10"
       >
         {/* Details Section */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-10 py-8">
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
           <h3 className="font-semibold underline underline-offset-2">
             INCLUDE SOME DETAILS :
           </h3>
@@ -206,7 +206,7 @@ const Books: React.FC = () => {
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
 
         {/* Submitting Post Button */}
-        <div className="px-10 py-8">
+        <div className="px-3 lg:px-10 py-8">
           <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (
               <div className="flex gap-2 items-center">

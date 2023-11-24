@@ -16,10 +16,18 @@ const Vehicle: React.FC = () => {
       <Title array={pathname.split("/")} />
       <Tabs defaultValue="cars" className="w-full">
         <TabsList className="w-full bg-primary">
-          <TabsTrigger value="cars">Cars</TabsTrigger>
-          <TabsTrigger value="bikes">Bikes</TabsTrigger>
-          <TabsTrigger value="scooters">Scooters</TabsTrigger>
-          <TabsTrigger value="bicycles">Bicycles</TabsTrigger>
+          <TabsTrigger value="cars" className="text-sm sm:text-lg">
+            Cars
+          </TabsTrigger>
+          <TabsTrigger value="bikes" className="text-sm sm:text-lg">
+            Bikes
+          </TabsTrigger>
+          <TabsTrigger value="scooters" className="text-sm sm:text-lg">
+            Scooters
+          </TabsTrigger>
+          <TabsTrigger value="bicycles" className="text-sm sm:text-lg">
+            Bicycles
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="cars">
           <Cars />

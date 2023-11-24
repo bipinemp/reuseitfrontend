@@ -34,8 +34,8 @@ const BicyclesLocationBox: React.FC<LocationBoxProps> = ({
   const MunicipilityList = MunicipilityDetails?.map((item) => item.name);
 
   return (
-    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-10 py-8">
-      <h3 className="font-semibold underline underline-offset-2">
+    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 lg:px-10 py-8">
+      <h3 className="font-semibold text-[1.1rem] underline underline-offset-2">
         CONFIRM YOUR LOCATION
       </h3>
 

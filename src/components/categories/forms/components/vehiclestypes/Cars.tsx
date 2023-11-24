@@ -1,7 +1,5 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useEffect, useState } from "react";
 import CarsData from "@/json/cars.json";
 import CarSelectBox from "../CarSelectBox";
@@ -120,9 +118,9 @@ const Cars: React.FC = () => {
         className="flex flex-col border-[1px] border-content rounded-lg mb-10"
       >
         {/* Details Section  */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-10 py-8">
-          <h3 className="font-semibold underline underline-offset-2">
-            INCLUDE SOME DETAILS :
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
+          <h3 className="font-semibold text-[0.95rem] sm:text-[1.17rem] underline underline-offset-2">
+            INCLUDE SOME DETAILS (Cars) :
           </h3>
 
           <InputBox<TCars>
@@ -268,7 +266,7 @@ const Cars: React.FC = () => {
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
 
         {/* Submitting Post Button */}
-        <div className="px-10 py-8">
+        <div className="px-3 lg:px-10 py-8">
           <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (
               <div className="flex gap-2 items-center">

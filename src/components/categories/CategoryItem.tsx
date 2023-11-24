@@ -29,7 +29,7 @@ const CategoryItem: React.FC<CategoryProps> = ({
       )}
     >
       <Icon size={30} color="gray" />
-      <p className="p-2">{name}</p>
+      <p className="p-2 text-[0.9rem] lg:text-[1rem]">{name}</p>
     </Link>
   );
 };

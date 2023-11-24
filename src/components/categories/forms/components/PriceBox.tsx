@@ -13,7 +13,7 @@ interface PriceBoxProps<T> {
 
 const PriceBox = <T,>({ name, id, register, error }: PriceBoxProps<T>) => {
   return (
-    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-10 py-8">
+    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 lg:px-10 py-8">
       <h3 className="font-semibold underline underline-offset-2">
         SET A PRICE :
       </h3>

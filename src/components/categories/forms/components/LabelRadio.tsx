@@ -32,7 +32,7 @@ const LabelRadio = <T extends FieldValues>({
               className="flex flex-col gap-2"
             >
               <Label className="text-lg">{placeholder} </Label>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 {array.map((val, i) => (
                   <div key={i}>
                     <RadioGroupItem
@@ -42,7 +42,7 @@ const LabelRadio = <T extends FieldValues>({
                     />
                     <Label
                       htmlFor={val}
-                      className="flex flex-col items-center justify-between rounded border-[2px] border-content bg-popover p-3 w-fit hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                      className="flex text-[0.8rem] sm:text-[0.9rem] flex-col items-center justify-between rounded border-[2px] border-content bg-popover p-3 w-fit hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
                     >
                       <p>{val}</p>
                     </Label>

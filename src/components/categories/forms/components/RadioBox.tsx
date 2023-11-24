@@ -32,8 +32,8 @@ const RadioBox = <T extends FieldValues>({
         control={control}
         render={({ field }) => {
           return (
-            <div className="flex gap-4 items-center">
-              <Label className="text-lg">{placeholder} </Label>
+            <div className="flex gap-2 lg:gap-4 items-center">
+              <Label className="text-[0.9rem] lg:text-lg">{placeholder} </Label>
               <RadioGroup onValueChange={field.onChange} className="flex">
                 {array.map((val, i) => (
                   <div key={i} className="flex items-center space-x-2">

@@ -35,7 +35,7 @@ const Bikes: React.FC = () => {
 
   const brands = BikesBrands.data.map((bike) => bike);
 
-  const [brandId, setBrandId] = useState<number>();
+  const [brandId, setBrandId] = useState<number>(0);
 
   const modelsDetails = BikesModels.data.filter(
     (bike) => bike.brand_id === brandId
@@ -121,9 +121,9 @@ const Bikes: React.FC = () => {
         className="flex flex-col border-[1px] border-content rounded-lg mb-10"
       >
         {/* Details Section  */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-10 py-8">
-          <h3 className="font-semibold underline underline-offset-2">
-            INCLUDE SOME DETAILS :
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
+          <h3 className="font-semibold text-[0.94rem] sm:text-[1.17rem] underline underline-offset-2">
+            INCLUDE SOME DETAILS (Bikes) :
           </h3>
 
           <InputBox<TBikes>
@@ -253,7 +253,7 @@ const Bikes: React.FC = () => {
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
 
         {/* Submitting Post Button */}
-        <div className="px-10 py-8">
+        <div className="px-3 lg:px-10 py-8">
           <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (
               <div className="flex gap-2 items-center">
