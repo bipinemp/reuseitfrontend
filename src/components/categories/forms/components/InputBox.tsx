@@ -9,7 +9,7 @@ interface InputBoxProps<T> {
   placeholder: string;
   id: string;
   register: (name: keyof T, options?: RegisterOptions) => UseFormRegisterReturn;
-  desc: string;
+  desc?: string;
   error: string;
   label?: string;
   type?: string;

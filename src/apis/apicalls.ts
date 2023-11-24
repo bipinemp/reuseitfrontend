@@ -184,11 +184,15 @@ export const createNewCars = async (data: any) => {
 
 export const createNewBikes = async (data: any) => {
   try {
-    const response = await axios.post("http://127.0.0.1:8000/api/motorcycles", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/motorcycles",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     const resData = response.data;
 
     return resData;
@@ -232,5 +236,35 @@ export const createNewBicycles = async (data: any) => {
     return resData;
   } catch (error) {
     return error;
+  }
+};
+
+// for Authentication Login Register
+export const registerCall = async (actual_Data: any) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/register",
+      actual_Data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const loginCall = async (actual_Data: any) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/login",
+      actual_Data
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 };

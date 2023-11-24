@@ -19,12 +19,16 @@ const Sidebar: React.FC = () => {
       <SheetTrigger className="lg:hidden">
         <IoMenu size={30} />
       </SheetTrigger>
-      <SheetContent className="p-0">
+      <SheetContent className="w-[90%] sm:w-3/4 p-0">
         <SheetHeader>
           <SheetDescription className="flex flex-col">
             <div className="p-4 border-b-[1px] border-gray-400 flex items-center gap-4">
               <Profile />
-              <Button size="lg" variant="outline" className="border-gray-400">
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-2 sm:px-8 border-gray-400"
+              >
                 View Dashboard
               </Button>
             </div>

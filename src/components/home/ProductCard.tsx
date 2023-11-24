@@ -15,7 +15,9 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const location =
     (product.District + ", " + product.Municipality).substring(0, 25) + "...";
 
-  const formattedtitle = product.pname.substring(0, 25) + "...";
+  const istitlelong = product.pname.length;
+  const formattedtitle =
+    istitlelong >= 25 ? product.pname.substring(0, 25) + "..." : product.pname;
 
   return (
     <div className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">

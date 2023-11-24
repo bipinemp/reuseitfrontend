@@ -64,6 +64,8 @@ export const nonavbarlist = [
   "/post/vehicles",
   "/post/musical_instruments",
   "/post/antiques_collectibles",
+  "/login",
+  "/register"
 ];
 
 export const homeapplianceslist = [

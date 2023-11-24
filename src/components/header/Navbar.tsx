@@ -12,6 +12,7 @@ import Link from "next/link";
 import { PiArrowLeftBold } from "react-icons/pi";
 import Sidebar from "./Sidebar";
 import { nonavbarlist } from "@/lib/lists";
+import { UserDropDown } from "./UserDropDown";
 
 const mainNavbar = (
   <div className=" max-w-[1920px] mx-auto 2xl:px-72 flex gap-5 justify-between items-center px-4 lg:px-10">
@@ -26,7 +27,7 @@ const mainNavbar = (
       <div className="w-full items-center flex gap-3 justify-between">
         <Search />
         <div className="hidden lg:flex gap-2 items-center">
-          <Profile />
+          <UserDropDown />
           <Chat />
           <Notification />
           <Sell />
