@@ -26,15 +26,17 @@ const LoginForm = () => {
   // mutation function for Register
   const { mutate: CreateLogin, isPending } = useMutation({
     mutationFn: loginCall,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-      toast.success("Successfully Logged IN");
-      reset();
+
+    onSettled: (data: any, error, variables, context) => {
+      //   console.log(data);
+      if (data.status === 200) {
+        toast.success("Successfully Logged IN");
+        reset();
+      }
+      if (data.status !== 200) {
+        toast.error(data.response.data.error);
+      }
     },
-    // onSettled(data) {
-    //   router.push(`/details/${data?.blog._id}`);
-    // },
-    onError: (error) => toast.error(JSON.stringify(error)),
   });
 
   const onSubmit = async (data: TLogin) => {

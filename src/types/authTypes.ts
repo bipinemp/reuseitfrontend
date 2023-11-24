@@ -43,10 +43,7 @@ export const LoginSchema = z.object({
   email: z
     .string({ required_error: "Email is required" })
     .email({ message: "Enter a Valid Email" }),
-  password: z
-    .string({ required_error: "Password is required" })
-    .min(8, { message: "Password must be 8 characters long" })
-    .max(25, { message: "Maximum of 25 characters are only allowed" }),
+  password: z.string({ required_error: "Password is required" }),
 });
 
 export type TLogin = z.infer<typeof LoginSchema>;

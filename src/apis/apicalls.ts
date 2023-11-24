@@ -253,7 +253,7 @@ export const registerCall = async (actual_Data: any) => {
     );
     return response;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 
@@ -261,10 +261,11 @@ export const loginCall = async (actual_Data: any) => {
   try {
     const response = await axios.post(
       "http://localhost:8000/api/login",
-      actual_Data
+      actual_Data,
+      { withCredentials: true }
     );
     return response;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
