@@ -34,7 +34,7 @@ const LoginForm = () => {
     // onSettled(data) {
     //   router.push(`/details/${data?.blog._id}`);
     // },
-    onError: () => toast.error("Something went wrong try again"),
+    onError: (error) => toast.error(JSON.stringify(error)),
   });
 
   const onSubmit = async (data: TLogin) => {
