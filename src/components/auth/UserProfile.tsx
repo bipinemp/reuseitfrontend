@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import Container from "../Container";
+import Image from "next/image";
 
 interface UserProfileProps {
   token: string;
@@ -23,21 +24,21 @@ const UserProfile: React.FC<UserProfileProps> = ({ token }) => {
           },
         }
       );
-      return response;
+      return response.data;
     } catch (error) {
       return error;
     }
   };
 
-  const { data: UserData, isPending } = useQuery({
+  const { data: UserData, isPending } = useQuery<UserDetail>({
     queryKey: ["userprofile"],
     queryFn: getUserProfile,
   });
 
   const UserDetails = (
     <div>
-      <h1>{UserData?.data?.name}</h1>
-      <h1>{UserData?.data?.email}</h1>
+      <h1>{UserData?.name}</h1>
+      <h1>{UserData?.email}</h1>
     </div>
   );
 

@@ -28,3 +28,22 @@ type Image = {
   created_at: string | null;
   updated_at: string | null;
 };
+
+// For User Details
+type UserDetail = {
+  District: string;
+  Municipality: string;
+  Phone_no: string;
+  Profile_image: string;
+  Province: string;
+  created_at: string;
+  email: string;
+  email_verified_at: string | null;
+  id: number;
+  name: string;
+  updated_at: string;
+};
+
+type TUserDetails = {
+  data: UserDetail;
+};
