@@ -8,10 +8,14 @@ interface ProfileProps {
 }
 
 const UserProfile: React.FC<ProfileProps> = ({ token }) => {
-  console.log(token);
   useEffect(() => {
     const getProfile = async () => {
-      const response = await axios.post("http://localhost:8000/api/me", {});
+      const response = await axios.post("http://localhost:8000/api/me",{}, {
+        headers:{
+          "Content-type" : "application/json",
+          "Authorization" : `Bearer ${token}`
+      }
+      });
       console.log(response);
     };
 
