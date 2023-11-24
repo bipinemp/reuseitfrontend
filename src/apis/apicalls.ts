@@ -1,4 +1,3 @@
-import { TAppliance } from "@/types/postTypes";
 import axios from "axios";
 
 // for fetcing all Products

@@ -1,27 +1,52 @@
 "use client";
 
-import axios from "axios";
-import React, { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-interface ProfileProps {
+import axios from "axios";
+import React from "react";
+import Container from "../Container";
+
+interface UserProfileProps {
   token: string;
 }
 
-const UserProfile: React.FC<ProfileProps> = ({ token }) => {
-  useEffect(() => {
-    const getProfile = async () => {
-      const response = await axios.post("http://localhost:8000/api/me",{}, {
-        headers:{
-          "Content-type" : "application/json",
-          "Authorization" : `Bearer ${token}`
-      }
-      });
-      console.log(response);
-    };
+const UserProfile: React.FC<UserProfileProps> = ({ token }) => {
+  const getUserProfile = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/me",
+        {},
+        {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      return error;
+    }
+  };
 
-    getProfile();
-  }, []);
-  return <div></div>;
+  const { data: UserData, isPending } = useQuery({
+    queryKey: ["userprofile"],
+    queryFn: getUserProfile,
+  });
+
+  const UserDetails = (
+    <div>
+      <h1>{UserData?.data?.name}</h1>
+      <h1>{UserData?.data?.email}</h1>
+    </div>
+  );
+
+  return (
+    <Container>
+      <div>{isPending ? <h3>Loading User Data...</h3> : null}</div>
+      <div>{UserDetails}</div>
+    </Container>
+  );
 };
 
 export default UserProfile;
