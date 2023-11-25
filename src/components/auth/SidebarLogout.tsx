@@ -6,7 +6,7 @@ import { LogOut } from "lucide-react";
 import React from "react";
 import toast from "react-hot-toast";
 
-const Logout: React.FC = () => {
+const SidebarLogout: React.FC = () => {
   const queryClient = useQueryClient();
   const { mutate: logoutUser, isPending } = useMutation({
     mutationFn: logoutCall,
@@ -16,11 +16,14 @@ const Logout: React.FC = () => {
     },
   });
   return (
-    <div className="flex items-center gap-1" onClick={() => logoutUser()}>
-      <LogOut className="mr-2 h-4 w-4" />
-      <span>{isPending ? "Logging Out..." : "Log out"}</span>
+    <div
+      className="p-4 flex items-center gap-2 cursor-pointer rounded transition hover:bg-neutral-100"
+      onClick={() => logoutUser()}
+    >
+      <LogOut className="mr-2 h-6 w-6" />
+      <h3>{isPending ? "Logging Out..." : "Log out"}</h3>
     </div>
   );
 };
 
-export default Logout;
+export default SidebarLogout;

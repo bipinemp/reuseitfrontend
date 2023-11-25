@@ -11,7 +11,7 @@ import { RiChat3Line } from "react-icons/ri";
 import { FaPlus, FaRegBell } from "react-icons/fa6";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { TbLogout2 } from "react-icons/tb";
+import SidebarLogout from "../auth/SidebarLogout";
 
 const Sidebar: React.FC = () => {
   return (
@@ -40,10 +40,9 @@ const Sidebar: React.FC = () => {
               <FaRegBell size={25} />
               <h3>Notifications</h3>
             </div>
-            <div className="p-4 flex items-center gap-2 cursor-pointer rounded transition hover:bg-neutral-100">
-              <TbLogout2 size={25} />
-              <h3>Logout</h3>
-            </div>
+
+            <SidebarLogout />
+
             <div className="p-4">
               <Link href={"/post"}>
                 <Button
