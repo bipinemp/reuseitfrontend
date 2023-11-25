@@ -39,16 +39,16 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
         }}
         modules={[FreeMode, Navigation, Thumbs]}
         onSlideChange={handleSlideChange}
-        className="h-[350px] w-[800px] rounded-lg bg-black"
+        className="h-[350px] w-[800px] bg-black"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
-            <div className="relative flex h-[90%] w-[45%] rounded-full mx-auto my-3 items-center justify-center">
+            <div className="relative flex h-full w-[45%] mx-auto items-center justify-center">
               <Image
                 fill
                 src={imgurl + image.image_url}
                 alt={image.image_url}
-                className="block h-full w-full rounded-lg object-fill"
+                className="block h-full w-full  object-contain"
               />
             </div>
           </SwiperSlide>
@@ -60,24 +60,24 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
         onSwiper={() => setThumbsSwiper}
         loop={true}
         spaceBetween={30}
-        slidesPerView={4}
+        slidesPerView={5}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="relative thumbs mt-3 h-[160px] w-[800px] rounded-lg bg-black"
+        className="relative thumbs h-[160px] w-[800px] bg-zinc-300"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
             <button
-              className={`relative flex h-[85%] w-[87%] rounded-lg mx-auto my-3 items-center justify-center ${
-                index === activeIndex ? "border-[4px] border-primary" : ""
+              className={`relative flex h-[70%] aspect-square rounded mx-auto my-5 items-center justify-center ${
+                index === activeIndex ? "border-[2px] border-black/70" : ""
               }`}
             >
               <Image
                 fill
                 src={imgurl + image.image_url}
                 alt={image.image_url}
-                className="block h-full w-full object-fill rounded-md"
+                className="block object-cover object-center rounded"
               />
             </button>
           </SwiperSlide>

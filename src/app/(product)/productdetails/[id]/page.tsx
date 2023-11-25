@@ -2,7 +2,7 @@
 
 import { useProductDetails } from "@/apis/queries";
 import Container from "@/components/Container";
-import ElectronicsDetails from "@/components/categories/detailspage/ElectronicsDetails";
+import ElectronicsDetails from "@/components/categories/detailspage/electronics/ElectronicsDetails";
 import React from "react";
 
 interface Props {
@@ -40,11 +40,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
     }
   };
 
-  return (
-    <Container>
-      <div>{renderProductDetails()}</div>
-    </Container>
-  );
+  return <div>{renderProductDetails()}</div>;
 };
 
 export default page;
