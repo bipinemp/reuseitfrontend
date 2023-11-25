@@ -26,7 +26,9 @@ const ElectronicPriceName: React.FC<Props> = ({
     <div className="bg-zinc-100 rounded-md border border-gray-400 h-[170px] py-3 px-4 flex flex-col justify-between">
       <div className="flex justify-between items-start">
         <div>
-          <h1 className="font-semibold">{formattedPrice}</h1>
+          <h1 className="font-black tracking-[0.05rem] text-black/80">
+            {formattedPrice}
+          </h1>
           <p className="text-lg">{pname}</p>
         </div>
         <div className="mt-2">
