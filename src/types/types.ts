@@ -62,6 +62,20 @@ type EProductDetails = {
   product: EProduct;
 };
 
+type TUserDetail = {
+  id: number;
+  name: string;
+  email: string;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+  Province: string;
+  District: string;
+  Municipality: string;
+  Phone_no: string;
+  Profile_image: string;
+};
+
 type EProduct = {
   District: string;
   Municipality: string;
@@ -76,6 +90,7 @@ type EProduct = {
   user_id: number;
   category: ECategory;
   image: EImage[];
+  user: TUserDetail;
 };
 
 type ECategory = {
