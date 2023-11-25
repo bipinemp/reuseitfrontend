@@ -57,7 +57,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
 
       {/* Thumbnail */}
       <Swiper
-        onSwiper={() => setThumbsSwiper}
+        onSwiper={setThumbsSwiper}
         loop={true}
         spaceBetween={30}
         slidesPerView={5}
