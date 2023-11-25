@@ -11,7 +11,7 @@ interface UserProfileProps {
   token: string;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({ token }) => {
+const UserProfile: React.FC = () => {
   const getUserProfile = async () => {
     try {
       const response = await axios.post(
@@ -20,8 +20,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ token }) => {
         {
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
+          withCredentials: true,
+          withXSRFToken: true,
         }
       );
       return response.data;

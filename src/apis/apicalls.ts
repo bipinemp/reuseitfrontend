@@ -261,7 +261,12 @@ export const loginCall = async (actual_Data: any) => {
     const response = await axios.post(
       "http://localhost:8000/api/login",
       actual_Data,
-      { withCredentials: true }
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
     );
     return response;
   } catch (error) {
