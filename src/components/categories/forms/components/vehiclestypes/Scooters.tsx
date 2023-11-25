@@ -19,6 +19,7 @@ import { Loader2 } from "lucide-react";
 import PriceBox from "../PriceBox";
 import ScooterData from "@/json/scooter.json";
 import BikesLocationBox from "../locations/BikesLocationBox";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -30,6 +31,7 @@ const Scooters: React.FC = () => {
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: UserData } = useUserProfile();
 
   const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
   const [brand, setBrand] = useState("");
@@ -95,7 +97,7 @@ const Scooters: React.FC = () => {
     const actualData = {
       ...data,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
     CreateBlog(actualData);

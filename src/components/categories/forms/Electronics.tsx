@@ -19,6 +19,7 @@ import { createNewElectronics } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -31,6 +32,7 @@ const Electronics: React.FC = () => {
   const pathname = usePathname();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: UserData } = useUserProfile();
 
   const {
     register,
@@ -80,7 +82,7 @@ const Electronics: React.FC = () => {
     const actualData = {
       ...data,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
     CreateBlog(actualData);

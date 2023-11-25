@@ -20,6 +20,7 @@ import { createNewAntiques } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import AntiquesLocationBox from "./components/locations/AntiquesLocationBox";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,6 +33,7 @@ const Antiques: React.FC = () => {
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: UserData } = useUserProfile();
 
   const {
     register,
@@ -95,7 +97,7 @@ const Antiques: React.FC = () => {
     const actualData = {
       ...data,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
     CreateBlog(actualData);

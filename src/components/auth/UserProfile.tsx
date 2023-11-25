@@ -1,41 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-
-import axios from "axios";
-import React from "react";
 import Container from "../Container";
-import Image from "next/image";
-
-interface UserProfileProps {
-  token: string;
-}
+import { useUserProfile } from "@/apis/queries";
 
 const UserProfile: React.FC = () => {
-  const getUserProfile = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/api/me",
-        {},
-        {
-          headers: {
-            "Content-type": "application/json",
-            // Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true,
-          withXSRFToken: true,
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return error;
-    }
-  };
-
-  const { data: UserData, isPending } = useQuery<UserDetail>({
-    queryKey: ["userprofile"],
-    queryFn: getUserProfile,
-  });
+  const { data: UserData, isPending } = useUserProfile();
 
   const UserDetails = (
     <div>

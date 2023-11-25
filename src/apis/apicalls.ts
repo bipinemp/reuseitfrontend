@@ -273,3 +273,35 @@ export const loginCall = async (actual_Data: any) => {
     return error;
   }
 };
+
+export const logoutCall = async () => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/logout",
+      {},
+      { withCredentials: true }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getUserProfile = async () => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/me",
+      {},
+      {
+        headers: {
+          "Content-type": "application/json",
+          // "X-Requested-With": "XMLHttpRequest",
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

@@ -21,6 +21,7 @@ import BikesBrands from "@/json/bikesbrands.json";
 import BikesModels from "@/json/bikesmodels.json";
 import BikeSelectBox from "../BikeSelectBox";
 import BikesLocationBox from "../locations/BikesLocationBox";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,6 +33,7 @@ const Bikes: React.FC = () => {
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: UserData } = useUserProfile();
 
   const brands = BikesBrands.data.map((bike) => bike);
 
@@ -99,7 +101,7 @@ const Bikes: React.FC = () => {
     const actualData = {
       ...data,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
     CreateBlog(actualData);

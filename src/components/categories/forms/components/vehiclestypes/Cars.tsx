@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import CarsLocationBox from "../locations/CarsLocationBox";
 import PriceBox from "../PriceBox";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,6 +33,7 @@ const Cars: React.FC = () => {
   const [imgError, setImgError] = useState<string>("Image is required");
   const brands = CarsData.map((car) => car.brand);
   const [brand, setBrand] = useState("");
+  const { data: UserData } = useUserProfile();
 
   const models = CarsData.filter((car) => car.brand === brand)
     .map((car) => car.models)
@@ -95,7 +97,7 @@ const Cars: React.FC = () => {
     const actualData = {
       ...data,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
 

@@ -21,6 +21,7 @@ import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import RadioBox from "./components/RadioBox";
 import ToysLocationBox from "./components/locations/ToysLocationBox";
+import { useUserProfile } from "@/apis/queries";
 
 interface PreviewFile extends File {
   id: string;
@@ -33,6 +34,7 @@ const Toys: React.FC = () => {
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: UserData } = useUserProfile();
 
   const {
     register,
@@ -88,7 +90,7 @@ const Toys: React.FC = () => {
       ...data,
       assembly_required: data.assembly_required === "true" ? 1 : 0,
       image_urls: files,
-      user_id: 1,
+      user_id: UserData?.id,
       price: parseInt(data.price),
     };
     CreateBlog(actualData);
