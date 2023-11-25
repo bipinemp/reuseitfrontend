@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -131,6 +132,18 @@ const RegisterForm = () => {
             "Register"
           )}
         </Button>
+
+        <div>
+          <p>
+            Already have an account?{" "}
+            <Link
+              className="text-primary font-semibold underline underline-offset-2"
+              href={"/login"}
+            >
+              Login here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

@@ -1,63 +1,48 @@
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogIn,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { LifeBuoy, LogIn, Settings, User } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Profile from "./Profile";
 import Image from "next/image";
 import { FaRegistered } from "react-icons/fa6";
 import Link from "next/link";
 import { useUserProfile } from "@/apis/queries";
-import { logoutCall } from "@/apis/apicalls";
+import Logout from "../auth/Logout";
+import { Button } from "../ui/button";
 
 export function UserDropDown() {
-  const { data } = useUserProfile();
+  const { data, isPending } = useUserProfile();
   const imgurl = "http://127.0.0.1:8000/images/";
-  const fallbackimage = "http://127.0.0.1:8000/images/Default_profile.jpg";
+
+  if (isPending) {
+    return (
+      <div className="relative w-[40px] h-[40px] bg-gray-500 animate-pulse rounded-full"></div>
+    );
+  }
+
+  if (!data?.id) {
+    return (
+      <Link href={"/login"}>
+        <Button variant="outline">Login</Button>
+      </Link>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className="relative w-[40px] h-[40px] cursor-pointer">
           <Image
             fill
-            // src={fallbackimage}
-            src={
-              data?.Profile_image === undefined ||
-              data?.Profile_image === null ||
-              data?.Profile_image === undefined
-                ? fallbackimage
-                : imgurl + data.Profile_image
-            }
-            alt="@shadcn"
-            className="w-[40px] h-[40px] rounded-full bg-gray-400"
+            src={imgurl + data?.Profile_image}
+            alt=""
+            className="w-[40px] h-[40px] rounded-full bg-gray-500"
           />
         </div>
       </DropdownMenuTrigger>
@@ -102,8 +87,7 @@ export function UserDropDown() {
         </DropdownMenuItem>
 
         <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
-          <span onClick={() => logoutCall()}>Log out</span>
+          <Logout />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

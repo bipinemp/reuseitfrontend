@@ -7,7 +7,6 @@ import Search from "./Search";
 import Chat from "./Chat";
 import Notification from "./Notification";
 import Sell from "./Sell";
-import Profile from "./Profile";
 import Link from "next/link";
 import { PiArrowLeftBold } from "react-icons/pi";
 import Sidebar from "./Sidebar";

@@ -7,6 +7,7 @@ import { LoginSchema, TLogin } from "@/types/authTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -52,7 +53,7 @@ const LoginForm = () => {
           placeholder="Enter Email..."
           register={register}
           error={errors?.email?.message || ""}
-          label="Valid Email"
+          label="Email"
           type="text"
         />
         <InputBox<TLogin>
@@ -61,7 +62,7 @@ const LoginForm = () => {
           placeholder="Enter Password..."
           register={register}
           error={errors?.password?.message || ""}
-          label="Password ( 8 characters long )"
+          label="Password"
           type="password"
         />
 
@@ -75,6 +76,18 @@ const LoginForm = () => {
             "Log In"
           )}
         </Button>
+
+        <div>
+          <p>
+            Don't have an account?{" "}
+            <Link
+              className="text-primary font-semibold underline underline-offset-2"
+              href={"/register"}
+            >
+              Register here
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );
