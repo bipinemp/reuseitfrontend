@@ -13,7 +13,7 @@ const ElectronicsDetails: React.FC<EDetailsProps> = ({ ProductDetails }) => {
     <div className="max-w-[1920px] mx-auto px-4 md:px-10 xl:px-10 2xl:px-80">
       <div className="flex justify-between">
         <ImageSlider ImageArr={ProductDetails.product.image} />
-        <div className="w-[35%] flex flex-col gap-10">
+        <div className="w-[35%] flex flex-col gap-6">
           <ElectronicPriceName
             pname={ProductDetails.product.pname}
             price={ProductDetails.product.price}
