@@ -1,19 +1,20 @@
 "use client";
 
-import { loginCall, registerCall } from "@/apis/apicalls";
+import { loginCall } from "@/apis/apicalls";
 import InputBox from "@/components/categories/forms/components/InputBox";
 import { Button } from "@/components/ui/button";
 import { LoginSchema, TLogin } from "@/types/authTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 const LoginForm = () => {
-  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const {
     register,
@@ -33,6 +34,7 @@ const LoginForm = () => {
       if (data.status === 200) {
         toast.success("Successfully Logged IN");
         reset();
+        router.push("/");
       }
       if (data.status !== 200) {
         toast.error(data.response.data.error);

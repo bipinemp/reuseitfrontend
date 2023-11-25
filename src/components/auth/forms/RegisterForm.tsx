@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -17,6 +18,7 @@ import toast from "react-hot-toast";
 const RegisterForm = () => {
   const [file, setFile] = useState<File | undefined>();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const {
     register,
@@ -35,6 +37,7 @@ const RegisterForm = () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
       toast.success("Successfully Registered");
       reset();
+      router.push("/login");
     },
     // onSettled(data) {
     //   router.push(`/details/${data?.blog._id}`);
