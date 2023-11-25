@@ -47,3 +47,47 @@ type UserDetail = {
 type TUserDetails = {
   data: UserDetail;
 };
+
+// for Product Details (Electronics)
+type EProductDetails = {
+  brand: string;
+  condition: string;
+  created_at: string;
+  id: number;
+  model: string;
+  product_id: number;
+  type_of_electronic: string;
+  updated_at: string;
+  warranty_information: string;
+  product: EProduct;
+};
+
+type EProduct = {
+  District: string;
+  Municipality: string;
+  Province: string;
+  category_id: number;
+  created_at: string;
+  description: string;
+  id: number;
+  pname: string;
+  price: number;
+  updated_at: string;
+  user_id: number;
+  category: ECategory;
+  image: EImage[];
+};
+
+type ECategory = {
+  category_name: string;
+  created_at: string;
+  id: number;
+  updated_at: string;
+};
+
+type EImage = {
+  id: number;
+  created_at: string;
+  image_url: string;
+  updated_at: string;
+};

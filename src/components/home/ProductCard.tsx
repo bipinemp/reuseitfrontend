@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import fallbackimage from "../../../public/image/fallbackimage.jpg";
 import useFormatTime from "@/hooks/useFormatTime";
@@ -9,6 +12,7 @@ type ProductProps = {
 };
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
+  const router = useRouter();
   const formattedDate = useFormatTime(product?.created_at);
   const imgurl = "http://127.0.0.1:8000/images/";
   const { formattedPrice } = useFormatPrice(product.price);
@@ -20,7 +24,10 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
     istitlelong >= 25 ? product.pname.substring(0, 25) + "..." : product.pname;
 
   return (
-    <div className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
+    <div
+      onClick={() => router.push(`/productdetails/${product.id}`)}
+      className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2"
+    >
       <div className="relative w-full aspect-square overflow-hidden">
         <Image
           fill

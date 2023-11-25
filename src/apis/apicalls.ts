@@ -16,7 +16,19 @@ export const fetchAllProducts = async ({
   }
 };
 
-// for posting Appliance
+// for fetching product details getIndivProduct
+export const getProductDetails = async (id: number) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/getIndivProduct/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for posting Ads
 interface PreviewFile extends File {
   id: string;
   preview: string;

@@ -35,6 +35,7 @@ const LoginForm = () => {
         toast.success("Successfully Logged IN");
         reset();
         router.push("/");
+        router.refresh();
       }
       if (data.status !== 200) {
         toast.error(data.response.data.error);

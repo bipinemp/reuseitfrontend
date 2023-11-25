@@ -38,6 +38,7 @@ const RegisterForm = () => {
       toast.success("Successfully Registered");
       reset();
       router.push("/login");
+      router.refresh();
     },
     // onSettled(data) {
     //   router.push(`/details/${data?.blog._id}`);

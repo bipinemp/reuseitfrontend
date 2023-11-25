@@ -65,4 +65,7 @@
   h5 {
     @apply text-[0.83rem];
   }
+  .swiper-button {
+    @apply bg-red-700 text-green-400;
+  }
 }

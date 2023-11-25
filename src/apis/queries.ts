@@ -1,5 +1,9 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchAllProducts, getUserProfile } from "./apicalls";
+import {
+  fetchAllProducts,
+  getProductDetails,
+  getUserProfile,
+} from "./apicalls";
 
 export const useFetchAllProducts = () => {
   const {
@@ -27,6 +31,16 @@ export const useFetchAllProducts = () => {
     isFetchingNextPage,
     status,
   };
+};
+
+// for fetching product Details
+export const useProductDetails = (id: number) => {
+  const { data, isPending } = useQuery({
+    queryKey: ["productdetails", id],
+    queryFn: (obj) => getProductDetails(obj.queryKey[1] as number),
+  });
+
+  return { data, isPending };
 };
 
 // for fetching LoggedIn user Details

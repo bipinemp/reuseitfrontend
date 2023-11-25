@@ -3,16 +3,19 @@
 import { logoutCall } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
 const Logout: React.FC = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { mutate: logoutUser, isPending } = useMutation({
     mutationFn: logoutCall,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userprofile"] });
       toast.success("Logged Out");
+      router.refresh();
     },
   });
   return (
