@@ -18,10 +18,10 @@ const ProductUserDetail: React.FC<ProductUserProps> = ({
   return (
     <div className="flex flex-col gap-4 border border-gray-400 bg-zinc-100 rounded-md py-3 px-4">
       <div className="flex gap-4 items-center">
-        <div className="w-[60px] h-[60px] relative">
+        <div className="relative w-[60px] h-[60px]">
           <Image
             fill
-            className="rounded-full object-cover object-top"
+            className="rounded-full object-fill object-top"
             alt=""
             src={imgurl + image_url}
           />

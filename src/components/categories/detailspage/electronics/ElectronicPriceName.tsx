@@ -1,5 +1,6 @@
 import useFormatPrice from "@/hooks/useFormatPrice";
 import useFormatTime from "@/hooks/useFormatTime";
+import { Link, Share, Share2 } from "lucide-react";
 import React from "react";
 
 interface Props {
@@ -23,9 +24,14 @@ const ElectronicPriceName: React.FC<Props> = ({
   const formattedDate = useFormatTime(created_at);
   return (
     <div className="bg-zinc-100 rounded-md border border-gray-400 h-[170px] py-3 px-4 flex flex-col justify-between">
-      <div>
-        <h1 className="font-semibold">{formattedPrice}</h1>
-        <p className="text-lg">{pname}</p>
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="font-semibold">{formattedPrice}</h1>
+          <p className="text-lg">{pname}</p>
+        </div>
+        <div className="mt-2">
+          <Share2 className="w-6 h-6" />
+        </div>
       </div>
       <div className="flex justify-between font-semibold items-start text-[0.8rem] text-content">
         <p className="">
