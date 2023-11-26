@@ -1,6 +1,6 @@
 import useFormatPrice from "@/hooks/useFormatPrice";
 import useFormatTime from "@/hooks/useFormatTime";
-import { Link, Share, Share2 } from "lucide-react";
+import { Share2 } from "lucide-react";
 import React from "react";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   Municipality: string;
 }
 
-const ElectronicPriceName: React.FC<Props> = ({
+const PriceNameDetails: React.FC<Props> = ({
   pname,
   price,
   created_at,
@@ -45,4 +45,4 @@ const ElectronicPriceName: React.FC<Props> = ({
   );
 };
 
-export default ElectronicPriceName;
+export default PriceNameDetails;

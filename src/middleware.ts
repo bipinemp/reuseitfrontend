@@ -4,6 +4,11 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("jwt")?.value || "";
   const path = request.nextUrl.pathname;
+  const isLogReg = path === "/login" || path === "/register";
+
+  if (token && isLogReg) {
+    return NextResponse.redirect(new URL("/", request.nextUrl));
+  }
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
@@ -12,5 +17,5 @@ export function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/post/:path*"],
+  matcher: ["/post/:path*", "/login", "/register"],
 };

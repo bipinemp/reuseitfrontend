@@ -2,14 +2,14 @@ import ImageSlider from "@/components/ImageSlider";
 import React from "react";
 import PriceNameDetails from "../PriceNameDetails";
 import ProductUserDetail from "../ProductUserDetail";
-import ElectronicsSpecific from "./ElectronicsSpecific";
 import MobileImgSlider from "@/components/MobileImgSlider";
+import HomeApplianceSpecific from "./HomeApplianceSpecific";
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EHomeApplianceDetails;
 }
 
-const ElectronicsDetails: React.FC<EDetailsProps> = ({ ProductDetails }) => {
+const HomeApplianceDetails: React.FC<EDetailsProps> = ({ ProductDetails }) => {
   return (
     <div className="max-w-[1920px] mx-auto px-4  md:px-10 xl:px-10 2xl:px-80">
       <div className="flex flex-col gap-10 mb-10">
@@ -34,12 +34,14 @@ const ElectronicsDetails: React.FC<EDetailsProps> = ({ ProductDetails }) => {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <ElectronicsSpecific
+          <HomeApplianceSpecific
             brand={ProductDetails.brand}
             condition={ProductDetails.condition}
             warranty_information={ProductDetails.warranty_information}
             model={ProductDetails.model}
-            type_of_electronic={ProductDetails.type_of_electronic}
+            type_of_appliance={ProductDetails.type_of_appliance}
+            capacity={ProductDetails.capacity}
+            features={ProductDetails.features}
           />
           <div className="w-full lg:w-[600px] xl:w-[800px] border border-gray-400 flex p-4 lg:px-[2rem] flex-col gap-4 bg-zinc-100 rounded-md">
             <h1 className="font-black text-[1.5rem] xl:text-[2rem] text-gray-700 underline underline-offset-2">
@@ -55,4 +57,4 @@ const ElectronicsDetails: React.FC<EDetailsProps> = ({ ProductDetails }) => {
   );
 };
 
-export default ElectronicsDetails;
+export default HomeApplianceDetails;

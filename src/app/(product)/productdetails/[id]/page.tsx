@@ -3,6 +3,7 @@
 import { useProductDetails } from "@/apis/queries";
 import Container from "@/components/Container";
 import ElectronicsDetails from "@/components/categories/detailspage/electronics/ElectronicsDetails";
+import HomeApplianceDetails from "@/components/categories/detailspage/homeappliances/HomeApplianceDetails";
 import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
 import React from "react";
 
@@ -28,6 +29,8 @@ const page: React.FC<ProductProps> = ({ params }) => {
     switch (ProductDetails.product.category.category_name) {
       case "Electronics":
         return <ElectronicsDetails ProductDetails={ProductDetails} />;
+      case "Home Appliances":
+        return <HomeApplianceDetails ProductDetails={ProductDetails} />;
       default:
         return (
           <Container>

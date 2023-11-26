@@ -62,6 +62,22 @@ type EProductDetails = {
   product: EProduct;
 };
 
+// for Product Details (Home Appliance)
+type EHomeApplianceDetails = {
+  brand: string;
+  condition: string;
+  created_at: string;
+  id: number;
+  model: string;
+  product_id: number;
+  type_of_appliance: string;
+  updated_at: string;
+  warranty_information: string;
+  features: string;
+  capacity: string;
+  product: EProduct;
+};
+
 type TUserDetail = {
   id: number;
   name: string;
@@ -88,19 +104,19 @@ type EProduct = {
   price: number;
   updated_at: string;
   user_id: number;
-  category: ECategory;
-  image: EImage[];
+  category: TCategory;
+  image: TImage[];
   user: TUserDetail;
 };
 
-type ECategory = {
+type TCategory = {
   category_name: string;
   created_at: string;
   id: number;
   updated_at: string;
 };
 
-type EImage = {
+type TImage = {
   id: number;
   created_at: string;
   image_url: string;
