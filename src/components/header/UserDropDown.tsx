@@ -1,4 +1,4 @@
-import { LifeBuoy, LogIn, Settings, User } from "lucide-react";
+import { LifeBuoy, Settings, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
-import { FaRegistered } from "react-icons/fa6";
 import Link from "next/link";
 import { useUserProfile } from "@/apis/queries";
 import Logout from "../auth/Logout";
@@ -51,25 +50,9 @@ export function UserDropDown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Link
-              href={"/login"}
-              className="w-full flex gap-[0.2rem] items-center"
-            >
-              <LogIn className="mr-2 h-4 w-4" /> Login
-            </Link>
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Link
-              href={"/register"}
-              className="w-full flex gap-[0.2rem] items-center"
-            >
-              <FaRegistered className="mr-2 h-4 w-4" /> Register
+            <Link href={"/profile"} className="w-full flex items-center gap-1">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
             </Link>
           </DropdownMenuItem>
 

@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.nextUrl));
   }
 
-  if (!token) {
+  if (!token && !isLogReg) {
     return NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 }
