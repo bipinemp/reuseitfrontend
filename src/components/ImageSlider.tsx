@@ -39,7 +39,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
         }}
         modules={[FreeMode, Navigation, Thumbs]}
         onSlideChange={handleSlideChange}
-        className="h-[350px] w-[800px] bg-black"
+        className="h-[350px] w-[800px] bg-black rounded-tl-md rounded-tr-md"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
@@ -64,7 +64,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="relative thumbs h-[160px] w-[800px] bg-zinc-300"
+        className="relative thumbs h-[160px] w-[800px] bg-zinc-300 rounded-bl-md rounded-br-md"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
