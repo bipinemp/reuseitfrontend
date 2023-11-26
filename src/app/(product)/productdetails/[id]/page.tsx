@@ -3,6 +3,7 @@
 import { useProductDetails } from "@/apis/queries";
 import Container from "@/components/Container";
 import ElectronicsDetails from "@/components/categories/detailspage/electronics/ElectronicsDetails";
+import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
 import React from "react";
 
 interface Props {
@@ -20,11 +21,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
   const ProductDetails = data?.data[0];
 
   if (isPending) {
-    return (
-      <Container>
-        <h2>Loading Details...</h2>
-      </Container>
-    );
+    return <ProductDetailsLoading />;
   }
 
   const renderProductDetails = () => {
