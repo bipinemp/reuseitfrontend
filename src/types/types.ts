@@ -50,32 +50,51 @@ type TUserDetails = {
 
 // for Product Details (Electronics)
 type EProductDetails = {
-  brand: string;
-  condition: string;
-  created_at: string;
   id: number;
-  model: string;
-  product_id: number;
-  type_of_electronic: string;
+  created_at: string;
   updated_at: string;
-  warranty_information: string;
   product: EProduct;
+  product_id: number;
+
+  model: string;
+  type_of_electronic: string;
+  condition: string;
+  brand: string;
+  warranty_information: string;
 };
 
 // for Product Details (Home Appliance)
 type EHomeApplianceDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
   brand: string;
   condition: string;
-  created_at: string;
-  id: number;
   model: string;
-  product_id: number;
   type_of_appliance: string;
-  updated_at: string;
   warranty_information: string;
   features: string;
   capacity: string;
+};
+
+// for Product Details (Furniture)
+type EFurnitureDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
   product: EProduct;
+  product_id: number;
+
+  type_of_furniture: string;
+  material: string;
+  dimensions: string;
+  color: string;
+  style: string;
+  condition: string;
+  assembly_required: string;
 };
 
 type TUserDetail = {
