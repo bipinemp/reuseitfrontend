@@ -26,13 +26,13 @@ const ProductUserDetail: React.FC<ProductUserProps> = ({
             src={imgurl + image_url}
           />
         </div>
-        <h3 className="font-semibold">{name}</h3>
+        <h3 className="font-semibold text-[1rem] sm:text-[1.17rem]">{name}</h3>
       </div>
       <Button
         size="lg"
-        className="text-lg font-semibold flex items-center gap-2"
+        className="sm:text-lg font-semibold flex items-center gap-2"
       >
-        <MessageCircleIcon className="w-6 h-6" />
+        <MessageCircleIcon className="w-5 h-5 sm:w-6 sm:h-6" />
         Chat with seller
       </Button>
     </div>

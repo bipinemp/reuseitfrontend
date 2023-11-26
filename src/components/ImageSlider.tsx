@@ -10,7 +10,6 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import clsx from "clsx";
 
 interface ImageSliderProps {
   ImageArr: EImage[];
@@ -26,7 +25,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
   };
 
   return (
-    <div className="">
+    <div className="hidden md:block ">
       <Swiper
         loop={true}
         spaceBetween={10}
@@ -39,7 +38,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
         }}
         modules={[FreeMode, Navigation, Thumbs]}
         onSlideChange={handleSlideChange}
-        className="h-[350px] w-[800px] bg-black rounded-tl-md rounded-tr-md"
+        className="h-[350px] w-[700px] lg:w-[600px]  xl:w-[800px] bg-black rounded-tl-md rounded-tr-md"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
@@ -58,13 +57,12 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
       {/* Thumbnail */}
       <Swiper
         onSwiper={setThumbsSwiper}
-        loop={true}
         spaceBetween={30}
         slidesPerView={5}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className="relative thumbs h-[160px] w-[800px] bg-zinc-300 rounded-bl-md rounded-br-md"
+        className="relative thumbs h-[160px] w-[700px] lg:w-[600px] xl:w-[800px] bg-zinc-300 rounded-bl-md rounded-br-md"
       >
         {ImageArr.map((image, index) => (
           <SwiperSlide key={index}>
