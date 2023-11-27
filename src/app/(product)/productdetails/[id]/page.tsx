@@ -1,6 +1,6 @@
 "use client";
 
-import { useProductDetails } from "@/apis/queries";
+import { useProductDetails, useUserProfile } from "@/apis/queries";
 import Container from "@/components/Container";
 import AntiquesDetails from "@/components/categories/detailspage/antiques/AntiquesDetails";
 import BicyclesDetails from "@/components/categories/detailspage/bicycles/BicyclesDetails";
@@ -15,7 +15,7 @@ import MusicsDetails from "@/components/categories/detailspage/musics/MusicsDeta
 import SportsDetails from "@/components/categories/detailspage/sports/SportsDetails";
 import ToysDetails from "@/components/categories/detailspage/toys/ToysDetails";
 import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface Props {
   id: string;
@@ -26,9 +26,22 @@ interface ProductProps {
 }
 
 const page: React.FC<ProductProps> = ({ params }) => {
+  const [userId, setUserId] = useState<number | null>(null);
+
+  // For getting user_id for making recommendation system
+  const { data: UserData, isPending: UserProfileLoading } = useUserProfile();
+
+  useEffect(() => {
+    if (!UserProfileLoading) {
+      const id = UserData?.id ? UserData?.id : null;
+      const user_id = Number(id);
+      setUserId(user_id);
+    }
+  }, [UserProfileLoading, UserData?.id]);
+
   const { id } = params;
   const productId = Number(id);
-  const { data, isPending } = useProductDetails(productId);
+  const { data, isPending } = useProductDetails(productId, userId);
   const ProductDetails = data?.data[0];
 
   if (isPending) {

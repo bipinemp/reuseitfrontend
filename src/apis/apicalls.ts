@@ -319,12 +319,16 @@ export const getUserProfile = async () => {
 };
 
 // for Recommendation system
-export const postUserIdFromProductDetailsPage = async (product_id: number) => {
+export const postUserIdFromProductDetailsPage = async (
+  product_id: number,
+  user_id: number | null
+) => {
   try {
-    const response = await axios.post(
-      "http://localhost:8000/api/recommend",
-      product_id
-    );
+    const UserId = user_id ? user_id : null;
+    const response = await axios.post("http://localhost:8000/api/recommend", {
+      product_id,
+      user_id: UserId,
+    });
     return response;
   } catch (error) {
     return error;

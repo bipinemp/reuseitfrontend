@@ -35,12 +35,12 @@ export const useFetchAllProducts = () => {
 };
 
 // for fetching product Details
-export const useProductDetails = (id: number) => {
+export const useProductDetails = (id: number, user_id: number | null) => {
   const { data, isPending } = useQuery({
     queryKey: ["productdetails", id],
     queryFn: (obj) => {
       getProductDetails(obj.queryKey[1] as number);
-      postUserIdFromProductDetailsPage(obj.queryKey[1] as number);
+      postUserIdFromProductDetailsPage(obj.queryKey[1] as number, user_id);
     },
   });
 
