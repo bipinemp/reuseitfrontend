@@ -34,15 +34,6 @@ const page: React.FC<ProductProps> = ({ params }) => {
   const user_id = Number(idd);
   const { data, isPending } = useProductDetails(productId, user_id);
 
-  // For getting user_id for making recommendation system
-
-  // useEffect(() => {
-  //   if (!UserProfileLoading) {
-
-  //     setUserId(user_id);
-  //   }
-  // }, []);
-
   const ProductDetails = data?.data[0];
 
   if (isPending) {
