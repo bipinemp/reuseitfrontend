@@ -317,3 +317,28 @@ export const getUserProfile = async () => {
     return error;
   }
 };
+
+// for Recommendation system
+export const postUserIdFromProductDetailsPage = async (user_id: number) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/recommend",
+      user_id
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const postUserIdFromHomePage = async (user_id: number) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/get_recommend",
+      user_id
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};

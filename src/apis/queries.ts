@@ -3,6 +3,7 @@ import {
   fetchAllProducts,
   getProductDetails,
   getUserProfile,
+  postUserIdFromProductDetailsPage,
 } from "./apicalls";
 
 export const useFetchAllProducts = () => {
@@ -37,7 +38,10 @@ export const useFetchAllProducts = () => {
 export const useProductDetails = (id: number) => {
   const { data, isPending } = useQuery({
     queryKey: ["productdetails", id],
-    queryFn: (obj) => getProductDetails(obj.queryKey[1] as number),
+    queryFn: (obj) => {
+      getProductDetails(obj.queryKey[1] as number);
+      postUserIdFromProductDetailsPage(obj.queryKey[1] as number);
+    },
   });
 
   return { data, isPending };

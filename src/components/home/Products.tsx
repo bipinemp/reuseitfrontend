@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "../ui/button";
 import Container from "../Container";
 import ProductCard from "./ProductCard";
 import { ProductLoading2, ProductsLoading } from "@/loading/ProductsLoading";
-import { useFetchAllProducts } from "@/apis/queries";
+import { useFetchAllProducts, useUserProfile } from "@/apis/queries";
+import { useMutation } from "@tanstack/react-query";
+import { postUserIdFromHomePage } from "@/apis/apicalls";
 
 const Products: React.FC = () => {
   const {
@@ -16,6 +18,18 @@ const Products: React.FC = () => {
     isFetchingNextPage,
     status,
   } = useFetchAllProducts();
+
+  // For getting user_id for making recommendation system
+  const { data: UserData, isPending } = useUserProfile();
+
+  useEffect(() => {
+    if (!isPending) {
+      const id = UserData?.id ? UserData?.id : null;
+      const user_id = Number(id);
+
+      postUserIdFromHomePage(user_id);
+    }
+  }, [isPending, UserData?.id]);
 
   const content = data?.pages.map((products) =>
     products.map((product: Product) => {
