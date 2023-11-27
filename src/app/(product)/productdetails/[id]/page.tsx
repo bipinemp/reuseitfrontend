@@ -26,10 +26,15 @@ interface ProductProps {
 }
 
 const page: React.FC<ProductProps> = ({ params }) => {
+  const { id } = params;
+  const productId = Number(id);
+
   const [userId, setUserId] = useState<number | null>(null);
 
-  // For getting user_id for making recommendation system
   const { data: UserData, isPending: UserProfileLoading } = useUserProfile();
+  const { data, isPending } = useProductDetails(productId, userId);
+
+  // For getting user_id for making recommendation system
 
   useEffect(() => {
     if (!UserProfileLoading) {
@@ -39,11 +44,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
     }
   }, [UserProfileLoading, UserData?.id]);
 
-  const { id } = params;
-  const productId = Number(id);
-  const { data, isPending } = useProductDetails(productId, userId);
-  const ProductDetails = (data as any)?.data[0];
-
+  const ProductDetails = data?.data[0];
   if (isPending) {
     return <ProductDetailsLoading />;
   }

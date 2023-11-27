@@ -39,8 +39,10 @@ export const useProductDetails = (id: number, user_id: number | null) => {
   const { data, isPending } = useQuery({
     queryKey: ["productdetails", id],
     queryFn: (obj) => {
-      getProductDetails(obj.queryKey[1] as number);
+      const prodDetails = getProductDetails(obj.queryKey[1] as number);
       postUserIdFromProductDetailsPage(obj.queryKey[1] as number, user_id);
+
+      return prodDetails;
     },
   });
 
