@@ -23,7 +23,7 @@ const PriceNameDetails: React.FC<Props> = ({
   const { formattedPrice } = useFormatPrice(price);
   const formattedDate = useFormatTime(created_at);
   return (
-    <div className="relative bg-zinc-100 rounded-md border border-gray-400 w-full h-[170px] py-3 px-4 flex flex-col justify-between">
+    <div className="relative bg-zinc-100 rounded-md border border-gray-400 w-full min-h-[170px] py-3 px-4 flex flex-col justify-between">
       <div className="flex w-full justify-between items-start">
         <div>
           <h1 className="font-black text-[1.5rem] xl:text-[2rem]  tracking-[0.05rem] text-black/80">
