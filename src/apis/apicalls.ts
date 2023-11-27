@@ -326,7 +326,6 @@ export const getUserProfile = async () => {
       {
         headers: {
           "Content-type": "application/json",
-          // "X-Requested-With": "XMLHttpRequest",
         },
         withCredentials: true,
       }

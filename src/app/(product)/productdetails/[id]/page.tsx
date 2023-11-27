@@ -42,7 +42,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
       const user_id = Number(id);
       setUserId(user_id);
     }
-  }, [UserProfileLoading, UserData?.id]);
+  }, []);
 
   const ProductDetails = data?.data[0];
 

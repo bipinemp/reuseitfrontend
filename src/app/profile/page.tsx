@@ -1,13 +1,9 @@
-import React from "react";
-// import { cookies } from "next/headers";
-import UserProfile from "@/components/auth/UserProfile";
+import ProfileDetails from "@/components/profile/ProfileDetails";
 
 const page = () => {
-  // const cookieStore = cookies();
-  // const token = cookieStore.get("jwt")?.value;
   return (
     <div>
-      <UserProfile />
+      <ProfileDetails />
     </div>
   );
 };
