@@ -49,7 +49,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
   }
 
   const renderProductDetails = () => {
-    switch (ProductDetails.product.category.category_name) {
+    switch (ProductDetails?.product.category.category_name) {
       case "Electronics":
         return <ElectronicsDetails ProductDetails={ProductDetails} />;
       case "Home Appliances":
