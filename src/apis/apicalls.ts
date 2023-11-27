@@ -53,6 +53,25 @@ export const createNewAppliance = async (data: any) => {
   }
 };
 
+export const createNewMusics = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/musics",
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createNewElectronics = async (data: any) => {
   try {
     const response = await axios.post(

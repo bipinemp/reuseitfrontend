@@ -45,6 +45,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
   }, [UserProfileLoading, UserData?.id]);
 
   const ProductDetails = data?.data[0];
+
   if (isPending) {
     return <ProductDetailsLoading />;
   }

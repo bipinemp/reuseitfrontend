@@ -76,16 +76,20 @@ const Bikes: React.FC = () => {
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
     mutationFn: createNewBikes,
+    onSettled: (data: any) => {
+      if (data.status === 200) {
+        toast.success("Post Successfull");
+        reset();
+        router.push(`/productdetails/${data.product_id}`);
+      }
+      if (data.response.status === 422) {
+        const errorArr: any[] = Object.values(data.response.data.errors);
+        toast.error(errorArr[0]);
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      toast.success("Post Successfull");
-      reset();
-      router.push("/post");
     },
-    // onSettled(data) {
-    //   router.push(`/details/${data?.blog._id}`);
-    // },
-    onError: () => toast.error("Something went wrong try again"),
   });
 
   // actual form submission function

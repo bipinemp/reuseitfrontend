@@ -63,6 +63,7 @@ const HomeAppliances: React.FC = () => {
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
+        reset();
         router.push(`/productdetails/${data.product_id}`);
       }
       if (data.response.status === 422) {
