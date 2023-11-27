@@ -29,20 +29,19 @@ const page: React.FC<ProductProps> = ({ params }) => {
   const { id } = params;
   const productId = Number(id);
 
-  const [userId, setUserId] = useState<number | null>(null);
-
   const { data: UserData, isPending: UserProfileLoading } = useUserProfile();
-  const { data, isPending } = useProductDetails(productId, userId);
+  const idd = UserData?.id ? UserData?.id : null;
+  const user_id = Number(idd);
+  const { data, isPending } = useProductDetails(productId, user_id);
 
   // For getting user_id for making recommendation system
 
-  useEffect(() => {
-    if (!UserProfileLoading) {
-      const id = UserData?.id ? UserData?.id : null;
-      const user_id = Number(id);
-      setUserId(user_id);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!UserProfileLoading) {
+
+  //     setUserId(user_id);
+  //   }
+  // }, []);
 
   const ProductDetails = data?.data[0];
 
