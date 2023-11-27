@@ -60,16 +60,19 @@ const HomeAppliances: React.FC = () => {
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
     mutationFn: createNewAppliance,
+    onSettled: (data: any) => {
+      if (data.status === 200) {
+        toast.success("Post Successfull");
+        router.push(`/productdetails/${data.product_id}`);
+      }
+      if (data.response.status === 422) {
+        const errorArr: any[] = Object.values(data.response.data.errors);
+        toast.error(errorArr[0]);
+      }
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-      toast.success("Post Successfull");
-      reset();
-      router.push("/post");
     },
-    // onSettled(data) {
-    //   router.push(`/details/${data?.blog._id}`);
-    // },
-    onError: () => toast.error("Something went wrong try again"),
   });
 
   // actual form submission function
@@ -121,7 +124,7 @@ const HomeAppliances: React.FC = () => {
             error={errors?.pname?.message || ""}
             desc="Mention the key features of you item (e.g. brand, model, age,
               type)"
-            label="Ad Title"
+            label="Ad Title (pname)"
           />
 
           <TextareaBox<TAppliance>

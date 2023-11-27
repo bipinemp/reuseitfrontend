@@ -97,6 +97,159 @@ type EFurnitureDetails = {
   assembly_required: string;
 };
 
+// for Product Details (Clothing)
+type EClothingDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  type_of_clothing_accessory: string;
+  size: string;
+  color: string;
+  brand: string;
+  material: string;
+  condition: string;
+  care_instructions: string;
+};
+
+// for Product Details (Toys and Games)
+type EToysDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  type_of_toy_game: string;
+  age_group: string;
+  brand: string;
+  condition: string;
+  description: string;
+  safety_information: string;
+  assembly_required: string;
+  recommended_use: string;
+};
+
+// for Product Details (Sports and Fitness)
+type ESportsDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  type_of_equipment: string;
+  brand: string;
+  condition: string;
+  size_weight: string;
+  features: string;
+  suitable_sport_activity: string;
+  warranty_information: string;
+  usage_instructions: string;
+};
+
+// for Product Details (Books and Media)
+type EBooksDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  author_artist: string;
+  genre: string;
+  format: string;
+  condition: string;
+  edition: string;
+  isbn_upc: string;
+};
+
+// for Product Details (Antiques and Collectibles)
+type EAntiquesDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  type_of_item: string;
+  era_period: string;
+  material: string;
+  condition: string;
+  provenance_location: string;
+  rarity: string;
+  historical_significance: string;
+  certification: string;
+};
+
+// for Product Details (Cars)
+type ECarsDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  brand: string;
+  model: string;
+  year: string;
+  condition: string;
+  km_driven: string;
+  color: string;
+  used_time: string;
+  fuel_type: string;
+  owner: string;
+  transmission_type: string;
+};
+
+// for Product Details (Bikes & Scooters)
+type EBikesScootersDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  brand: string;
+  model: string;
+  year: string;
+  mileage: string;
+  condition: string;
+  km_driven: string;
+  color: string;
+  used_time: string;
+  owner: string;
+};
+
+// for Product Details (Bicycles)
+type EBicyclesDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  brand: string;
+};
+
+// for Product Details (Musics)
+type EMusicsDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+
+  type_of_instrument: string;
+  brand: string;
+  condition: string;
+  material: string;
+  accessories_included: string;
+  sound_characteristics: string;
+};
+
 type TUserDetail = {
   id: number;
   name: string;

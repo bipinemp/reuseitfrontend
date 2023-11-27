@@ -2,9 +2,18 @@
 
 import { useProductDetails } from "@/apis/queries";
 import Container from "@/components/Container";
+import AntiquesDetails from "@/components/categories/detailspage/antiques/AntiquesDetails";
+import BicyclesDetails from "@/components/categories/detailspage/bicycles/BicyclesDetails";
+import BikesDetails from "@/components/categories/detailspage/bikes/BikesDetails";
+import BooksDetails from "@/components/categories/detailspage/books/BooksDetails";
+import CarsDetails from "@/components/categories/detailspage/cars/CarsDetails";
+import ClothingDetails from "@/components/categories/detailspage/clothing/ClothingDetails";
 import ElectronicsDetails from "@/components/categories/detailspage/electronics/ElectronicsDetails";
 import FurnitureDetails from "@/components/categories/detailspage/furnitures/FurnitureDetails";
 import HomeApplianceDetails from "@/components/categories/detailspage/homeappliances/HomeApplianceDetails";
+import MusicsDetails from "@/components/categories/detailspage/musics/MusicsDetails";
+import SportsDetails from "@/components/categories/detailspage/sports/SportsDetails";
+import ToysDetails from "@/components/categories/detailspage/toys/ToysDetails";
 import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
 import React from "react";
 
@@ -34,6 +43,24 @@ const page: React.FC<ProductProps> = ({ params }) => {
         return <HomeApplianceDetails ProductDetails={ProductDetails} />;
       case "Furniture":
         return <FurnitureDetails ProductDetails={ProductDetails} />;
+      case "Clothing and Accessories":
+        return <ClothingDetails ProductDetails={ProductDetails} />;
+      case "Sports and Fitness":
+        return <SportsDetails ProductDetails={ProductDetails} />;
+      case "Books and Media":
+        return <BooksDetails ProductDetails={ProductDetails} />;
+      case "Antiques and Collectibles":
+        return <AntiquesDetails ProductDetails={ProductDetails} />;
+      case "Cars":
+        return <CarsDetails ProductDetails={ProductDetails} />;
+      case "Bicycles":
+        return <BicyclesDetails ProductDetails={ProductDetails} />;
+      case "MotorCycles":
+        return <BikesDetails ProductDetails={ProductDetails} />;
+      case "Toys and Games":
+        return <ToysDetails ProductDetails={ProductDetails} />;
+      case "Musical Instruments":
+        return <MusicsDetails ProductDetails={ProductDetails} />;
 
       default:
         return (
