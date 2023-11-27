@@ -357,7 +357,7 @@ export const postUserIdFromHomePage = async (user_id: number) => {
   try {
     const response = await axios.post(
       "http://localhost:8000/api/get_recommend",
-      user_id
+      { user_id: user_id }
     );
     return response;
   } catch (error) {

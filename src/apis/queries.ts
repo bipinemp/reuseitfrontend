@@ -51,10 +51,10 @@ export const useProductDetails = (id: number, user_id: number | null) => {
 
 // for fetching LoggedIn user Details
 export const useUserProfile = () => {
-  const { data, isPending } = useQuery<UserDetail>({
+  const { data, isPending, isSuccess } = useQuery<UserDetail>({
     queryKey: ["userprofile"],
     queryFn: getUserProfile,
   });
 
-  return { data, isPending };
+  return { data, isPending, isSuccess };
 };

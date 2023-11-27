@@ -20,16 +20,15 @@ const Products: React.FC = () => {
   } = useFetchAllProducts();
 
   // For getting user_id for making recommendation system
-  const { data: UserData, isPending } = useUserProfile();
+  const { data: UserData, isPending, isSuccess } = useUserProfile();
 
   useEffect(() => {
-    if (!isPending) {
+    if (isSuccess) {
       const id = UserData?.id ? UserData?.id : null;
       const user_id = Number(id);
-
       postUserIdFromHomePage(user_id);
     }
-  }, [isPending, UserData?.id]);
+  }, [isSuccess]);
 
   const content = data?.pages.map((products) =>
     products.map((product: Product) => {
