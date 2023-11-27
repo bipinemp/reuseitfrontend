@@ -42,7 +42,7 @@ const page: React.FC<ProductProps> = ({ params }) => {
   const { id } = params;
   const productId = Number(id);
   const { data, isPending } = useProductDetails(productId, userId);
-  const ProductDetails = data?.data[0];
+  const ProductDetails = (data as any)?.data[0];
 
   if (isPending) {
     return <ProductDetailsLoading />;
