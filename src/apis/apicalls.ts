@@ -55,15 +55,11 @@ export const createNewAppliance = async (data: any) => {
 
 export const createNewMusics = async (data: any) => {
   try {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/api/musics",
-      data,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const response = await axios.post("http://127.0.0.1:8000/api/music", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     const resData = response.data;
 
     return resData;

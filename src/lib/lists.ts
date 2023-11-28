@@ -65,7 +65,7 @@ export const nonavbarlist = [
   "/post/musical_instruments",
   "/post/antiques_collectibles",
   "/login",
-  "/register"
+  "/register",
 ];
 
 export const homeapplianceslist = [
@@ -120,6 +120,7 @@ export const electronicsList = [
       "Smartwatch",
       "Gaming Console",
       "Printer",
+      "Television",
       "Others",
     ],
   },
@@ -224,6 +225,7 @@ export const clothingAccessoryList = [
       "Handbag",
       "Backpack",
       "Jewelry",
+      "Jackets",
       "Others",
     ],
   },

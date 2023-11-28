@@ -1,3 +1,35 @@
+// For Recommendations  Data
+type TRecommendations = {
+  data: Recommendation;
+};
+
+type Recommendation = {
+  recommendations: ActualRecommendation[];
+};
+
+type ActualRecommendation = {
+  District: string;
+  Municipality: string;
+  Province: string;
+  category_id: number;
+  created_at: string;
+  description: string;
+  id: number;
+  pname: string;
+  price: number;
+  updated_at: string;
+  user_id: number;
+  image: RecoImage[];
+};
+
+type RecoImage = {
+  id: number;
+  product_id: number;
+  image_url: string;
+  created_at: string;
+  updated_at: string;
+};
+
 // Types for Single Product
 
 type Product = {

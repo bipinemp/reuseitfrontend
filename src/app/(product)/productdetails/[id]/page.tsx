@@ -60,7 +60,9 @@ const page: React.FC<ProductProps> = ({ params }) => {
         return <CarsDetails ProductDetails={ProductDetails} />;
       case "Bicycles":
         return <BicyclesDetails ProductDetails={ProductDetails} />;
-      case "MotorCycles":
+      case "Motorcycles":
+        return <BikesDetails ProductDetails={ProductDetails} />;
+      case "Scooters":
         return <BikesDetails ProductDetails={ProductDetails} />;
       case "Toys and Games":
         return <ToysDetails ProductDetails={ProductDetails} />;
