@@ -74,11 +74,35 @@ type UserDetail = {
   id: number;
   name: string;
   updated_at: string;
+  products: UserProducts[];
 };
 
 type TUserDetails = {
   data: UserDetail;
 };
+
+interface UserProducts {
+  id: number;
+  user_id: number;
+  category_id: number;
+  pname: string;
+  description: string;
+  Province: string;
+  District: string;
+  Municipality: string;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  image: UserProdImages[];
+}
+
+interface UserProdImages {
+  id: number;
+  product_id: number;
+  image_url: string;
+  created_at: string;
+  updated_at: string;
+}
 
 // for Product Details (Electronics)
 type EProductDetails = {
