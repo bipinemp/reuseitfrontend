@@ -30,7 +30,7 @@ const Search: React.FC = () => {
         placeholder="Find Cars, Mobile Phones and more..."
       />
       <Button className="absolute right-2 bg-primary py-1 px-2 rounded-md">
-        <IoSearch size={30} color="white" />
+        <IoSearch size={25} color="white" />
       </Button>
     </form>
   );
