@@ -1,4 +1,4 @@
-import { LifeBuoy, Settings, User } from "lucide-react";
+import { LayoutDashboard, LifeBuoy, Settings, User } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -53,6 +53,16 @@ export function UserDropDown() {
             <Link href={"/profile"} className="w-full flex items-center gap-1">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Link
+              href={"/dashboard"}
+              className="w-full flex items-center gap-1"
+            >
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
             </Link>
           </DropdownMenuItem>
 

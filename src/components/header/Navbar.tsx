@@ -41,6 +41,10 @@ const mainNavbar = (
 const Navbar: React.FC = () => {
   const pathname = usePathname();
 
+  if(pathname === "/dashboard"){
+    return null
+  }
+
   return (
     <div className="sticky top-0 left-0 z-50 py-4 mb-5 bg-zinc-200">
       {nonavbarlist.includes(pathname) ? (
