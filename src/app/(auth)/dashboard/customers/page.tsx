@@ -1,12 +1,12 @@
 import DashboardContainer from "@/components/DashboardContainer";
 import React from "react";
 
-const Dashboard: React.FC = () => {
+const page: React.FC = () => {
   return (
     <DashboardContainer>
-      <h1>Main Dashboard</h1>
+      <h1>Customers</h1>
     </DashboardContainer>
   );
 };
 
-export default Dashboard;
+export default page;

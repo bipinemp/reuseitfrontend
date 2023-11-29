@@ -40,9 +40,16 @@ const mainNavbar = (
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
+  const noNavDash = [
+    "/dashboard",
+    "/dashboard/customers",
+    "/dashboard/account",
+    "/dashboard/products",
+    "/dashboard/settings",
+  ];
 
-  if(pathname === "/dashboard"){
-    return null
+  if (noNavDash.includes(pathname)) {
+    return null;
   }
 
   return (

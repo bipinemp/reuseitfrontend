@@ -6,6 +6,39 @@ import { CgGym } from "react-icons/cg";
 import { LiaBookSolid, LiaCarSideSolid } from "react-icons/lia";
 import { GiPorcelainVase } from "react-icons/gi";
 import { PiGuitarBold } from "react-icons/pi";
+import { BarChart } from "lucide-react";
+import { Users } from "lucide-react";
+import { User } from "lucide-react";
+import { ListChecks } from "lucide-react";
+import { Settings } from "lucide-react";
+
+export const dashboard_links = [
+  {
+    name: "Overview",
+    icon: BarChart,
+    link: "/",
+  },
+  {
+    name: "Customers",
+    icon: Users,
+    link: "/customers",
+  },
+  {
+    name: "Account",
+    icon: User,
+    link: "/account",
+  },
+  {
+    name: "Products",
+    icon: ListChecks,
+    link: "/products",
+  },
+  {
+    name: "Settings",
+    icon: Settings,
+    link: "/settings",
+  },
+];
 
 export const category_list = [
   {
