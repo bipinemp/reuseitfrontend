@@ -23,6 +23,7 @@ const ProfileDetails: React.FC = () => {
   return (
     <Container>
       <div className="flex flex-col items-center sm:items-start sm:flex-row gap-10 sm:justify-between mt-10 mb-10">
+        {/* Left side  */}
         <div className="flex flex-col gap-5 items-center w-full sm:w-[400px] h-[360px] bg-zinc-100 border border-content rounded-lg p-5">
           <div className="flex flex-col gap-2 items-center">
             <div className="relative w-[100px] h-[100px]">
@@ -66,6 +67,8 @@ const ProfileDetails: React.FC = () => {
             </Button>
           </div>
         </div>
+
+        {/* Right side data  */}
         <div className="w-full grid grid-cols-1 vsm:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-2 gap-y-5 mb-5">
           {UserData?.products.map((prod) => (
             <ProfileProdCard product={prod} />

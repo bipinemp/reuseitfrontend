@@ -52,6 +52,54 @@ export const category_list = [
   },
 ];
 
+export const categoryfilter_list = [
+  {
+    name: "Electronics",
+    icon: MdMonitor,
+    link: "electronics",
+  },
+  {
+    name: "Home Appliances",
+    icon: RiHomeOfficeLine,
+    link: "home_appliances",
+  },
+  { name: "Furniture", icon: LuSofa, link: "furnitures" },
+  {
+    name: "Clothing and Accessories",
+    icon: IoShirtOutline,
+    link: "clothing_accessories",
+  },
+  {
+    name: "Toys and Games",
+    icon: MdOutlineToys,
+    link: "toys_games",
+  },
+  {
+    name: "Sports and Fitness",
+    icon: CgGym,
+    link: "sports_fitness",
+  },
+  {
+    name: "Books and Media",
+    icon: LiaBookSolid,
+    link: "books_media",
+  },
+  {
+    name: "Antiques and Collectibles",
+    icon: GiPorcelainVase,
+    link: "antiques_collectibles",
+  },
+  { name: "Cars", icon: LiaCarSideSolid, link: "vehicles" },
+  { name: "Bicycles", icon: LiaCarSideSolid, link: "vehicles" },
+  { name: "Motorcycles", icon: LiaCarSideSolid, link: "vehicles" },
+  { name: "Scooters", icon: LiaCarSideSolid, link: "vehicles" },
+  {
+    name: "Musical Instruments",
+    icon: PiGuitarBold,
+    link: "musical_instruments",
+  },
+];
+
 export const nonavbarlist = [
   "/post",
   "/post/home_appliances",

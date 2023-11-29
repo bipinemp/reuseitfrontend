@@ -11,7 +11,7 @@ type ActualRecommendation = {
   District: string;
   Municipality: string;
   Province: string;
-  category_id: number;
+  category_id?: number;
   created_at: string;
   description: string;
   id: number;
@@ -20,6 +20,7 @@ type ActualRecommendation = {
   updated_at: string;
   user_id: number;
   image: RecoImage[];
+  category?: TCategory;
 };
 
 type RecoImage = {
