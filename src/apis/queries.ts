@@ -58,3 +58,5 @@ export const useUserProfile = () => {
 
   return { data, isPending, isSuccess };
 };
+
+// for filtering products based on category , min_price , max_price

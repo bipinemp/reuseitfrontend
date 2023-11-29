@@ -360,3 +360,15 @@ export const postUserIdFromHomePage = async (user_id: number) => {
     return error;
   }
 };
+
+// for filtering products based on category , max_price , min_price
+export const filterProducts = async (params: any) => {
+  try {
+    const response = await axios.get(`http://localhost:8000/api/filter`, {
+      params,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

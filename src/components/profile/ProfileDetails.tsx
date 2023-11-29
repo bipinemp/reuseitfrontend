@@ -35,7 +35,7 @@ const ProfileDetails: React.FC = () => {
             </div>
             <h2 className="font-bold text-gray-700">{UserData?.name}</h2>
           </div>
-          <div className="flex flex-col gap-2 items-center text-gray-600">
+          <div className="flex flex-col gap-2 items-start text-gray-600">
             <p className="flex items-center gap-2 text-[0.8rem] md:text-[1rem]">
               <span>
                 <CalendarDays className="w-[1.3rem] h-[1.3rem]" />

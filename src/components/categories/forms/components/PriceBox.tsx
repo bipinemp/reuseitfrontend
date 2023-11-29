@@ -12,6 +12,10 @@ interface PriceBoxProps<T> {
 }
 
 const PriceBox = <T,>({ name, id, register, error }: PriceBoxProps<T>) => {
+  const onWheelChange = (e: React.WheelEvent<HTMLInputElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 lg:px-10 py-8">
       <h3 className="font-semibold underline underline-offset-2">
@@ -26,6 +30,7 @@ const PriceBox = <T,>({ name, id, register, error }: PriceBoxProps<T>) => {
           type="number"
           {...register(name)}
           id={id}
+          onWheel={(e) => (e.target as HTMLElement).blur()}
           className={clsx("border-content py-6 pl-20", {
             "border-destructive border-[2px] placeholder:text-destructive":
               error !== "",
