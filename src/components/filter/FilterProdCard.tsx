@@ -17,7 +17,7 @@ const FilterProdCard: React.FC<ProductProps> = ({ product }) => {
   const imgurl = "http://127.0.0.1:8000/images/";
   const { formattedPrice } = useFormatPrice(product.price);
   const location =
-    (product.District + ", " + product.Municipality).substring(0, 25) + "...";
+    (product.District + ", " + product.Municipality).substring(0, 20) + "...";
 
   const istitlelong = product.pname.length;
   const formattedtitle =

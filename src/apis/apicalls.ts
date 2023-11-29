@@ -362,11 +362,15 @@ export const postUserIdFromHomePage = async (user_id: number) => {
 };
 
 // for filtering products based on category , max_price , min_price
-export const filterProducts = async (params: any) => {
+export const filterProducts = async (pageNum: number, params: any) => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/filter`, {
-      params,
-    });
+    const pageVal = String(pageNum);
+    const response = await axios.get(
+      `http://localhost:8000/api/filter?page=${pageNum}`,
+      {
+        params,
+      }
+    );
     return response.data;
   } catch (error) {
     return error;
