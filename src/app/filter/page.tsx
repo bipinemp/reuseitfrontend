@@ -40,6 +40,7 @@ const page: React.FC = () => {
       queryKey: ["filter", search, category, minAPrice, maxAPrice],
       queryFn: ({ pageParam = 1 }) =>
         filterProducts(pageParam, {
+          ...(search && { search: search }),
           ...(category && { category: category }),
           ...(minAPrice && { min_price: minAPrice }),
           ...(maxAPrice && { max_price: maxAPrice }),

@@ -3,6 +3,20 @@ type TRecommendations = {
   data: Recommendation;
 };
 
+type MyProduct = {
+  id: number;
+  user_id: number;
+  category_id: number;
+  pname: string;
+  description: string;
+  Province: string;
+  District: string;
+  Municipality: string;
+  price: number;
+  created_at: string;
+  updated_at: string;
+};
+
 type Recommendation = {
   recommendations: ActualRecommendation[];
 };
