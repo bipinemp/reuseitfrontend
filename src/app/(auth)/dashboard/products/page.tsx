@@ -35,12 +35,20 @@ const page: React.FC = () => {
         {products &&
           products?.map((product: Product) => {
             const formattedDate = formatDate(product.created_at || "");
+            const title =
+              product.pname.length >= 30
+                ? product.pname.substring(0, 30) + "..."
+                : product.pname;
 
             return (
               <TableRow key={product.id} className="text-content">
-                <TableCell className="font-medium">{product.pname}</TableCell>
+                <TableCell className="font-medium">
+                  <p title={product.pname.length >= 30 ? product.pname : ""}>
+                    {title}
+                  </p>
+                </TableCell>
                 <TableCell>{product.category.category_name}</TableCell>
-                <TableCell>{product.price}</TableCell>
+                <TableCell>NPR. {product.price}</TableCell>
                 <TableCell
                   className="text-left
               "
@@ -84,11 +92,9 @@ const page: React.FC = () => {
                 <TableHead className="w-[350px] text-black/80">
                   Category
                 </TableHead>
-                <TableHead className="w-[100px] text-black/80">Price</TableHead>
-                <TableHead className="w-[100px] text-black/80">
-                  Status
-                </TableHead>
-                <TableHead className="text-right w-[200px] text-black/80">
+                <TableHead className="w-[150px] text-black/80">Price</TableHead>
+                <TableHead className="w-[80px] text-black/80">Status</TableHead>
+                <TableHead className="text-right w-[170px] text-black/80">
                   Created Date
                 </TableHead>
               </TableRow>

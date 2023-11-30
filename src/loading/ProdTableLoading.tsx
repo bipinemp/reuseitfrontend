@@ -11,32 +11,32 @@ export default function ProdTableLoading() {
     </>
   );
   return (
-    <div className="flex flex-col w-[900px] h-[98.5vh] border border-content rounded-lg shadow-md">
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+    <div className="flex flex-col w-[900px] h-[98.5vh] border border-input rounded-lg shadow-md">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
-      <div className="flex w-full justify-between border-b-[1px] border-content py-4 px-2">
+      <div className="flex w-full justify-between border-b-[1px] border-input py-4 px-2">
         {content}
       </div>
       <div className="flex w-full justify-between pt-4 px-2">{content}</div>
