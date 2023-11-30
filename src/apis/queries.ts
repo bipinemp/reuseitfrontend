@@ -1,5 +1,6 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
+  deleteMyProduct,
   fetchAllProducts,
   fetchMyProducts,
   getProductDetails,
@@ -89,3 +90,15 @@ export const useFetchAllMyProducts = () => {
     status,
   };
 };
+
+// for deleting product
+// export const useProductDelete = (id: number) => {
+//   const { data, isPending } = useQuery({
+//     queryKey: ["productdetails", id],
+//     queryFn: (obj) => {
+//       deleteMyProduct(obj.queryKey[1] as number);
+//     },
+//   });
+
+//   return { data, isPending };
+// };

@@ -392,6 +392,20 @@ export const fetchMyProducts = async ({ pageParam }: { pageParam: number }) => {
   }
 };
 
+export const deleteMyProduct = async (id: number) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/deleteads/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const formatDate = (date: string) => {
   const currentDate = new Date();
   const inputDateTime = new Date(date);
