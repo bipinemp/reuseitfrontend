@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { deleteMyProduct, formatDate } from "@/apis/apicalls";
 import { Button } from "@/components/ui/button";
-import { Edit, Loader2, Trash } from "lucide-react";
+import { Edit, Loader2, Search, Trash } from "lucide-react";
 import clsx from "clsx";
 import ProdTableLoading from "@/loading/ProdTableLoading";
 import {
@@ -36,6 +36,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const Page: React.FC = () => {
   const queryClient = useQueryClient();
@@ -59,98 +70,133 @@ const Page: React.FC = () => {
   const content = data?.pages.map((products) => {
     return (
       <TableBody className="relative w-full">
-        {products &&
-          products?.map((product: Product) => {
-            const formattedDate = formatDate(product.created_at || "");
-            const title =
-              product.pname.length >= 30
-                ? product.pname.substring(0, 30) + "..."
-                : product.pname;
+        {products?.map((product: Product) => {
+          const formattedDate = formatDate(product.created_at || "");
+          const title =
+            product.pname.length >= 30
+              ? product.pname.substring(0, 30) + "..."
+              : product.pname;
 
-            return (
-              <TableRow key={product.id} className="text-content">
-                <TableCell className="font-medium">
-                  <p title={product.pname.length >= 30 ? product.pname : ""}>
-                    {title}
-                  </p>
-                </TableCell>
-                <TableCell>{product.category.category_name}</TableCell>
-                <TableCell>NPR. {product.price}</TableCell>
-                <TableCell className="text-left flex items-center gap-1">
-                  <span
-                    className={clsx(
-                      "font-semibold text-[0.76rem] py-[0.3rem] px-[0.4rem] rounded-full text-white",
-                      {
-                        "bg-primary": product.status === 1,
-                        "bg-gray-500": product.status === 0,
-                      }
-                    )}
-                  >
-                    {product.status === 0 ? "Progress" : "Sold Out"}
-                  </span>
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="py-[0.1rem] border-content"
-                  >
-                    Set
-                  </Button>
-                </TableCell>
-                <TableCell className="text-center">{formattedDate}</TableCell>
-                <TableCell className="flex items-center gap-2">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Button size="sm">
-                          <Edit className="w-4 h-4" strokeWidth={2} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Edit Product</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+          return (
+            <TableRow key={product.id} className="text-content">
+              <TableCell className="font-medium">
+                <p title={product.pname.length >= 30 ? product.pname : ""}>
+                  {title}
+                </p>
+              </TableCell>
+              <TableCell>{product.category.category_name}</TableCell>
+              <TableCell>NPR. {product.price}</TableCell>
+              <TableCell className="text-left flex items-center gap-1">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <span
+                      className={clsx(
+                        "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer",
+                        {
+                          "bg-primary": product.status === 1,
+                          "bg-gray-500": product.status === 0,
+                        }
+                      )}
+                    >
+                      {product.status === 0 ? "Progress" : "Sold Out"}
+                    </span>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Set Status</DialogTitle>
+                      <DialogDescription>
+                        Make changes to your product status for Better
+                        Analytics. Click save when you're done.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                      <div className="flex flex-col gap-3">
+                        <Label htmlFor="price" className="text-left">
+                          Acutal Price in which Product is Sold
+                        </Label>
+                        <div className="relative">
+                          <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
+                            NPR
+                          </span>
+                          <Input
+                            id="price"
+                            defaultValue=""
+                            className="pl-16"
+                            type="number"
+                            onWheel={(e) => (e.target as HTMLElement).blur()}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button type="submit">Save changes</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
 
-                  <AlertDialog>
-                    <AlertDialogTrigger>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <Button size="sm" variant="destructive">
-                              <Trash className="w-4 h-4" strokeWidth={2} />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Delete Product</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Are you absolutely sure?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This action cannot be undone. This will permanently
-                          DELETE your product.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => DeleteProduct(product.id)}
-                          className="bg-destructive hover:bg-destructive hover:opacity-80"
-                        >
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </TableCell>
-              </TableRow>
-            );
-          })}
+                {/* <Button
+                  size="icon"
+                  variant="outline"
+                  className="py-[0.1rem] border-content"
+                >
+                  Set
+                </Button> */}
+              </TableCell>
+              <TableCell className="text-center">{formattedDate}</TableCell>
+              <TableCell className="flex items-center gap-2">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button size="sm">
+                        <Edit className="w-4 h-4" strokeWidth={2} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Edit Product</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button size="sm" variant="destructive">
+                            <Trash className="w-4 h-4" strokeWidth={2} />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Delete Product</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently
+                        DELETE your product.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => DeleteProduct(product.id)}
+                        className="bg-destructive hover:bg-destructive hover:opacity-80"
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     );
   });

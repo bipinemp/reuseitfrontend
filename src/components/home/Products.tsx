@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { postUserIdFromHomePage } from "@/apis/apicalls";
 import Recommendation from "./Recommendation";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Loader2 } from "lucide-react";
 
 const Products: React.FC = () => {
   const {
@@ -61,14 +62,11 @@ const Products: React.FC = () => {
 
               <ScrollArea className="whitespace-nowrap z-10">
                 <div className="flex gap-5 z-20">
-                  {UserRecommendations &&
-                    UserRecommendations?.data &&
-                    UserRecommendations?.data.recommendations &&
-                    UserRecommendations?.data.recommendations.map((data) => (
-                      <>
-                        <Recommendation recommendation={data} />
-                      </>
-                    ))}
+                  {UserRecommendations?.data?.recommendations?.map((data) => (
+                    <>
+                      <Recommendation recommendation={data} />
+                    </>
+                  ))}
                 </div>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
@@ -102,11 +100,15 @@ const Products: React.FC = () => {
             size="lg"
             className="font-semibold tracking-wide text-lg"
           >
-            {isFetchingNextPage
-              ? "Loading..."
-              : hasNextPage
-              ? "Load More"
-              : "Nothing to Load"}
+            {isFetchingNextPage ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" /> Loading...
+              </div>
+            ) : hasNextPage ? (
+              "Load More"
+            ) : (
+              "Nothing to Load"
+            )}
           </Button>
         </div>
       </div>
