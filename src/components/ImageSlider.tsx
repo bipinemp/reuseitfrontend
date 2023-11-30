@@ -10,18 +10,24 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+import { Swiper as SwiperClass } from "swiper";
+type Swiper = InstanceType<typeof SwiperClass>;
 
 interface ImageSliderProps {
   ImageArr: Image[];
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<Swiper | null>(null);
   const [activeIndex, setActiveIndex] = useState(0); // Add state for the active index
   const imgurl = "http://127.0.0.1:8000/images/";
 
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: Swiper) => {
     setActiveIndex(swiper.realIndex);
+  };
+
+  const handleSwiper = (swiper: Swiper) => {
+    setThumbsSwiper(swiper);
   };
 
   return (
@@ -56,7 +62,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
 
       {/* Thumbnail */}
       <Swiper
-        onSwiper={() => setThumbsSwiper}
+        onSwiper={handleSwiper}
         spaceBetween={30}
         slidesPerView={5}
         freeMode={true}
