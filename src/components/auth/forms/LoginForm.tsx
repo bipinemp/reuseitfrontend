@@ -34,7 +34,7 @@ const LoginForm = () => {
       if (data.status === 200) {
         toast.success("Successfully Logged IN");
         reset();
-        router.push("/");
+        router.back();
         router.refresh();
       }
       if (data.status !== 200) {
@@ -82,7 +82,7 @@ const LoginForm = () => {
 
         <div>
           <p>
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               className="text-primary font-semibold underline underline-offset-2"
               href={"/register"}

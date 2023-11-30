@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 interface ImageSliderProps {
-  ImageArr: EImage[];
+  ImageArr: Image[];
 }
 
 const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
@@ -56,7 +56,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {
 
       {/* Thumbnail */}
       <Swiper
-        onSwiper={setThumbsSwiper}
+        onSwiper={() => setThumbsSwiper}
         spaceBetween={30}
         slidesPerView={5}
         freeMode={true}

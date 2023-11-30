@@ -25,7 +25,7 @@ interface ProductProps {
   params: Props;
 }
 
-const page: React.FC<ProductProps> = ({ params }) => {
+const Page: React.FC<ProductProps> = ({ params }) => {
   const { id } = params;
   const productId = Number(id);
 
@@ -81,4 +81,4 @@ const page: React.FC<ProductProps> = ({ params }) => {
   return <div>{renderProductDetails()}</div>;
 };
 
-export default page;
+export default Page;

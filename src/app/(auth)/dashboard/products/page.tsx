@@ -37,7 +37,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   const queryClient = useQueryClient();
   const {
     data,
@@ -76,13 +76,10 @@ const page: React.FC = () => {
                 </TableCell>
                 <TableCell>{product.category.category_name}</TableCell>
                 <TableCell>NPR. {product.price}</TableCell>
-                <TableCell
-                  className="text-left
-              "
-                >
+                <TableCell className="text-left flex items-center gap-1">
                   <span
                     className={clsx(
-                      "font-semibold py-[0.3rem] px-3 rounded-full text-white",
+                      "font-semibold text-[0.76rem] py-[0.3rem] px-[0.4rem] rounded-full text-white",
                       {
                         "bg-primary": product.status === 1,
                         "bg-gray-500": product.status === 0,
@@ -91,6 +88,13 @@ const page: React.FC = () => {
                   >
                     {product.status === 0 ? "Progress" : "Sold Out"}
                   </span>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="py-[0.1rem] border-content"
+                  >
+                    Set
+                  </Button>
                 </TableCell>
                 <TableCell className="text-center">{formattedDate}</TableCell>
                 <TableCell className="flex items-center gap-2">
@@ -159,6 +163,8 @@ const page: React.FC = () => {
         </div>
         {status === "pending" ? (
           <ProdTableLoading />
+        ) : status === "error" ? (
+          <p>Error: {error?.message && error.message}</p>
         ) : (
           <Table className="relative w-full">
             {/* <TableCaption>Your Products</TableCaption> */}
@@ -212,4 +218,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

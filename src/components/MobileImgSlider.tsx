@@ -14,7 +14,7 @@ import { Pagination } from "swiper/modules";
 import Image from "next/image";
 
 interface ImageSliderProps {
-  ImageArr: EImage[];
+  ImageArr: Image[];
 }
 
 const MobileImgSlider: React.FC<ImageSliderProps> = ({ ImageArr }) => {

@@ -42,7 +42,7 @@ const Products: React.FC = () => {
   }, [isSuccess]);
 
   const content = data?.pages.map((products) =>
-    products.map((product: Product) => {
+    products?.map((product: Product) => {
       return <ProductCard key={product.id} product={product} />;
     })
   );

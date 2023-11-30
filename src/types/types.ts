@@ -72,7 +72,7 @@ type Product = {
 
 type Image = {
   id: number;
-  product_id: number;
+  product_id?: number;
   image_url: string;
   created_at: string | null;
   updated_at: string | null;

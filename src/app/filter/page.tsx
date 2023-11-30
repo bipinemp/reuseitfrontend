@@ -20,7 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ProductLoading2, ProductLoadingCard } from "@/loading/ProductsLoading";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
 
@@ -53,8 +53,8 @@ const page: React.FC = () => {
     });
 
   const FilteredData = data?.pages.map((products) =>
-    products?.map((product: ActualRecommendation) => {
-      return <FilterProdCard product={product} />;
+    products?.map((product: ActualRecommendation, i: number) => {
+      return <FilterProdCard product={product} key={i} />;
     })
   );
 
@@ -145,4 +145,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

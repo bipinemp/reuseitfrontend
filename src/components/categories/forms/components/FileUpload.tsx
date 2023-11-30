@@ -91,7 +91,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           ) : (
             <p className="text-sm lg:text-[1.125rem] font-semibold text-destructive text-center">
               Drag and Drop Images here, or click to select images <br />
-              "First Selected Image will be the cover of AD"
+              &quot;First Selected Image will be the cover of AD&quot;
             </p>
           )}
         </div>

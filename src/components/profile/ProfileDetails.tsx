@@ -70,8 +70,8 @@ const ProfileDetails: React.FC = () => {
 
         {/* Right side data  */}
         <div className="w-full grid grid-cols-1 vsm:grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-2 gap-y-5 mb-5">
-          {UserData?.products.map((prod) => (
-            <ProfileProdCard product={prod} />
+          {UserData?.products.map((prod, i) => (
+            <ProfileProdCard product={prod} key={i} />
           ))}
         </div>
       </div>
