@@ -15,6 +15,7 @@ type MyProduct = {
   price: number;
   created_at: string;
   updated_at: string;
+  category: TCategory;
 };
 
 type Recommendation = {
@@ -65,7 +66,8 @@ type Product = {
     created_at: string;
     updated_at: string;
   };
-  image: Image[];
+  image?: Image[];
+  status: number;
 };
 
 type Image = {

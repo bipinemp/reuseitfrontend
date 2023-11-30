@@ -364,7 +364,6 @@ export const postUserIdFromHomePage = async (user_id: number) => {
 // for filtering products based on category , max_price , min_price
 export const filterProducts = async (pageNum: number, params: any) => {
   try {
-    const pageVal = String(pageNum);
     const response = await axios.get(
       `http://localhost:8000/api/filter?page=${pageNum}`,
       {
@@ -374,5 +373,62 @@ export const filterProducts = async (pageNum: number, params: any) => {
     return response.data;
   } catch (error) {
     return error;
+  }
+};
+
+// DASHBOARD
+// for fetcing all Products
+export const fetchMyProducts = async ({ pageParam }: { pageParam: number }) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/myproducts?page=${pageParam}&limit=10`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const formatDate = (date: string) => {
+  const currentDate = new Date();
+  const inputDateTime = new Date(date);
+
+  // Check if the date is today
+  if (
+    inputDateTime.getDate() === currentDate.getDate() &&
+    inputDateTime.getMonth() === currentDate.getMonth() &&
+    inputDateTime.getFullYear() === currentDate.getFullYear()
+  ) {
+    return "TODAY";
+  }
+
+  // Check if the date is yesterday
+  const yesterday = new Date(currentDate);
+  yesterday.setDate(currentDate.getDate() - 1);
+
+  if (
+    inputDateTime.getDate() === yesterday.getDate() &&
+    inputDateTime.getMonth() === yesterday.getMonth() &&
+    inputDateTime.getFullYear() === yesterday.getFullYear()
+  ) {
+    return "YESTERDAY";
+  }
+
+  // Format the date using Intl.DateTimeFormat
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+  };
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const formattedDate = formatter.format(inputDateTime);
+
+  // Check if the year is the current year
+  if (inputDateTime.getFullYear() === currentDate.getFullYear()) {
+    return formattedDate;
+  } else {
+    return `${formattedDate} ${inputDateTime.getFullYear()}`;
   }
 };

@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import {
   fetchAllProducts,
+  fetchMyProducts,
   getProductDetails,
   getUserProfile,
   postUserIdFromProductDetailsPage,
@@ -59,4 +60,32 @@ export const useUserProfile = () => {
   return { data, isPending, isSuccess };
 };
 
-// for filtering products based on category , min_price , max_price
+// Dashboard
+// for fetching my products
+export const useFetchAllMyProducts = () => {
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["myproducts"],
+    queryFn: fetchMyProducts,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = lastPage.length ? allPages.length + 1 : undefined;
+      return nextPage;
+    },
+  });
+
+  return {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  };
+};

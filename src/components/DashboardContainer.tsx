@@ -5,5 +5,5 @@ interface DashboardContainerProps {
 export default function DashboardContainer({
   children,
 }: DashboardContainerProps) {
-  return <div className="pt-7 pl-10">{children}</div>;
+  return <div className="mt-14 ml-[250px] w-full mx-auto">{children}</div>;
 }
