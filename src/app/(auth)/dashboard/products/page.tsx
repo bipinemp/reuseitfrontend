@@ -2,7 +2,7 @@
 
 import { useFetchAllMyProducts } from "@/apis/queries";
 import DashboardContainer from "@/components/DashboardContainer";
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { deleteMyProduct, formatDate } from "@/apis/apicalls";
+import { deleteMyProduct, formatDate, setStatus } from "@/apis/apicalls";
 import { Button } from "@/components/ui/button";
 import { Edit, Loader2, Search, Trash } from "lucide-react";
 import clsx from "clsx";
@@ -47,8 +47,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useCheckToken from "@/lib/useCheckToken";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 const Page: React.FC = () => {
+  // useCheckToken();
+  const [actualPrice, setActualPrice] = useState<string>("");
+
   const queryClient = useQueryClient();
   const {
     data,
@@ -66,6 +71,23 @@ const Page: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ["myproducts"] });
     },
   });
+
+  const { mutate: UpdateStatus } = useMutation({
+    mutationFn: setStatus,
+    onSuccess: () => {
+      toast.success("Status Set Successfully");
+      queryClient.invalidateQueries({ queryKey: ["myproducts"] });
+      setActualPrice("");
+    },
+  });
+
+  const handleSubmitStatus = (product_id: number, price: string) => {
+    const data = {
+      product_id: product_id,
+      selling_price: price,
+    };
+    UpdateStatus(data);
+  };
 
   const content = data?.pages.map((products) => {
     return (
@@ -87,52 +109,70 @@ const Page: React.FC = () => {
               <TableCell>{product.category.category_name}</TableCell>
               <TableCell>NPR. {product.price}</TableCell>
               <TableCell className="text-left flex items-center gap-1">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <span
-                      className={clsx(
-                        "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer",
-                        {
-                          "bg-primary": product.status === 1,
-                          "bg-gray-500": product.status === 0,
-                        }
-                      )}
-                    >
-                      {product.status === 0 ? "Progress" : "Sold Out"}
-                    </span>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Set Status</DialogTitle>
-                      <DialogDescription>
-                        Make changes to your product status for Better
-                        Analytics. Click save when you're done.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="flex flex-col gap-3">
-                        <Label htmlFor="price" className="text-left">
-                          Acutal Price in which Product is Sold
-                        </Label>
-                        <div className="relative">
-                          <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
-                            NPR
-                          </span>
-                          <Input
-                            id="price"
-                            defaultValue=""
-                            className="pl-16"
-                            type="number"
-                            onWheel={(e) => (e.target as HTMLElement).blur()}
-                          />
+                {product.status === 0 && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <span
+                        className={clsx(
+                          "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer bg-gray-500"
+                        )}
+                      >
+                        Progress
+                      </span>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Set Status</DialogTitle>
+                        <DialogDescription>
+                          Make changes to your product status for Better
+                          Analytics. Click save when you're done.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="flex flex-col gap-3">
+                          <Label htmlFor="price" className="text-left">
+                            Acutal Price in which Product is Sold
+                          </Label>
+                          <div className="relative">
+                            <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
+                              NPR
+                            </span>
+                            <Input
+                              id="price"
+                              defaultValue={product.price}
+                              className="pl-16"
+                              type="number"
+                              onChange={(e) => setActualPrice(e.target.value)}
+                              onWheel={(e) => (e.target as HTMLElement).blur()}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <DialogFooter>
-                      <Button type="submit">Save changes</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                      <DialogFooter>
+                        <DialogClose asChild>
+                          <Button
+                            onClick={() =>
+                              handleSubmitStatus(product.id, actualPrice)
+                            }
+                            type="submit"
+                          >
+                            Save changes
+                          </Button>
+                        </DialogClose>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
+                )}
+
+                {product.status === 1 && (
+                  <span
+                    className={clsx(
+                      "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer bg-primary"
+                    )}
+                  >
+                    Sold Out
+                  </span>
+                )}
 
                 {/* <Button
                   size="icon"

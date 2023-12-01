@@ -147,6 +147,7 @@ export const nonavbarlist = [
   "/post/antiques_collectibles",
   "/login",
   "/register",
+  "/user",
 ];
 
 export const homeapplianceslist = [

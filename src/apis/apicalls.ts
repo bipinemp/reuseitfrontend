@@ -406,6 +406,26 @@ export const deleteMyProduct = async (id: number) => {
   }
 };
 
+type StatusType = {
+  product_id: number;
+  selling_price: string;
+};
+
+export const setStatus = async (data: StatusType) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/status`,
+      data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const formatDate = (date: string) => {
   const currentDate = new Date();
   const inputDateTime = new Date(date);

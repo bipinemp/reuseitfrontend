@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ChefHat, MessageCircleIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface ProductUserProps {
@@ -28,13 +29,15 @@ const ProductUserDetail: React.FC<ProductUserProps> = ({
         </div>
         <h3 className="font-semibold text-[1rem] sm:text-[1.17rem]">{name}</h3>
       </div>
-      <Button
-        size="lg"
-        className="sm:text-lg font-semibold flex items-center gap-2"
-      >
-        <MessageCircleIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-        Chat with seller
-      </Button>
+      <Link href={`/user/${user_id}`}>
+        <Button
+          size="lg"
+          className="sm:text-lg font-semibold flex items-center gap-2"
+        >
+          <MessageCircleIcon className="w-5 h-5 sm:w-6 sm:h-6" />
+          Chat with seller
+        </Button>
+      </Link>
     </div>
   );
 };
