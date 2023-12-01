@@ -20,6 +20,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const senderId = data?.id;
+
   const receiverId = id;
 
   const roomId = createRoomId(senderId, receiverId);
