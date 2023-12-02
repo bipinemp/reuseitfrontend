@@ -5,6 +5,7 @@ import Pusher from "pusher-js";
 import { useUserProfile } from "@/apis/queries";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/Container";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   id: string;
@@ -30,14 +31,6 @@ const Page: React.FC<UserProps> = ({ params }) => {
   }
 
   useEffect(() => {
-    const pusher = new Pusher("ebf38d954ac2b949a6ca", {
-      cluster: "ap2",
-    });
-    const channel = pusher.subscribe(`user.${roomId}`); // Adjusted channel name to match Laravel setup
-    const handleMessage = (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-    };
-    channel.bind("message", handleMessage);
     const fetchMessages = async () => {
       const response = await fetch(`http://localhost:8000/api/messages/${id}`, {
         credentials: "include",
@@ -45,14 +38,31 @@ const Page: React.FC<UserProps> = ({ params }) => {
       const data = await response.json();
       setMessages(data.messages);
     };
-    fetchMessages();
-    return () => {
-      channel.unbind("message", handleMessage);
-      pusher.unsubscribe(`user.${roomId}`);
-    };
-  }, [id]);
 
-  const submit = async (e) => {
+    fetchMessages();
+
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher("ebf38d954ac2b949a6ca", {
+      cluster: "ap2",
+    });
+    const channel = pusher.subscribe("user"); // Adjusted channel name to match Laravel setup
+    const handleMessage = (data) => {
+      console.log(data);
+      setMessages((prevMessages) => [...prevMessages, data]);
+    };
+
+    channel.bind("message", handleMessage);
+
+    return () => {
+      channel.unbind("message", (data) => {
+        console.log(data);
+      });
+      pusher.unsubscribe("user");
+    };
+  }, [id, data?.id]);
+
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await fetch("http://localhost:8000/api/messages", {
       method: "POST",
@@ -61,7 +71,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id, // Adjusted to match your Laravel API expectations
+        // id, // Adjusted to match your Laravel API expectations
         message,
       }),
     });
@@ -99,12 +109,14 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
 
         {/* Form  */}
-        <form onSubmit={(e) => submit(e)}>
+        <form onSubmit={submit} className="flex items-center gap-3">
           <Input
             placeholder="Write a message"
+            type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
+          <Button>Send</Button>
         </form>
       </div>
     </Container>
