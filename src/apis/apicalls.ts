@@ -1,4 +1,5 @@
 import axios from "axios";
+import { FaPhoneAlt } from "react-icons/fa";
 
 // for fetcing all Products
 export const fetchAllProducts = async ({
@@ -416,6 +417,21 @@ export const setStatus = async (data: StatusType) => {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/status`,
       data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const sendPhoneNumber = async (phone: string) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/sendotp`,
+      { number: phone },
       {
         withCredentials: true,
       }

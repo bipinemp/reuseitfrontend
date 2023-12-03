@@ -15,11 +15,23 @@ import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
-import { createNewElectronics } from "@/apis/apicalls";
+import { createNewElectronics, sendPhoneNumber } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useUserProfile } from "@/apis/queries";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface PreviewFile extends File {
   id: string;
@@ -33,6 +45,8 @@ const Electronics: React.FC = () => {
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
 
   const {
     register,
@@ -67,6 +81,19 @@ const Electronics: React.FC = () => {
         const errorArr: any[] = Object.values(data.response.data.errors);
         toast.error(errorArr[0]);
       }
+      setDialogOpen(false);
+      setPhoneNumber("");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  const { mutate: SendPhone, isPending: PhoneNumPending } = useMutation({
+    mutationFn: sendPhoneNumber,
+    onSettled: (data: any) => {
+      setDialogOpen(false);
+      setPhoneNumber("");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -78,7 +105,12 @@ const Electronics: React.FC = () => {
     if (files.length === 0) {
       return;
     }
-    handleCreateAppliance(data);
+    setDialogOpen(true);
+
+    if (phoneNumber !== "") {
+      handleCreateAppliance(data);
+      SendPhone(phoneNumber);
+    }
   };
 
   // for mutation function
@@ -188,6 +220,43 @@ const Electronics: React.FC = () => {
             />
           </div>
         </div>
+
+        <Dialog open={dialogOpen}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Enter Phone Number</DialogTitle>
+              <DialogDescription>
+                Please enter you valid phone number.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="phone" className="text-left">
+                  Phone Number
+                </Label>
+                <div className="relative">
+                  <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
+                    +977
+                  </span>
+                  <Input
+                    id="phone"
+                    className="pl-16"
+                    type="number"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    onWheel={(e) => (e.target as HTMLElement).blur()}
+                  />
+                </div>
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button onClick={() => setDialogOpen(false)} type="submit">
+                  {PhoneNumPending ? "Sending OTP..." : "Save changes"}
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Price Section */}
         <PriceBox<TElectronics>
