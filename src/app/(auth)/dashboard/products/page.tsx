@@ -89,9 +89,9 @@ const Page: React.FC = () => {
     UpdateStatus(data);
   };
 
-  const content = data?.pages.map((products) => {
+  const content = data?.pages.map((products, i) => {
     return (
-      <TableBody className="relative w-full">
+      <TableBody className="relative w-full" key={i}>
         {products?.map((product: Product) => {
           const formattedDate = formatDate(product.created_at || "");
           const title =
@@ -125,7 +125,7 @@ const Page: React.FC = () => {
                         <DialogTitle>Set Status</DialogTitle>
                         <DialogDescription>
                           Make changes to your product status for Better
-                          Analytics. Click save when you're done.
+                          Analytics. Click save when you&apos;re done.
                         </DialogDescription>
                       </DialogHeader>
                       <div className="grid gap-4 py-4">
