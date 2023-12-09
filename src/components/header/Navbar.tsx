@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
 
   return (
     <div className="sticky top-0 left-0 z-50 py-4 mb-5 bg-zinc-200">
-      {nonavbarlist.includes(pathname) ? (
+      {nonavbarlist.includes(pathname) || pathname.startsWith("/user") ? (
         <div className="font-bold text-xl px-10">
           <Link
             href={"/"}
