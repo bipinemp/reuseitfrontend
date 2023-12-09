@@ -96,8 +96,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   return (
     <Container>
-      <div className="mt-10 w-[500px] mx-auto mb-20">
-        <div className="w-full h-[500px] overflow-scroll overflow-x-hidden flex flex-col justify-between gap-5 mb-5 border border-content p-2">
+      <div className="mt-8 w-[500px] mx-auto">
+        <div className="w-full h-[500px] overflow-y-auto overflow-x-hidden flex flex-col justify-between gap-5 mb-5 border border-content p-2">
           {messages.map((message: any) => {
             return (
               <div
@@ -115,7 +115,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                 ) : (
                   <div className="w-[250px]">
                     <div className="w-full flex gap-3 items-center">
-                      <div className="relative w-[18%] h-[45px]">
+                      <div className="relative w-[18%] h-[35px]">
                         <Image
                           src={imgurl + message.receiver_image}
                           fill
@@ -123,7 +123,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                           className="rounded-full object-cover object-top"
                         />
                       </div>
-                      <div className="px-3 py-2 bg-muted rounded-lg text-sm">
+                      <div className="w-full px-3 py-2 bg-muted rounded-lg text-sm">
                         {message.message}
                       </div>
                     </div>
