@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import { useUserProfile } from "@/apis/queries";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   const { data } = useUserProfile();
   const [messages, setMessages] = useState<MsgData[]>([]);
   const [message, setMessage] = useState("");
+  const bottomOfChatsRef = useRef<HTMLDivElement>(null);
   const senderId = data?.id;
   const receiverId = id;
 
@@ -67,6 +68,12 @@ const Page: React.FC<UserProps> = ({ params }) => {
     };
   }, [senderId, receiverId]);
 
+  useEffect(() => {
+    if (bottomOfChatsRef.current) {
+      bottomOfChatsRef.current.scrollIntoView();
+    }
+  }, [messages]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await fetch("http://localhost:8000/api/messages", {
@@ -90,7 +97,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   return (
     <Container>
       <div className="mt-10 w-[500px] mx-auto mb-20">
-        <div className="w-full flex flex-col justify-between gap-5 mb-5 border border-content p-2">
+        <div className="w-full h-[500px] overflow-scroll overflow-x-hidden flex flex-col justify-between gap-5 mb-5 border border-content p-2">
           {messages.map((message: any) => {
             return (
               <div
@@ -125,6 +132,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
               </div>
             );
           })}
+          <div ref={bottomOfChatsRef}></div>
         </div>
 
         {/* Form  */}
