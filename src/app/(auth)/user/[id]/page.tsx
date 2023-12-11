@@ -2,9 +2,13 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
-import { useUserProfile } from "@/apis/queries";
+import {
+  useGetLatestMessageId,
+  useGetLatestMessages,
+  useGetUserDetails,
+  useUserProfile,
+} from "@/apis/queries";
 import { Input } from "@/components/ui/input";
-import Container from "@/components/Container";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Loader2, Send } from "lucide-react";
@@ -17,7 +21,7 @@ interface UserProps {
   params: Props;
 }
 
-type MsgData = {
+export type MsgData = {
   message: string;
   roomId: string;
   sender_id: string;
@@ -28,21 +32,35 @@ type MsgData = {
 const Page: React.FC<UserProps> = ({ params }) => {
   const { id } = params;
   const { data } = useUserProfile();
-  const [messages, setMessages] = useState<MsgData[]>([]);
-  const [message, setMessage] = useState("");
-  const [msgLoading, setMsgLoading] = useState<boolean>(false);
-  const bottomOfChatsRef = useRef<HTMLDivElement>(null);
-  const senderId = data?.id;
-  const receiverId = id;
 
-  const roomId = createRoomId(senderId, receiverId);
+  const { data: userDetails, isPending: userDetailPending } = useGetUserDetails(
+    parseInt(id)
+  );
+
+  const { data: msgData, isPending } = useGetLatestMessages(
+    data?.id || 0,
+    parseInt(id) || 0
+  );
+
+  const [messages, setMessages] = useState<MsgData[]>([]);
+
+  useEffect(() => {
+    if (msgData) {
+      setMessages(msgData);
+    }
+  }, [msgData]);
+
+  const [message, setMessage] = useState("");
+  const bottomOfChatsRef = useRef<HTMLSpanElement>(null);
+  const senderId = data?.id;
+
+  const roomId = createRoomId(senderId, id);
   function createRoomId(user1: any, user2: any) {
     const sortedIds = [user1, user2].sort();
     return sortedIds.join("_");
   }
 
   useEffect(() => {
-    setMsgLoading(true);
     Pusher.logToConsole = true;
     const pusher = new Pusher("1f64b5d90f191ce43622", {
       cluster: "ap2",
@@ -54,22 +72,10 @@ const Page: React.FC<UserProps> = ({ params }) => {
       setMessages((prevMessages) => [...prevMessages, data]);
     });
 
-    const fetchMessages = async () => {
-      const response = await fetch(
-        `http://localhost:8000/api/messages/${senderId}/${receiverId}`
-      );
-      const data = await response.json();
-
-      setMessages(data.messages);
-      setMsgLoading(false);
-    };
-
-    fetchMessages();
-
     return () => {
       pusher.unsubscribe(`user.${roomId}`);
     };
-  }, [senderId, receiverId]);
+  }, [senderId, id, data?.id]);
 
   useEffect(() => {
     if (bottomOfChatsRef.current) {
@@ -97,7 +103,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   const imgurl = "http://127.0.0.1:8000/images/";
 
-  if (msgLoading) {
+  if (isPending) {
     return (
       <div className="w-full h-[80%] flex justify-center items-center">
         <Loader2 className="w-16 h-16 animate-spin text-primary" />
@@ -106,47 +112,84 @@ const Page: React.FC<UserProps> = ({ params }) => {
   }
 
   return (
-    // <Container>
-    <div className="flex flex-col gap-5 w-full h-full">
-      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden flex flex-col gap-5 border border-content p-2">
-        {messages.map((message: any) => {
-          return (
-            <div key={message.id} className="w-full flex flex-col gap-3">
-              {message.sender_id === senderId ? (
-                <div className="w-[250px] self-end flex justify-end">
-                  <div className="flex gap-3 ">
-                    <div className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
-                      {message.message}
+    <div className="relative flex flex-col w-full h-full">
+      <div className="flex gap-2 py-3 px-4 border-t border-l border-r border-content bg-zinc-100 items-center">
+        <div className="relative w-[45px] h-[40px]">
+          <Image
+            src={imgurl + userDetails?.Profile_image}
+            fill
+            className="object-cover rounded-full object-top border border-content"
+            alt=""
+          />
+        </div>
+        <div className="flex flex-col">
+          <h3 className="font-bold text-gray-700 text-sm">
+            {userDetails?.name}
+          </h3>
+          <p className="text-xs">Active 1h ago</p>
+        </div>
+      </div>
+
+      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden flex flex-col justify-between border border-content px-2 pt-4">
+        <div className="flex flex-col items-center gap-2">
+          <div className="relative w-[100px] h-[100px]">
+            <Image
+              src={imgurl + userDetails?.Profile_image}
+              fill
+              className="object-cover rounded-full object-top border border-black"
+              alt=""
+            />
+          </div>
+          <div className="flex flex-col gap-1 items-center">
+            <h3 className="font-bold text-gray-500 text-sm">
+              {userDetails?.name}
+            </h3>
+            <p className="text-gray-500 text-xs">
+              Lives in {userDetails?.District}, {userDetails?.Municipality}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          {messages.map((message: any) => {
+            return (
+              <div key={message.id} className="w-full flex flex-col">
+                {message.sender_id === senderId ? (
+                  <div className="w-[250px] self-end flex justify-end">
+                    <div className="flex gap-3 ">
+                      <div className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
+                        {message.message}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="w-[250px]">
-                  <div className="w-full flex gap-3 items-center">
-                    <div className="relative w-[18%] h-[35px]">
-                      <Image
-                        src={imgurl + message.receiver_image}
-                        fill
-                        alt=""
-                        className="rounded-full object-cover object-top"
-                      />
-                    </div>
-                    <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
-                      {message.message}
+                ) : (
+                  <div className="w-[250px]">
+                    <div className="w-full flex gap-3 items-center">
+                      <div className="relative w-[18%] h-[35px]">
+                        <Image
+                          src={imgurl + message.receiver_image}
+                          fill
+                          alt=""
+                          className="rounded-full object-cover object-top"
+                        />
+                      </div>
+                      <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
+                        {message.message}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-        <div ref={bottomOfChatsRef}></div>
+                )}
+              </div>
+            );
+          })}
+          <span ref={bottomOfChatsRef}></span>
+        </div>
       </div>
 
       {/* Form  */}
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="w-full flex items-center gap-3"
+        className="w-full flex items-center gap-3 mt-4"
       >
         <div className="w-full flex items-center gap-3">
           <Input
@@ -162,7 +205,6 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
       </form>
     </div>
-    // </Container>
   );
 };
 

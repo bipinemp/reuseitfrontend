@@ -458,6 +458,51 @@ export const getUsersList = async () => {
   }
 };
 
+// get allMessages of user
+export const getMessagesList = async (senderId: number, id: number) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/messages/${senderId}/${id}`
+    );
+
+    return response.data.messages;
+  } catch (error) {
+    return error;
+  }
+};
+
+// get details of user
+export const getUserDetails = async (id: number) => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/userdetails/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// get latest chat user'id
+export const getLatestMessageId = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const formatDate = (date: string) => {
   const currentDate = new Date();
   const inputDateTime = new Date(date);

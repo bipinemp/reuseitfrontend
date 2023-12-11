@@ -3,11 +3,15 @@ import {
   deleteMyProduct,
   fetchAllProducts,
   fetchMyProducts,
+  getLatestMessageId,
+  getMessagesList,
   getProductDetails,
+  getUserDetails,
   getUserProfile,
   getUsersList,
   postUserIdFromProductDetailsPage,
 } from "./apicalls";
+import { MsgData } from "@/app/(auth)/user/[id]/page";
 
 export const useFetchAllProducts = () => {
   const {
@@ -97,6 +101,46 @@ export const useGetUsersList = () => {
   const { data, isPending } = useQuery({
     queryKey: ["userslist"],
     queryFn: getUsersList,
+  });
+
+  return { data, isPending };
+};
+
+// for getting users list for chatting
+export const useGetLatestMessageId = () => {
+  const { data, isPending } = useQuery({
+    queryKey: ["messageId"],
+    queryFn: getLatestMessageId,
+  });
+
+  return { data, isPending };
+};
+
+// for getting user details chatting
+export const useGetUserDetails = (id: number) => {
+  const { data, isPending } = useQuery<TUserDetail>({
+    queryKey: ["userdetailchat", id],
+    queryFn: (obj) => {
+      const userDetails = getUserDetails(obj.queryKey[1] as number);
+      return userDetails;
+    },
+  });
+
+  return { data, isPending };
+};
+
+// for gettign users latest messages
+export const useGetLatestMessages = (senderId: number, id: number) => {
+  const { data, isPending } = useQuery<MsgData[]>({
+    queryKey: ["latestmessages", senderId, id],
+    queryFn: (obj) => {
+      const messages = getMessagesList(
+        obj.queryKey[1] as number,
+        obj.queryKey[2] as number
+      );
+
+      return messages;
+    },
   });
 
   return { data, isPending };
