@@ -114,7 +114,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   return (
     <div className="relative flex flex-col w-full h-full">
       <div className="flex gap-2 py-3 px-4 border-t border-l border-r border-content bg-zinc-100 items-center">
-        <div className="relative w-[45px] h-[40px]">
+        <div className="relative w-[40px] h-[40px]">
           <Image
             src={imgurl + userDetails?.Profile_image}
             fill
@@ -130,7 +130,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
       </div>
 
-      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden flex flex-col justify-between border border-content px-2 pt-4">
+      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden flex flex-col  gap-10 justify-between border border-content px-2 pt-4">
         <div className="flex flex-col items-center gap-2">
           <div className="relative w-[100px] h-[100px]">
             <Image
@@ -155,7 +155,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
             return (
               <div key={message.id} className="w-full flex flex-col">
                 {message.sender_id === senderId ? (
-                  <div className="w-[250px] self-end flex justify-end">
+                  <div className="max-w-[350px] self-end flex justify-end">
                     <div className="flex gap-3 ">
                       <div className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
                         {message.message}
@@ -163,9 +163,9 @@ const Page: React.FC<UserProps> = ({ params }) => {
                     </div>
                   </div>
                 ) : (
-                  <div className="w-[250px]">
+                  <div className="max-w-[350px]">
                     <div className="w-full flex gap-3 items-center">
-                      <div className="relative w-[18%] h-[35px]">
+                      <div className="relative w-[45px] h-[35px]">
                         <Image
                           src={imgurl + message.receiver_image}
                           fill
