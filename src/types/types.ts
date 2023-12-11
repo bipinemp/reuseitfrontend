@@ -367,3 +367,40 @@ type TImage = {
   image_url: string;
   updated_at: string;
 };
+
+// for Chatting Users list data
+type UserType = {
+  id: number;
+  sender_id: number;
+  receiver_id: number;
+  username: string;
+  message: string;
+  created_at: string;
+  updated_at: string;
+  otherUserdata: {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string | null;
+    created_at: string;
+    updated_at: string;
+    Province: string;
+    District: string;
+    Municipality: string;
+    Phone_no: string;
+    Profile_image: string;
+  };
+  authUserData: {
+    id: number;
+    name: string;
+    email: string;
+    email_verified_at: string | null;
+    created_at: string;
+    updated_at: string;
+    Province: string;
+    District: string;
+    Municipality: string;
+    Phone_no: string;
+    Profile_image: string;
+  };
+};

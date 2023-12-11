@@ -5,6 +5,7 @@ import {
   fetchMyProducts,
   getProductDetails,
   getUserProfile,
+  getUsersList,
   postUserIdFromProductDetailsPage,
 } from "./apicalls";
 
@@ -89,6 +90,16 @@ export const useFetchAllMyProducts = () => {
     isFetchingNextPage,
     status,
   };
+};
+
+// for getting users list for chatting
+export const useGetUsersList = () => {
+  const { data, isPending } = useQuery({
+    queryKey: ["userslist"],
+    queryFn: getUsersList,
+  });
+
+  return { data, isPending };
 };
 
 // for deleting product

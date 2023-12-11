@@ -442,6 +442,22 @@ export const sendPhoneNumber = async (phone: string) => {
   }
 };
 
+// Get All Users List for chatting
+export const getUsersList = async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/getUsers`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const formatDate = (date: string) => {
   const currentDate = new Date();
   const inputDateTime = new Date(date);
@@ -466,6 +482,26 @@ export const formatDate = (date: string) => {
   ) {
     return "YESTERDAY";
   }
+
+  // Format the date using Intl.DateTimeFormat
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+  };
+  const formatter = new Intl.DateTimeFormat("en-US", options);
+  const formattedDate = formatter.format(inputDateTime);
+
+  // Check if the year is the current year
+  if (inputDateTime.getFullYear() === currentDate.getFullYear()) {
+    return formattedDate;
+  } else {
+    return `${formattedDate} ${inputDateTime.getFullYear()}`;
+  }
+};
+
+export const formatDateMsg = (date: string) => {
+  const currentDate = new Date();
+  const inputDateTime = new Date(date);
 
   // Format the date using Intl.DateTimeFormat
   const options: Intl.DateTimeFormatOptions = {
