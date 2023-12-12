@@ -2,7 +2,7 @@
 
 import { useGetLatestMessageId } from "@/apis/queries";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const page = () => {
   const { data } = useGetLatestMessageId();

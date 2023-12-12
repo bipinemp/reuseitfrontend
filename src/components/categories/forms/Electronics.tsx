@@ -15,7 +15,11 @@ import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
-import { createNewElectronics, sendPhoneNumber } from "@/apis/apicalls";
+import {
+  createNewElectronics,
+  sendOtp,
+  sendPhoneNumber,
+} from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
@@ -45,13 +49,17 @@ const Electronics: React.FC = () => {
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
+  const [phoneDialog, setPhoneDialog] = useState<boolean>(false);
+  const [otpDialog, setOtpDialog] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [otp, setOtp] = useState<string>("");
 
   const {
     register,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
     reset,
   } = useForm<TElectronics>({
@@ -59,11 +67,9 @@ const Electronics: React.FC = () => {
   });
 
   const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-
   const typeofcondition = electronicsList.filter(
     (val) => val.name === "condition"
   );
-
   const typeofwarrenty = electronicsList.filter(
     (val) => val.name === "warrenty"
   );
@@ -81,7 +87,7 @@ const Electronics: React.FC = () => {
         const errorArr: any[] = Object.values(data.response.data.errors);
         toast.error(errorArr[0]);
       }
-      setDialogOpen(false);
+      setPhoneDialog(false);
       setPhoneNumber("");
     },
     onSuccess: () => {
@@ -91,30 +97,55 @@ const Electronics: React.FC = () => {
 
   const { mutate: SendPhone, isPending: PhoneNumPending } = useMutation({
     mutationFn: sendPhoneNumber,
-    onSettled: (data: any) => {
-      setDialogOpen(false);
+    onSuccess: () => {
       setPhoneNumber("");
+      setPhoneDialog(false);
+      setOtpDialog(true);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  const { mutate: SendOTP, isPending: OtpPending } = useMutation({
+    mutationFn: sendOtp,
+    onSettled: (data: any) => {
+      setPhoneDialog(false);
+      setPhoneNumber("");
+      if (data.status === 200) {
+        handleCreateAppliance(getValues());
+        setOtpDialog(false);
+      }
+      toast.error(data.response.data.response);
     },
     onSuccess: () => {
+      setOtp("");
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
 
   // actual form submission function
-  const onSubmit = async (data: TElectronics) => {
+  const onSubmit = async () => {
     if (files.length === 0) {
       return;
+    } else {
+      setPhoneDialog(true);
     }
-    setDialogOpen(true);
+  };
 
-    if (phoneNumber !== "") {
-      handleCreateAppliance(data);
+  // for phone number submission
+  const handlePhoneSubmit = () => {
+    if (!phoneNumber) {
+      alert("Please fill Phone Number");
+    } else {
       SendPhone(phoneNumber);
     }
   };
 
+  const handleOtpSubmit = () => {
+    SendOTP(otp);
+  };
+
   // for mutation function
-  async function handleCreateAppliance(data: TElectronics) {
+  async function handleCreateAppliance(data: any) {
     const actualData = {
       ...data,
       image_urls: files,
@@ -221,7 +252,59 @@ const Electronics: React.FC = () => {
           </div>
         </div>
 
-        <Dialog open={dialogOpen}>
+        {/* Price Section */}
+        <PriceBox<TElectronics>
+          name="price"
+          id="price"
+          register={register}
+          error={errors?.price?.message || ""}
+        />
+
+        {/*Location selection Section */}
+        <ElectronicsLocationBox control={control} errors={errors} />
+
+        {/* Photo Selection Section */}
+        <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
+
+        {/* For OTP Dialog  */}
+        <Dialog open={otpDialog}>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Enter OTP</DialogTitle>
+              <DialogDescription>Please enter you valid OTP.</DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="flex flex-col gap-3">
+                <Label htmlFor="otp" className="text-left">
+                  OTP
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="otp"
+                    type="number"
+                    onChange={(e) => setOtp(e.target.value)}
+                    onWheel={(e) => (e.target as HTMLElement).blur()}
+                  />
+                </div>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button onClick={handleOtpSubmit} type="submit">
+                {OtpPending ? (
+                  <div className="flex gap-2 items-center">
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <p>Verifying OTP..</p>
+                  </div>
+                ) : (
+                  "Verify OTP"
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        {/* Submitting Post Button */}
+        <Dialog open={phoneDialog} onOpenChange={setPhoneDialog}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle>Enter Phone Number</DialogTitle>
@@ -250,29 +333,13 @@ const Electronics: React.FC = () => {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button onClick={() => setDialogOpen(false)} type="submit">
-                  {PhoneNumPending ? "Sending OTP..." : "Save changes"}
+                <Button onClick={handlePhoneSubmit} type="submit">
+                  {PhoneNumPending ? "Sending OTP..." : "Send OTP"}
                 </Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>
-
-        {/* Price Section */}
-        <PriceBox<TElectronics>
-          name="price"
-          id="price"
-          register={register}
-          error={errors?.price?.message || ""}
-        />
-
-        {/*Location selection Section */}
-        <ElectronicsLocationBox control={control} errors={errors} />
-
-        {/* Photo Selection Section */}
-        <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
-
-        {/* Submitting Post Button */}
         <div className="px-3 lg:px-10 py-8">
           <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (

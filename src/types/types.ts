@@ -335,6 +335,8 @@ type TUserDetail = {
   Municipality: string;
   Phone_no: string;
   Profile_image: string;
+  ActiveStatus?: number;
+  Timeago?: string;
 };
 
 type EProduct = {

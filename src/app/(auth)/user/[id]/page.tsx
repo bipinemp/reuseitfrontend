@@ -113,7 +113,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   return (
     <div className="relative flex flex-col w-full h-full">
-      <div className="flex gap-2 py-3 px-4 border-t border-l border-r border-content bg-zinc-100 items-center">
+      <div className="flex gap-2 py-3 px-4 bg-zinc-200 shadow z-20 rounded-tl-md rounded-tr-md items-center border-b border-primary">
         <div className="relative w-[40px] h-[40px]">
           <Image
             src={imgurl + userDetails?.Profile_image}
@@ -121,16 +121,23 @@ const Page: React.FC<UserProps> = ({ params }) => {
             className="object-cover rounded-full object-top border border-content"
             alt=""
           />
+          {userDetails?.ActiveStatus === 1 && (
+            <span className="absoulte bg-green-400 bottom-0 right-1 w-[10px] h-[5px] z-20 rounded-full"></span>
+          )}
         </div>
         <div className="flex flex-col">
           <h3 className="font-bold text-gray-700 text-sm">
             {userDetails?.name}
           </h3>
-          <p className="text-xs">Active 1h ago</p>
+          <p className="text-xs font-semibold">
+            {userDetails?.ActiveStatus === 1
+              ? "Online"
+              : `Active ${userDetails?.Timeago}`}
+          </p>
         </div>
       </div>
 
-      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden flex flex-col  gap-10 justify-between border border-content px-2 pt-4">
+      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden rounded-bl-md rounded-br-md flex flex-col gap-10 justify-between px-2 pt-4">
         <div className="flex flex-col items-center gap-2">
           <div className="relative w-[100px] h-[100px]">
             <Image

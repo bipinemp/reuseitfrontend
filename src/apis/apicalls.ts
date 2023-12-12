@@ -442,6 +442,21 @@ export const sendPhoneNumber = async (phone: string) => {
   }
 };
 
+export const sendOtp = async (otp: string) => {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/verifyotp`,
+      { otp: otp },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Get All Users List for chatting
 export const getUsersList = async () => {
   try {

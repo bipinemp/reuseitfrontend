@@ -18,18 +18,18 @@ const UserLists = () => {
   const imgurl = "http://127.0.0.1:8000/images/";
 
   return (
-    <div className="w-[30%] flex flex-col gap-2 bg-zinc-100 py-3 px-3">
+    <div className="w-[30%] flex flex-col gap-2 bg-zinc-100 py-3 px-3 rounded-md">
       <h2 className="font-black text-gray-600 underline underline-offset-2 ml-2">
         Users
       </h2>
       <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden">
         {isPending ? (
           <div className="flex flex-col gap-1">
-            <div className="bg-gray-500 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-500 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-500 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-500 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-500 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
           </div>
         ) : (
           UserLists?.map((user) => {
