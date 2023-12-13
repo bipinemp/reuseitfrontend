@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { electronicsList } from "@/lib/lists";
@@ -43,6 +43,7 @@ interface PreviewFile extends File {
   preview: string;
 }
 
+let currentOTPIndex: number = 0;
 const Electronics: React.FC = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -54,7 +55,10 @@ const Electronics: React.FC = () => {
   const [phoneDialog, setPhoneDialog] = useState<boolean>(false);
   const [otpDialog, setOtpDialog] = useState<boolean>(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [otp, setOtp] = useState<string>("");
+  // for OTP
+  const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
+  const [activeOTPIndex, setActiveOTPIndex] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -120,7 +124,7 @@ const Electronics: React.FC = () => {
       toast.error(data.response.data.response);
     },
     onSuccess: () => {
-      setOtp("");
+      // setOtp("");
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
@@ -143,9 +147,34 @@ const Electronics: React.FC = () => {
     }
   };
 
+  // for OTP Input BOXES Logic
+  const handleOnOtpChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = target;
+    const newOtp: string[] = [...otp];
+    newOtp[currentOTPIndex] = value.substring(value.length - 1);
+
+    if (!value) setActiveOTPIndex(currentOTPIndex - 1);
+    else setActiveOTPIndex(currentOTPIndex + 1);
+
+    setOtp(newOtp);
+  };
+  const handleOnKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    currentOTPIndex = index;
+    if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
+  };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [activeOTPIndex]);
+
   // for OTP submission
   const handleOtpSubmit = () => {
-    SendOTP(otp);
+    SendOTP(otp.join(""));
   };
 
   //  mutation function for posting Product
@@ -273,10 +302,15 @@ const Electronics: React.FC = () => {
 
         {/* For OTP Dialog  */}
         <OtpDialog
+          otp={otp}
           OtpPending={OtpPending}
           handleOtpSubmit={handleOtpSubmit}
           otpDialog={otpDialog}
-          setOtp={setOtp}
+          handleOnOtpChange={handleOnOtpChange}
+          handleOnKeyDown={handleOnKeyDown}
+          inputRef={inputRef}
+          activeOTPIndex={activeOTPIndex}
+          setOtpDialog={setOtpDialog}
         />
 
         {/* For Phone Number Dialog  */}

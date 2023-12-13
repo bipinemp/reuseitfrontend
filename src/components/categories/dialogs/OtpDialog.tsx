@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -11,39 +10,60 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import React from "react";
 
 interface OtpDialogProps {
+  handleOnKeyDown: (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  otp: string[];
+  setOtpDialog?: (val: boolean) => void;
   otpDialog: boolean;
-  setOtp: (otp: string) => void;
   handleOtpSubmit: () => void;
   OtpPending: boolean;
+  handleOnOtpChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  activeOTPIndex: number;
+  inputRef: React.Ref<HTMLInputElement> | undefined;
 }
 
 const OtpDialog: React.FC<OtpDialogProps> = ({
   OtpPending,
   handleOtpSubmit,
   otpDialog,
-  setOtp,
+  inputRef,
+  activeOTPIndex,
+  handleOnKeyDown,
+  setOtpDialog,
+  otp,
+  handleOnOtpChange,
 }) => {
   return (
-    <Dialog open={otpDialog}>
+    <Dialog open={otpDialog} onOpenChange={setOtpDialog}>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+        <DialogHeader className="flex items-center">
           <DialogTitle>Enter OTP</DialogTitle>
           <DialogDescription>Please enter you valid OTP.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="flex flex-col gap-3">
-            <Label htmlFor="otp" className="text-left">
-              OTP
-            </Label>
-            <div className="relative">
-              <Input
-                id="otp"
-                type="number"
-                onChange={(e) => setOtp(e.target.value)}
-                onWheel={(e) => (e.target as HTMLElement).blur()}
-              />
+          <div className="flex flex-col items-center gap-3">
+            <div className="relative flex items-center gap-2">
+              {otp.map((_, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    <Input
+                      ref={index === activeOTPIndex ? inputRef : null}
+                      value={otp[index]}
+                      id="otp"
+                      type="number"
+                      onChange={handleOnOtpChange}
+                      onKeyDown={(e) => handleOnKeyDown(e, index)}
+                      onWheel={(e) => (e.target as HTMLElement).blur()}
+                      className="border-content w-[50px] h-[50px] text-lg"
+                    />
+                  </React.Fragment>
+                );
+              })}
             </div>
           </div>
         </div>
