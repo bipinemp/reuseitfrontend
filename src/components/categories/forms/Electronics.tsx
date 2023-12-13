@@ -32,10 +32,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import PhoneDialog from "../dialogs/PhoneDialog";
+import OtpDialog from "../dialogs/OtpDialog";
 
 interface PreviewFile extends File {
   id: string;
@@ -74,8 +75,8 @@ const Electronics: React.FC = () => {
     (val) => val.name === "warrenty"
   );
 
-  // mutation function for creating Home Appliance AD
-  const { mutate: CreateBlog, isPending } = useMutation({
+  // mutation function for creating Electronics AD
+  const { mutate: CreateElectronics, isPending } = useMutation({
     mutationFn: createNewElectronics,
     onSettled: (data: any) => {
       if (data.status === 200) {
@@ -95,6 +96,7 @@ const Electronics: React.FC = () => {
     },
   });
 
+  // mutation function for sending Phone Number
   const { mutate: SendPhone, isPending: PhoneNumPending } = useMutation({
     mutationFn: sendPhoneNumber,
     onSuccess: () => {
@@ -105,13 +107,14 @@ const Electronics: React.FC = () => {
     },
   });
 
+  // mutation function for sending OTP
   const { mutate: SendOTP, isPending: OtpPending } = useMutation({
     mutationFn: sendOtp,
     onSettled: (data: any) => {
       setPhoneDialog(false);
       setPhoneNumber("");
       if (data.status === 200) {
-        handleCreateAppliance(getValues());
+        handleCreateElectronics(getValues());
         setOtpDialog(false);
       }
       toast.error(data.response.data.response);
@@ -140,21 +143,23 @@ const Electronics: React.FC = () => {
     }
   };
 
+  // for OTP submission
   const handleOtpSubmit = () => {
     SendOTP(otp);
   };
 
-  // for mutation function
-  async function handleCreateAppliance(data: any) {
+  //  mutation function for posting Product
+  async function handleCreateElectronics(data: any) {
     const actualData = {
       ...data,
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
     };
-    CreateBlog(actualData);
+    CreateElectronics(actualData);
   }
 
+  //  for handling Image validation
   useEffect(() => {
     if (files.length === 0) {
       setImgError("Image is required");
@@ -267,79 +272,23 @@ const Electronics: React.FC = () => {
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
 
         {/* For OTP Dialog  */}
-        <Dialog open={otpDialog}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Enter OTP</DialogTitle>
-              <DialogDescription>Please enter you valid OTP.</DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="otp" className="text-left">
-                  OTP
-                </Label>
-                <div className="relative">
-                  <Input
-                    id="otp"
-                    type="number"
-                    onChange={(e) => setOtp(e.target.value)}
-                    onWheel={(e) => (e.target as HTMLElement).blur()}
-                  />
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <Button onClick={handleOtpSubmit} type="submit">
-                {OtpPending ? (
-                  <div className="flex gap-2 items-center">
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                    <p>Verifying OTP..</p>
-                  </div>
-                ) : (
-                  "Verify OTP"
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <OtpDialog
+          OtpPending={OtpPending}
+          handleOtpSubmit={handleOtpSubmit}
+          otpDialog={otpDialog}
+          setOtp={setOtp}
+        />
 
-        {/* Submitting Post Button */}
-        <Dialog open={phoneDialog} onOpenChange={setPhoneDialog}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Enter Phone Number</DialogTitle>
-              <DialogDescription>
-                Please enter you valid phone number.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="phone" className="text-left">
-                  Phone Number
-                </Label>
-                <div className="relative">
-                  <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
-                    +977
-                  </span>
-                  <Input
-                    id="phone"
-                    className="pl-16"
-                    type="number"
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    onWheel={(e) => (e.target as HTMLElement).blur()}
-                  />
-                </div>
-              </div>
-            </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button onClick={handlePhoneSubmit} type="submit">
-                  {PhoneNumPending ? "Sending OTP..." : "Send OTP"}
-                </Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        {/* For Phone Number Dialog  */}
+        <PhoneDialog
+          PhoneNumPending={PhoneNumPending}
+          handlePhoneSubmit={handlePhoneSubmit}
+          phoneDialog={phoneDialog}
+          setPhoneDialog={setPhoneDialog}
+          setPhoneNumber={setPhoneNumber}
+        />
+
+        {/* Submitting Product Sell Button */}
         <div className="px-3 lg:px-10 py-8">
           <Button type="submit" size="lg" className="text-lg w-fit">
             {isPending ? (
