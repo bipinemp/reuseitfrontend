@@ -79,9 +79,9 @@ export function UserDropDown() {
           <span>Support</span>
         </DropdownMenuItem>
 
-        <DropdownMenuItem>
-          <Logout />
-        </DropdownMenuItem>
+        {/* <DropdownMenuItem> */}
+        <Logout />
+        {/* </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

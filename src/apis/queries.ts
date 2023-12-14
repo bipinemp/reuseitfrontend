@@ -21,6 +21,7 @@ export const useFetchAllProducts = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isPending,
   } = useInfiniteQuery({
     queryKey: ["products"],
     queryFn: fetchAllProducts,
@@ -38,6 +39,7 @@ export const useFetchAllProducts = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isPending,
   };
 };
 

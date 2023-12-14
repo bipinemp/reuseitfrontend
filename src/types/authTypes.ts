@@ -13,9 +13,7 @@ export const RegisterSchema = z.object({
     .string({ required_error: "Name is required" })
     .min(6, { message: "Minimun of 6 characters is required" })
     .max(20, { message: "Maximum of 20 characters are only allowed" }),
-  email: z
-    .string({ required_error: "Email is required" })
-    .email({ message: "Enter a Valid Email" }),
+  email: z.string({ required_error: "Email is required" }),
   password: z
     .string({ required_error: "Password is required" })
     .min(8, { message: "Password must be 8 characters long" })
@@ -25,9 +23,7 @@ export const RegisterSchema = z.object({
   Province: z.string({ required_error: "Province is required" }).optional(),
   District: z.string({ required_error: "Province is required" }).optional(),
   Municipality: z.string({ required_error: "Province is required" }).optional(),
-  Phone_no: z.string().refine((value) => /^\d{10}$/.test(value), {
-    message: "Phone number must be 10 digits only",
-  }),
+
   Profile_image: z
     .any()
     .refine(
@@ -40,9 +36,7 @@ export const RegisterSchema = z.object({
 export type TRegister = z.infer<typeof RegisterSchema>;
 
 export const LoginSchema = z.object({
-  email: z
-    .string({ required_error: "Email is required" })
-    .email({ message: "Enter a Valid Email" }),
+  email: z.string({ required_error: "Email is required" }),
   password: z.string({ required_error: "Password is required" }),
 });
 

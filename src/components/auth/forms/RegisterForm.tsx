@@ -7,16 +7,20 @@ import { Button } from "@/components/ui/button";
 import { RegisterSchema, TRegister } from "@/types/authTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Register from "../../../../public/image/register.png";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import User from "../../../../public/image/user.jpg";
 
 const RegisterForm = () => {
   const [file, setFile] = useState<File | undefined>();
+  const imgRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const router = useRouter();
 
@@ -40,9 +44,6 @@ const RegisterForm = () => {
       router.push("/login");
       router.refresh();
     },
-    // onSettled(data) {
-    //   router.push(`/details/${data?.blog._id}`);
-    // },
     onError: () => toast.error("Something went wrong try again"),
   });
 
@@ -60,86 +61,16 @@ const RegisterForm = () => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-        <InputBox<TRegister>
-          name="name"
-          id="name"
-          placeholder="Enter Name..."
-          register={register}
-          error={errors?.name?.message || ""}
-          label="User Name"
-          type="text"
-        />
-        <InputBox<TRegister>
-          name="email"
-          id="email"
-          placeholder="Enter Email..."
-          register={register}
-          error={errors?.email?.message || ""}
-          label="Valid Email"
-          type="text"
-        />
-        <InputBox<TRegister>
-          name="password"
-          id="password"
-          placeholder="Enter Password..."
-          register={register}
-          error={errors?.password?.message || ""}
-          label="Password ( 8 characters long )"
-          type="password"
-        />
+    <div className="relative w-full h-full flex shadow-lg rounded-lg border">
+      <ScrollArea className="w-[60%]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="w-full flex flex-col gap-4 py-6 px-12"
+        >
+          <h1 className="font-semibold">Register</h1>
 
-        <InputBox<TRegister>
-          name="Phone_no"
-          id="Phone_no"
-          placeholder="Enter Phone No..."
-          register={register}
-          error={errors?.Phone_no?.message || ""}
-          label="Phone Number"
-        />
-
-        {/* Location Box  */}
-        <RegisterLocationBox control={control} errors={errors} />
-
-        {/* Image Upload  */}
-        <Controller
-          name="Profile_image"
-          control={control}
-          render={({ field }) => {
-            return (
-              <div>
-                <input
-                  type="file"
-                  {...register("Profile_image")}
-                  name="Profile_image"
-                  onChange={(e) => {
-                    field.onChange(e.target.files?.[0]);
-                    setFile(e.target.files?.[0]);
-                  }}
-                />
-                {errors.Profile_image?.message && (
-                  <span>{JSON.stringify(errors.Profile_image.message)}</span>
-                )}
-              </div>
-            );
-          }}
-        />
-
-        <Button size="lg" className="text-[1rem] font-semibold tracking-wide">
-          {isPending ? (
-            <div className="flex gap-2 items-center">
-              <Loader2 className="h-5 w-5 animate-spin" />
-              <p>Registering..</p>
-            </div>
-          ) : (
-            "Register"
-          )}
-        </Button>
-
-        <div>
-          <p>
-            Already have an account?{" "}
+          <p className="flex gap-2 items-center">
+            <span>Already have an account?</span>
             <Link
               className="text-primary font-semibold underline underline-offset-2"
               href={"/login"}
@@ -147,8 +78,111 @@ const RegisterForm = () => {
               Login here
             </Link>
           </p>
-        </div>
-      </form>
+
+          <div className="flex flex-col gap-4 mt-4">
+            <InputBox<TRegister>
+              name="name"
+              id="name"
+              placeholder="Enter Name..."
+              register={register}
+              error={errors?.name?.message || ""}
+              label="User Name"
+              type="text"
+            />
+            <InputBox<TRegister>
+              name="email"
+              id="email"
+              placeholder="Enter Email..."
+              register={register}
+              error={errors?.email?.message || ""}
+              label="Valid Email"
+              type="text"
+            />
+            <InputBox<TRegister>
+              name="password"
+              id="password"
+              placeholder="Enter Password..."
+              register={register}
+              error={errors?.password?.message || ""}
+              label="Password ( 8 characters long )"
+              type="password"
+            />
+
+            {/* Location Box  */}
+            <RegisterLocationBox control={control} errors={errors} />
+
+            {/* Image Upload  */}
+            <Controller
+              name="Profile_image"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <div>
+                    <input
+                      type="file"
+                      {...register("Profile_image")}
+                      name="Profile_image"
+                      onChange={(e) => {
+                        field.onChange(e.target.files?.[0]);
+                        setFile(e.target.files?.[0]);
+                      }}
+                      hidden
+                      ref={imgRef}
+                    />
+                    {errors.Profile_image?.message && (
+                      <span>
+                        {JSON.stringify(errors.Profile_image.message)}
+                      </span>
+                    )}
+                  </div>
+                );
+              }}
+            />
+            <p className="font-semibold underline">Select Image</p>
+
+            <div
+              className="flex relative w-[100px] h-[100px] rounded-full flex-col gap-2 cursor-pointer"
+              onClick={() => imgRef?.current?.click()}
+            >
+              {file ? (
+                <Image
+                  src={URL.createObjectURL(file)}
+                  width={100}
+                  height={100}
+                  alt=""
+                  className="rounded-full"
+                />
+              ) : (
+                <>
+                  <Image
+                    src={User}
+                    width={100}
+                    height={100}
+                    alt=""
+                    className="p-1 border border-content cursor-pointer rounded-full"
+                  />
+                </>
+              )}
+            </div>
+            <Button
+              size="lg"
+              className="text-[1rem] font-semibold tracking-wide"
+            >
+              {isPending ? (
+                <div className="flex gap-2 items-center">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <p>Registering..</p>
+                </div>
+              ) : (
+                "Register"
+              )}
+            </Button>
+          </div>
+        </form>
+      </ScrollArea>
+      <div className="relative w-[40%] h-full flex items-center justify-between border-l-[2px]">
+        <Image src={Register} fill alt="" className="object-contain" />
+      </div>
     </div>
   );
 };

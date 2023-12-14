@@ -20,6 +20,7 @@ const Products: React.FC = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isPending: AllProductsLoading,
   } = useFetchAllProducts();
 
   // For getting user_id for making recommendation system
@@ -92,25 +93,27 @@ const Products: React.FC = () => {
           </div>
         )}
 
-        <div className="mx-auto">
-          <Button
-            disabled={!hasNextPage || isFetchingNextPage}
-            onClick={() => fetchNextPage()}
-            variant="default"
-            size="lg"
-            className="font-semibold tracking-wide text-lg"
-          >
-            {isFetchingNextPage ? (
-              <div className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" /> Loading...
-              </div>
-            ) : hasNextPage ? (
-              "Load More"
-            ) : (
-              "Nothing to Load"
-            )}
-          </Button>
-        </div>
+        {!AllProductsLoading && (
+          <div className="mx-auto">
+            <Button
+              disabled={!hasNextPage || isFetchingNextPage}
+              onClick={() => fetchNextPage()}
+              variant="default"
+              size="lg"
+              className="font-semibold tracking-wide text-lg"
+            >
+              {isFetchingNextPage ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" /> Loading...
+                </div>
+              ) : hasNextPage ? (
+                "Load More"
+              ) : (
+                "Nothing to Load"
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </Container>
   );
