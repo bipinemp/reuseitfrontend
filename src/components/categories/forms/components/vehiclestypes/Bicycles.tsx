@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CarSelectBox from "../CarSelectBox";
 import { BicycleSchema, TBicycles } from "@/types/postTypes";
 import { useForm } from "react-hook-form";
@@ -10,7 +10,7 @@ import TextareaBox from "../TextareaBox";
 import FileUpload from "../FileUpload";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewBicycles } from "@/apis/apicalls";
+import { createNewBicycles, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -18,12 +18,15 @@ import PriceBox from "../PriceBox";
 import ScooterData from "@/json/scooter.json";
 import BicyclesLocationBox from "../locations/BicyclesLocationBox";
 import { useUserProfile } from "@/apis/queries";
+import OtpDialog from "@/components/categories/dialogs/OtpDialog";
+import PhoneDialog from "@/components/categories/dialogs/PhoneDialog";
 
 interface PreviewFile extends File {
   id: string;
   preview: string;
 }
 
+let currentOTPIndex: number = 0;
 const Bicycles: React.FC = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -31,17 +34,26 @@ const Bicycles: React.FC = () => {
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
 
-  const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
+  const [phoneDialog, setPhoneDialog] = useState<boolean>(false);
+  const [otpDialog, setOtpDialog] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  // for OTP
+  const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
+  const [activeOTPIndex, setActiveOTPIndex] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const {
     register,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
     reset,
   } = useForm<TBicycles>({
     resolver: zodResolver(BicycleSchema),
   });
+
+  const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
@@ -56,6 +68,36 @@ const Bicycles: React.FC = () => {
         const errorArr: any[] = Object.values(data.response.data.errors);
         toast.error(errorArr[0]);
       }
+      setPhoneDialog(false);
+      setPhoneNumber("");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  // mutation function for sending Phone Number
+  const { mutate: SendPhone, isPending: PhoneNumPending } = useMutation({
+    mutationFn: sendPhoneNumber,
+    onSuccess: () => {
+      setPhoneNumber("");
+      setPhoneDialog(false);
+      setOtpDialog(true);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  // mutation function for sending OTP
+  const { mutate: SendOTP, isPending: OtpPending } = useMutation({
+    mutationFn: sendOtp,
+    onSettled: (data: any) => {
+      setPhoneDialog(false);
+      setPhoneNumber("");
+      if (data.status === 200) {
+        handleCreateAppliance(getValues());
+        setOtpDialog(false);
+      }
+      toast.error(data.response.data.response);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -66,8 +108,48 @@ const Bicycles: React.FC = () => {
   const onSubmit = async (data: TBicycles) => {
     if (files.length === 0) {
       return;
+    } else {
+      setPhoneDialog(true);
     }
-    handleCreateAppliance(data);
+  };
+
+  // for phone number submission
+  const handlePhoneSubmit = () => {
+    if (!phoneNumber) {
+      alert("Please fill Phone Number");
+    } else {
+      SendPhone(phoneNumber);
+    }
+  };
+
+  // for OTP Input BOXES Logic
+  const handleOnOtpChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = target;
+    const newOtp: string[] = [...otp];
+    newOtp[currentOTPIndex] = value.substring(value.length - 1);
+
+    if (!value) setActiveOTPIndex(currentOTPIndex - 1);
+    else setActiveOTPIndex(currentOTPIndex + 1);
+
+    setOtp(newOtp);
+  };
+  const handleOnKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    currentOTPIndex = index;
+    if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
+  };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [activeOTPIndex]);
+
+  // for OTP submission
+  const handleOtpSubmit = () => {
+    SendOTP(otp.join(""));
   };
 
   // for mutation function
@@ -146,6 +228,28 @@ const Bicycles: React.FC = () => {
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
+
+        {/* For OTP Dialog  */}
+        <OtpDialog
+          otp={otp}
+          OtpPending={OtpPending}
+          handleOtpSubmit={handleOtpSubmit}
+          otpDialog={otpDialog}
+          handleOnOtpChange={handleOnOtpChange}
+          handleOnKeyDown={handleOnKeyDown}
+          inputRef={inputRef}
+          activeOTPIndex={activeOTPIndex}
+          setOtpDialog={setOtpDialog}
+        />
+
+        {/* For Phone Number Dialog  */}
+        <PhoneDialog
+          PhoneNumPending={PhoneNumPending}
+          handlePhoneSubmit={handlePhoneSubmit}
+          phoneDialog={phoneDialog}
+          setPhoneDialog={setPhoneDialog}
+          setPhoneNumber={setPhoneNumber}
+        />
 
         {/* Submitting Post Button */}
         <div className="px-3 lg:px-10 py-8">

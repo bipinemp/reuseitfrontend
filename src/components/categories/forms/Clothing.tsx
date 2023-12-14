@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { clothingAccessoryList } from "@/lib/lists";
@@ -16,17 +16,20 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewClothing } from "@/apis/apicalls";
+import { createNewClothing, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import ClothingLocationBox from "./components/locations/ClothingLocationBox";
 import { useUserProfile } from "@/apis/queries";
+import OtpDialog from "../dialogs/OtpDialog";
+import PhoneDialog from "../dialogs/PhoneDialog";
 
 interface PreviewFile extends File {
   id: string;
   preview: string;
 }
 
+let currentOTPIndex: number = 0;
 const Clothing: React.FC = () => {
   const queryClient = useQueryClient();
   const pathname = usePathname();
@@ -35,10 +38,19 @@ const Clothing: React.FC = () => {
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
 
+  const [phoneDialog, setPhoneDialog] = useState<boolean>(false);
+  const [otpDialog, setOtpDialog] = useState<boolean>(false);
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  // for OTP
+  const [otp, setOtp] = useState<string[]>(new Array(5).fill(""));
+  const [activeOTPIndex, setActiveOTPIndex] = useState<number>(0);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const {
     register,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
     reset,
   } = useForm<TClothing>({
@@ -80,12 +92,80 @@ const Clothing: React.FC = () => {
     },
   });
 
+  // mutation function for sending Phone Number
+  const { mutate: SendPhone, isPending: PhoneNumPending } = useMutation({
+    mutationFn: sendPhoneNumber,
+    onSuccess: () => {
+      setPhoneNumber("");
+      setPhoneDialog(false);
+      setOtpDialog(true);
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  // mutation function for sending OTP
+  const { mutate: SendOTP, isPending: OtpPending } = useMutation({
+    mutationFn: sendOtp,
+    onSettled: (data: any) => {
+      setPhoneDialog(false);
+      setPhoneNumber("");
+      if (data.status === 200) {
+        handleCreateAppliance(getValues());
+        setOtpDialog(false);
+      }
+      toast.error(data.response.data.response);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
   // actual form submission function
   const onSubmit = async (data: TClothing) => {
     if (files.length === 0) {
       return;
+    } else {
+      setPhoneDialog(true);
     }
-    handleCreateAppliance(data);
+  };
+
+  // for phone number submission
+  const handlePhoneSubmit = () => {
+    if (!phoneNumber) {
+      alert("Please fill Phone Number");
+    } else {
+      SendPhone(phoneNumber);
+    }
+  };
+
+  // for OTP Input BOXES Logic
+  const handleOnOtpChange = ({
+    target,
+  }: React.ChangeEvent<HTMLInputElement>): void => {
+    const { value } = target;
+    const newOtp: string[] = [...otp];
+    newOtp[currentOTPIndex] = value.substring(value.length - 1);
+
+    if (!value) setActiveOTPIndex(currentOTPIndex - 1);
+    else setActiveOTPIndex(currentOTPIndex + 1);
+
+    setOtp(newOtp);
+  };
+  const handleOnKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    currentOTPIndex = index;
+    if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
+  };
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [activeOTPIndex]);
+
+  // for OTP submission
+  const handleOtpSubmit = () => {
+    SendOTP(otp.join(""));
   };
 
   // for mutation function
@@ -233,6 +313,28 @@ const Clothing: React.FC = () => {
 
         {/* Photo Selection Section */}
         <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
+
+        {/* For OTP Dialog  */}
+        <OtpDialog
+          otp={otp}
+          OtpPending={OtpPending}
+          handleOtpSubmit={handleOtpSubmit}
+          otpDialog={otpDialog}
+          handleOnOtpChange={handleOnOtpChange}
+          handleOnKeyDown={handleOnKeyDown}
+          inputRef={inputRef}
+          activeOTPIndex={activeOTPIndex}
+          setOtpDialog={setOtpDialog}
+        />
+
+        {/* For Phone Number Dialog  */}
+        <PhoneDialog
+          PhoneNumPending={PhoneNumPending}
+          handlePhoneSubmit={handlePhoneSubmit}
+          phoneDialog={phoneDialog}
+          setPhoneDialog={setPhoneDialog}
+          setPhoneNumber={setPhoneNumber}
+        />
 
         {/* Submitting Post Button */}
         <div className="px-3 lg:px-10 py-8">

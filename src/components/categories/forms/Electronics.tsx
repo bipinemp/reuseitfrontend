@@ -24,17 +24,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useUserProfile } from "@/apis/queries";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import PhoneDialog from "../dialogs/PhoneDialog";
 import OtpDialog from "../dialogs/OtpDialog";
 
@@ -124,7 +113,6 @@ const Electronics: React.FC = () => {
       toast.error(data.response.data.response);
     },
     onSuccess: () => {
-      // setOtp("");
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
