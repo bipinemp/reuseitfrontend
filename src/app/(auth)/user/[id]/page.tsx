@@ -3,7 +3,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import {
-  useGetLatestMessageId,
   useGetLatestMessages,
   useGetUserDetails,
   useUserProfile,
