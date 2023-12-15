@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import Register from "../../../../public/image/register.png";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import User from "../../../../public/image/user.jpg";
+import clsx from "clsx";
 
 const RegisterForm = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -59,6 +60,8 @@ const RegisterForm = () => {
 
     CreateRegister(actual_Data);
   }
+
+  const typefile = file?.type.split("/")[0];
 
   return (
     <div className="relative w-full h-full flex shadow-lg rounded-lg border">
@@ -120,7 +123,6 @@ const RegisterForm = () => {
                   <div>
                     <input
                       type="file"
-                      {...register("Profile_image")}
                       name="Profile_image"
                       onChange={(e) => {
                         field.onChange(e.target.files?.[0]);
@@ -128,29 +130,33 @@ const RegisterForm = () => {
                       }}
                       hidden
                       ref={imgRef}
+                      accept="image/jpg, image/jpeg, image/png, image/webp"
                     />
-                    {errors.Profile_image?.message && (
-                      <span>
-                        {JSON.stringify(errors.Profile_image.message)}
-                      </span>
-                    )}
                   </div>
                 );
               }}
             />
+
             <p className="font-semibold underline">Select Image</p>
 
             <div
               className="flex relative w-[100px] h-[100px] rounded-full flex-col gap-2 cursor-pointer"
               onClick={() => imgRef?.current?.click()}
             >
-              {file ? (
+              {file && typefile === "image" ? (
                 <Image
                   src={URL.createObjectURL(file)}
                   width={100}
                   height={100}
                   alt=""
-                  className="rounded-full"
+                  className={clsx(
+                    "p-1 border-[3px] border-content cursor-pointer rounded-full",
+                    {
+                      "border-[3px] border-red-500":
+                        errors.Profile_image?.message &&
+                        typeof errors.Profile_image?.message === "string",
+                    }
+                  )}
                 />
               ) : (
                 <>
@@ -159,11 +165,20 @@ const RegisterForm = () => {
                     width={100}
                     height={100}
                     alt=""
-                    className="p-1 border border-content cursor-pointer rounded-full"
+                    className="p-1 border-content cursor-pointer rounded-full"
                   />
                 </>
               )}
             </div>
+
+            {errors.Profile_image?.message ? (
+              <span className="text-destructive text-sm font-semibold pl-3">
+                {typeof errors.Profile_image?.message === "string"
+                  ? errors.Profile_image.message
+                  : null}
+              </span>
+            ) : null}
+
             <Button
               size="lg"
               className="text-[1rem] font-semibold tracking-wide"

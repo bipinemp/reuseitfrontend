@@ -43,6 +43,8 @@ const Products: React.FC = () => {
     }
   }, [isSuccess]);
 
+  const prods = data?.pages.map((products) => products)[0] as any[];
+
   const content = data?.pages.map((products) =>
     products?.map((product: Product) => {
       return <ProductCard key={product.id} product={product} />;
@@ -79,6 +81,10 @@ const Products: React.FC = () => {
           <ProductsLoading />
         ) : status === "error" ? (
           <p>Error: {error?.message && error.message}</p>
+        ) : !prods || prods.length === 0 ? (
+          <h1 className="text-center text-destructive font-bold mt-20">
+            No Products :(
+          </h1>
         ) : (
           <div className="flex flex-col gap-3">
             <h1 className="text-[1.2rem] sm:text-[2rem] font-black text-gray-600 underline underline-offset-4">
@@ -93,27 +99,29 @@ const Products: React.FC = () => {
           </div>
         )}
 
-        {!AllProductsLoading && (
-          <div className="mx-auto">
-            <Button
-              disabled={!hasNextPage || isFetchingNextPage}
-              onClick={() => fetchNextPage()}
-              variant="default"
-              size="lg"
-              className="font-semibold tracking-wide text-lg"
-            >
-              {isFetchingNextPage ? (
-                <div className="flex items-center gap-2">
-                  <Loader2 className="w-4 h-4 animate-spin" /> Loading...
-                </div>
-              ) : hasNextPage ? (
-                "Load More"
-              ) : (
-                "Nothing to Load"
-              )}
-            </Button>
-          </div>
-        )}
+        {!AllProductsLoading ||
+          !prods ||
+          (prods.length === 0 && (
+            <div className="mx-auto">
+              <Button
+                disabled={!hasNextPage || isFetchingNextPage}
+                onClick={() => fetchNextPage()}
+                variant="default"
+                size="lg"
+                className="font-semibold tracking-wide text-lg"
+              >
+                {isFetchingNextPage ? (
+                  <div className="flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" /> Loading...
+                  </div>
+                ) : hasNextPage ? (
+                  "Load More"
+                ) : (
+                  "Nothing to Load"
+                )}
+              </Button>
+            </div>
+          ))}
       </div>
     </Container>
   );

@@ -13,7 +13,7 @@ export const RegisterSchema = z.object({
     .string({ required_error: "Name is required" })
     .min(6, { message: "Minimun of 6 characters is required" })
     .max(20, { message: "Maximum of 20 characters are only allowed" }),
-  email: z.string({ required_error: "Email is required" }),
+  email: z.string({ required_error: "Email is required" }).email(),
   password: z
     .string({ required_error: "Password is required" })
     .min(8, { message: "Password must be 8 characters long" })
@@ -27,8 +27,22 @@ export const RegisterSchema = z.object({
   Profile_image: z
     .any()
     .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      (file) => {
+        // Ensure the file is defined
+        if (!file) return false;
+
+        // Check the file type
+        const acceptedTypes = [
+          "image/jpg",
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+        ];
+        return acceptedTypes.includes(file.type);
+      },
+      {
+        message: "File must be of type jpg, jpeg, png, or webp",
+      }
     )
     .optional(),
 });

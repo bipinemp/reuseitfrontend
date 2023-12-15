@@ -518,6 +518,35 @@ export const getLatestMessageId = async () => {
   }
 };
 
+// for Online and Offline status for Chatting
+export const makeOnline = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/activeuser", {
+      withCredentials: true,
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const makeOffline = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/notactiveuser",
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(response);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Date formating
 export const formatDate = (date: string) => {
   const currentDate = new Date();
   const inputDateTime = new Date(date);
