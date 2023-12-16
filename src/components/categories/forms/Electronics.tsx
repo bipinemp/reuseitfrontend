@@ -106,7 +106,8 @@ const Electronics: React.FC = () => {
     onSettled: (data: any) => {
       setPhoneDialog(false);
       setPhoneNumber("");
-      if (data.status === 200) {
+      if (parseInt(data[0].split("=>")[1]) === 200) {
+        console.log(getValues());
         handleCreateElectronics(getValues());
         setOtpDialog(false);
       }
@@ -122,7 +123,11 @@ const Electronics: React.FC = () => {
     if (files.length === 0) {
       return;
     } else {
-      setPhoneDialog(true);
+      if (UserData?.verifiedStatus === 1) {
+        handleCreateElectronics(getValues());
+      } else {
+        setPhoneDialog(true);
+      }
     }
   };
 

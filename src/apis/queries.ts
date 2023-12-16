@@ -60,7 +60,7 @@ export const useProductDetails = (id: number, user_id: number | null) => {
 
 // for fetching LoggedIn user Details
 export const useUserProfile = () => {
-  const { data, isPending, isSuccess } = useQuery<UserDetail>({
+  const { data, isPending, isSuccess } = useQuery<TUserDetail>({
     queryKey: ["userprofile"],
     queryFn: getUserProfile,
   });
@@ -103,6 +103,8 @@ export const useGetUsersList = () => {
   const { data, isPending } = useQuery({
     queryKey: ["userslist"],
     queryFn: getUsersList,
+    staleTime: 5 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
   });
 
   return { data, isPending };
@@ -126,6 +128,21 @@ export const useGetUserDetails = (id: number) => {
       const userDetails = getUserDetails(obj.queryKey[1] as number);
       return userDetails;
     },
+  });
+
+  return { data, isPending };
+};
+
+// for getting user details in time interval for chatting
+export const useGetUserDataInInterval = (id: number) => {
+  const { data, isPending } = useQuery<TUserDetail>({
+    queryKey: ["userdetailchat", id],
+    queryFn: (obj) => {
+      const userDetails = getUserDetails(obj.queryKey[1] as number);
+      return userDetails;
+    },
+    staleTime: 5 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000,
   });
 
   return { data, isPending };

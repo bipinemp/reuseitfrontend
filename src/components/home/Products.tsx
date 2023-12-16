@@ -56,7 +56,7 @@ const Products: React.FC = () => {
   return (
     <Container>
       <div className="flex flex-col gap-14 mb-20">
-        {UserRecommendations?.data?.recommendations?.length > 0 && (
+        {UserRecommendations?.data?.recommendations?.length >= 4 && (
           <div className="flex flex-col gap-2 bg-primary/20 p-5 rounded-lg">
             <>
               <h1 className="text-[1.2rem] sm:text-[2rem] font-black text-gray-600 underline underline-offset-4">

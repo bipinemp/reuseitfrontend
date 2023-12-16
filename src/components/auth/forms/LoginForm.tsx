@@ -29,7 +29,7 @@ const LoginForm = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  // mutation function for Register
+  // mutation function for Login
   const { mutate: CreateLogin, isPending } = useMutation({
     mutationFn: loginCall,
 

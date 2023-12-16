@@ -56,6 +56,9 @@ const UserLists = () => {
                     className="object-cover object-top border border-content rounded-full"
                     alt=""
                   />
+                  {user?.otherUserdata?.ActiveStatus === 1 && (
+                    <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
+                  )}
                 </div>
                 <div className="w-full flex flex-col">
                   <p className="font-semibold text-gray-600">

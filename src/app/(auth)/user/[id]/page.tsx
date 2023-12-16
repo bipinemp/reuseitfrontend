@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Pusher from "pusher-js";
 import {
   useGetLatestMessages,
+  useGetUserDataInInterval,
   useGetUserDetails,
   useUserProfile,
 } from "@/apis/queries";
@@ -32,9 +33,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
   const { id } = params;
   const { data } = useUserProfile();
 
-  const { data: userDetails, isPending: userDetailPending } = useGetUserDetails(
-    parseInt(id)
-  );
+  const { data: userDetails, isPending: userDetailPending } =
+    useGetUserDataInInterval(parseInt(id));
 
   const { data: msgData, isPending } = useGetLatestMessages(
     data?.id || 0,
@@ -113,15 +113,15 @@ const Page: React.FC<UserProps> = ({ params }) => {
   return (
     <div className="relative flex flex-col w-full h-full">
       <div className="flex gap-2 py-3 px-4 bg-zinc-200 shadow z-20 rounded-tl-md rounded-tr-md items-center border-b border-primary">
-        <div className="relative w-[40px] h-[40px]">
+        <div className="relative flex flex-col w-[40px] h-[40px]">
           <Image
             src={imgurl + userDetails?.Profile_image}
             fill
-            className="object-cover rounded-full object-top border border-content"
+            className="object-cover rounded-full object-top border z-10 border-content"
             alt=""
           />
           {userDetails?.ActiveStatus === 1 && (
-            <span className="absoulte bg-green-400 bottom-0 right-1 w-[10px] h-[5px] z-20 rounded-full"></span>
+            <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
           )}
         </div>
         <div className="flex flex-col">
@@ -156,7 +156,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-10">
           {messages.map((message: any) => {
             return (
               <div key={message.id} className="w-full flex flex-col">
@@ -170,17 +170,30 @@ const Page: React.FC<UserProps> = ({ params }) => {
                   </div>
                 ) : (
                   <div className="max-w-[350px]">
-                    <div className="w-full flex gap-3 items-center">
-                      <div className="relative w-[45px] h-[35px]">
+                    <div className="flex gap-2 items-center">
+                      <div className="relative w-[60px] h-[50px]">
                         <Image
-                          src={imgurl + message.receiver_image}
+                          src={imgurl + userDetails?.Profile_image}
                           fill
                           alt=""
                           className="rounded-full object-cover object-top"
                         />
+                        {userDetails?.ActiveStatus === 1 && (
+                          <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
+                        )}
                       </div>
-                      <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
-                        {message.message}
+                      <div className="flex w-full flex-col gap-3">
+                        <div className="flex justify-between">
+                          <p className="text-xs font-bold text-gray-700">
+                            {message.username.split(" ")[0]}
+                          </p>
+                          <p className="text-xs text-gray-700">
+                            {message.timeago}
+                          </p>
+                        </div>
+                        <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
+                          {message.message}
+                        </div>
                       </div>
                     </div>
                   </div>

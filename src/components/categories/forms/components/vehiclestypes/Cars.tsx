@@ -117,7 +117,7 @@ const Cars: React.FC = () => {
     onSettled: (data: any) => {
       setPhoneDialog(false);
       setPhoneNumber("");
-      if (data.status === 200) {
+      if (parseInt(data[0].split("=>")[1]) === 200) {
         handleCreateAppliance(getValues());
         setOtpDialog(false);
       }
@@ -133,7 +133,11 @@ const Cars: React.FC = () => {
     if (files.length === 0) {
       return;
     } else {
-      setPhoneDialog(true);
+      if (UserData?.verifiedStatus === 1) {
+        handleCreateAppliance(getValues());
+      } else {
+        setPhoneDialog(true);
+      }
     }
   };
 

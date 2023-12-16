@@ -524,7 +524,6 @@ export const makeOnline = async () => {
     const response = await axios.get("http://localhost:8000/api/activeuser", {
       withCredentials: true,
     });
-    console.log(response);
     return response;
   } catch (error) {
     return error;
@@ -539,7 +538,6 @@ export const makeOffline = async () => {
         withCredentials: true,
       }
     );
-    console.log(response);
     return response;
   } catch (error) {
     return error;

@@ -336,6 +336,7 @@ type TUserDetail = {
   Phone_no: string;
   Profile_image: string;
   ActiveStatus?: number;
+  verifiedStatus?: number;
   Timeago?: string;
 };
 
@@ -391,6 +392,8 @@ type UserType = {
     Municipality: string;
     Phone_no: string;
     Profile_image: string;
+    ActiveStatus?: number;
+    verifiedStatus?: number;
   };
   authUserData: {
     id: number;
@@ -404,5 +407,7 @@ type UserType = {
     Municipality: string;
     Phone_no: string;
     Profile_image: string;
+    ActiveStatus?: number;
+    verifiedStatus?: number;
   };
 };
