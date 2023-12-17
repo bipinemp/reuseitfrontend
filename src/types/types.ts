@@ -413,3 +413,7 @@ type UserType = {
     verifiedStatus?: number;
   };
 };
+
+type CountChatType = {
+  count: number;
+};

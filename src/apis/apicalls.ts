@@ -466,6 +466,8 @@ export const getUsersList = async () => {
         withCredentials: true,
       }
     );
+
+    return response.data;
   } catch (error) {
     return error;
   }
@@ -517,11 +519,12 @@ export const getLatestMessageId = async () => {
 };
 
 // for getting chat notification count
-export const getCount = async (id: number) => {
+export const getCount = async () => {
   try {
-    await axios.get(`http://localhost:8000/api/getmsgcount/${id}`, {
+    const response = await axios.get("http://localhost:8000/api/getmsgcount", {
       withCredentials: true,
     });
+    return response.data;
   } catch (error) {
     return error;
   }

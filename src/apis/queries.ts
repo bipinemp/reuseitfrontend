@@ -3,6 +3,7 @@ import {
   deleteMyProduct,
   fetchAllProducts,
   fetchMyProducts,
+  getCount,
   getLatestMessageId,
   getMessagesList,
   getProductDetails,
@@ -100,11 +101,23 @@ export const useFetchAllMyProducts = () => {
 
 // for getting users list for chatting
 export const useGetUsersList = () => {
-  const { data, isPending } = useQuery({
+  const { data, isPending } = useQuery<UserType[]>({
     queryKey: ["userslist"],
     queryFn: getUsersList,
-    staleTime: 5 * 60 * 1000,
-    refetchInterval: 5 * 60 * 1000,
+    staleTime: 5000,
+    refetchInterval: 5000,
+  });
+
+  return { data, isPending };
+};
+
+// for getting users list for chatting
+export const useGetChatCount = () => {
+  const { data, isPending } = useQuery<CountChatType>({
+    queryKey: ["userchatcount"],
+    queryFn: getCount,
+    staleTime: 5000,
+    refetchInterval: 5000,
   });
 
   return { data, isPending };
