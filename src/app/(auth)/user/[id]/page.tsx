@@ -254,7 +254,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                     className="cursor-pointer"
                     onClick={() => inputImgRef?.current?.click()}
                   >
-                    <ImagePlus className="w-8 h-8 text-gray-700 hover:text-gray-900 transition" />
+                    <ImagePlus className="w-10 h-10 text-gray-700 hover:text-gray-900 transition" />
                   </div>
                   <input
                     ref={inputImgRef}

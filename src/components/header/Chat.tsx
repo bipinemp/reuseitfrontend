@@ -17,13 +17,13 @@ const Chat: React.FC = () => {
       {count >= 1 && (
         <p
           className={cn(
-            "w-[23px] h-[23px] text-xs -right-1 -top-[0.15rem] absolute flex items-center justify-center bg-destructive py-1 px-2 rounded-full text-white font-semibold",
+            "w-[23px] h-[23px] text-xs -right-2 -top-[0.15rem] absolute flex items-center justify-center bg-destructive py-1 px-2 rounded-full text-white font-semibold",
             {
               "w-[32px] h-[27px]": count >= 10,
             }
           )}
         >
-          {count > 10 ? "10+" : count === 0 ? "" : count}
+          {count >= 10 ? "10+" : count === 0 ? "" : count}
         </p>
       )}
       <RiChat3Line size={25} />
