@@ -1,6 +1,6 @@
 import Clothing from "@/components/categories/forms/Clothing";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Clothing />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -1,6 +1,6 @@
 import Antiques from "@/components/categories/forms/Antiques";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Antiques />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

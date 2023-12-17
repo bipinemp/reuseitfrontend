@@ -1,6 +1,6 @@
 import Books from "@/components/categories/forms/Books";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Books />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

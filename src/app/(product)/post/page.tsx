@@ -1,7 +1,7 @@
 import Categories from "@/components/categories/Categories";
 import React from "react";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Categories />
@@ -9,4 +9,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

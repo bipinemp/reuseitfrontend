@@ -1,6 +1,6 @@
 import Sports from "@/components/categories/forms/Sports";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Sports />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

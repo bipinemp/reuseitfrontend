@@ -1,6 +1,6 @@
 import Vehicle from "@/components/categories/forms/Vehicle";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Vehicle />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

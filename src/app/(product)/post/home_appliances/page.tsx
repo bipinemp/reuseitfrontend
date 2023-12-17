@@ -1,6 +1,6 @@
 import HomeAppliances from "@/components/categories/forms/HomeAppliances";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <HomeAppliances />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

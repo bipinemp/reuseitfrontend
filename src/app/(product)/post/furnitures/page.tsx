@@ -1,6 +1,6 @@
 import Furnitures from "@/components/categories/forms/Furnitures";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Furnitures />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

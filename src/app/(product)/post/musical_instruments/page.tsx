@@ -1,6 +1,6 @@
 import Musics from "@/components/categories/forms/Musics";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Musics />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

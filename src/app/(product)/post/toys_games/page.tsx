@@ -1,6 +1,6 @@
 import Toys from "@/components/categories/forms/Toys";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Toys />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;

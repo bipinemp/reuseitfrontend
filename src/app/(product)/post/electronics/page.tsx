@@ -1,6 +1,6 @@
 import Electronics from "@/components/categories/forms/Electronics";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return (
     <div>
       <Electronics />
@@ -8,4 +8,4 @@ const page: React.FC = () => {
   );
 };
 
-export default page;
+export default Page;
