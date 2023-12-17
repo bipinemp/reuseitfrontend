@@ -49,6 +49,34 @@ export const RegisterSchema = z.object({
 
 export type TRegister = z.infer<typeof RegisterSchema>;
 
+export const MessageChatSchema = z.object({
+  message: z.string({ required_error: "Name is required" }).optional(),
+
+  msg_image: z
+    .any()
+    .refine(
+      (file) => {
+        // Ensure the file is defined
+        if (!file) return false;
+
+        // Check the file type
+        const acceptedTypes = [
+          "image/jpg",
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+        ];
+        return acceptedTypes.includes(file.type);
+      },
+      {
+        message: "File must be of type jpg, jpeg, png, or webp",
+      }
+    )
+    .optional(),
+});
+
+export type TMsgType = z.infer<typeof MessageChatSchema>;
+
 export const LoginSchema = z.object({
   email: z.string({ required_error: "Email is required" }),
   password: z.string({ required_error: "Password is required" }),

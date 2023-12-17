@@ -4,7 +4,7 @@ import { useGetLatestMessageId } from "@/apis/queries";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const page = () => {
+const Page = () => {
   const { data } = useGetLatestMessageId();
   const router = useRouter();
 
@@ -17,4 +17,4 @@ const page = () => {
   return <div className="w-full h-full"></div>;
 };
 
-export default page;
+export default Page;

@@ -380,6 +380,8 @@ type UserType = {
   message: string;
   created_at: string;
   updated_at: string;
+  msg_image: string | null;
+  msg_status: number;
   otherUserdata: {
     id: number;
     name: string;

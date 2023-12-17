@@ -5,13 +5,16 @@ import Pusher from "pusher-js";
 import {
   useGetLatestMessages,
   useGetUserDataInInterval,
-  useGetUserDetails,
   useUserProfile,
 } from "@/apis/queries";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Loader2, Send } from "lucide-react";
+import { ImagePlus, Loader2, Send } from "lucide-react";
+import axios from "axios";
+import { Controller, useForm } from "react-hook-form";
+import { MessageChatSchema, TMsgType } from "@/types/authTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface Props {
   id: string;
@@ -27,11 +30,17 @@ export type MsgData = {
   sender_id: string;
   timeago: string;
   username: string;
+  msg_image: File;
 };
 
 const Page: React.FC<UserProps> = ({ params }) => {
+  const { register, handleSubmit, control, reset } = useForm<TMsgType>({
+    resolver: zodResolver(MessageChatSchema),
+  });
+
   const { id } = params;
   const { data } = useUserProfile();
+  const inputImgRef = useRef<HTMLInputElement>(null);
 
   const { data: userDetails, isPending: userDetailPending } =
     useGetUserDataInInterval(parseInt(id));
@@ -60,8 +69,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   }
 
   useEffect(() => {
-    Pusher.logToConsole = true;
-    const pusher = new Pusher("1f64b5d90f191ce43622", {
+    const pusher = new Pusher("ebf38d954ac2b949a6ca", {
       cluster: "ap2",
     });
 
@@ -76,31 +84,36 @@ const Page: React.FC<UserProps> = ({ params }) => {
     };
   }, [senderId, id, data?.id]);
 
+  // for scrolling to bottom of chats
   useEffect(() => {
     if (bottomOfChatsRef.current) {
       bottomOfChatsRef.current.scrollIntoView();
     }
   }, [messages]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:8000/api/messages", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id, // Adjusted to match your Laravel API expectations
-        message,
-      }),
-    });
-    if (response.ok) {
-      setMessage("");
+  const onSubmit = async (data: TMsgType) => {
+    const actual_Data = {
+      ...data,
+      id,
+    };
+    try {
+      if (data.message || data.msg_image) {
+        await axios.post("http://localhost:8000/api/messages", actual_Data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      reset();
     }
   };
 
   const imgurl = "http://127.0.0.1:8000/images/";
+  const msgimgurl = "http://127.0.0.1:8000/msg_images/";
 
   if (isPending) {
     return (
@@ -166,6 +179,14 @@ const Page: React.FC<UserProps> = ({ params }) => {
                       <div className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
                         {message.message}
                       </div>
+                      {message.msg_image && (
+                        <Image
+                          src={msgimgurl + message.msg_image}
+                          width={200}
+                          height={150}
+                          alt=""
+                        />
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -179,10 +200,10 @@ const Page: React.FC<UserProps> = ({ params }) => {
                           className="rounded-full object-cover object-top"
                         />
                         {userDetails?.ActiveStatus === 1 && (
-                          <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
+                          <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 right-0 z-20 rounded-full border-[1px] border-white"></span>
                         )}
                       </div>
-                      <div className="flex w-full flex-col gap-3">
+                      <div className="flex w-full flex-col gap-1">
                         <div className="flex justify-between">
                           <p className="text-xs font-bold text-gray-700">
                             {message.username.split(" ")[0]}
@@ -194,6 +215,14 @@ const Page: React.FC<UserProps> = ({ params }) => {
                         <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
                           {message.message}
                         </div>
+                        {message.msg_image && (
+                          <Image
+                            src={msgimgurl + message.msg_image}
+                            width={200}
+                            height={150}
+                            alt=""
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -207,18 +236,47 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
       {/* Form  */}
       <form
-        onSubmit={(e) => handleSubmit(e)}
+        onSubmit={handleSubmit(onSubmit)}
         className="w-full flex items-center gap-3 mt-4"
       >
         <div className="w-full flex items-center gap-3">
+          <Controller
+            name="msg_image"
+            control={control}
+            render={({ field }) => {
+              return (
+                <div className="relative">
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => inputImgRef?.current?.click()}
+                  >
+                    <ImagePlus className="w-8 h-8 text-gray-700 hover:text-gray-900 transition" />
+                  </div>
+                  <input
+                    ref={inputImgRef}
+                    type="file"
+                    name="msg_image"
+                    onChange={(e) => {
+                      field.onChange(e.target.files?.[0]);
+                    }}
+                    hidden
+                    accept="image/jpg, image/jpeg, image/png, image/webp"
+                  />
+                </div>
+              );
+            }}
+          />
           <Input
+            {...register("message")}
+            name="message"
             placeholder="Write a message"
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             className="border-content"
           />
-          <Button disabled={message === ""}>
+
+          <Button>
             <Send className="h-4 w-4" />
           </Button>
         </div>

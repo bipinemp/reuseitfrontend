@@ -16,7 +16,7 @@ import { UserDropDown } from "./UserDropDown";
 const mainNavbar = (
   <div className=" max-w-[1920px] mx-auto 2xl:px-72 flex gap-5 justify-between items-center px-4 lg:px-10">
     <div className="w-full flex flex-col lg:flex-row gap-3 lg:gap-5 items-start">
-      <div className="w-full lg:w-[280px] flex justify-between items-center ">
+      <div className="w-full lg:w-[280px] flex justify-between items-center">
         <Link href={"/"}>
           <h3 className="font-black">ReUseIt</h3>
         </Link>

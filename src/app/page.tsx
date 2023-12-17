@@ -14,10 +14,17 @@ export default function Home() {
 
   useEffect(() => {
     makeOnline();
-    window.addEventListener("beforeunload", makeOffline);
+
+    // window.onbeforeunload = () => makeOffline();
+
+    window.addEventListener("beforeunload", () => {
+      makeOffline();
+    });
 
     return () => {
-      window.removeEventListener("beforeunload", makeOffline);
+      window.removeEventListener("beforeunload", () => {
+        makeOffline();
+      });
     };
   }, []);
 
