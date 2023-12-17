@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, Loader2, Send } from "lucide-react";
+import { ImagePlus, Loader2, Send, X } from "lucide-react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { MessageChatSchema, TMsgType } from "@/types/authTypes";
@@ -34,9 +34,10 @@ export type MsgData = {
 };
 
 const Page: React.FC<UserProps> = ({ params }) => {
-  const { register, handleSubmit, control, reset } = useForm<TMsgType>({
-    resolver: zodResolver(MessageChatSchema),
-  });
+  const { register, handleSubmit, control, reset, getValues } =
+    useForm<TMsgType>({
+      resolver: zodResolver(MessageChatSchema),
+    });
 
   const { id } = params;
   const { data } = useUserProfile();
@@ -51,6 +52,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
   );
 
   const [messages, setMessages] = useState<MsgData[]>([]);
+  const [selectedImage, setSelectedImage] = useState<File | undefined>();
 
   useEffect(() => {
     if (msgData) {
@@ -58,7 +60,6 @@ const Page: React.FC<UserProps> = ({ params }) => {
     }
   }, [msgData]);
 
-  const [message, setMessage] = useState("");
   const bottomOfChatsRef = useRef<HTMLSpanElement>(null);
   const senderId = data?.id;
 
@@ -109,6 +110,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
       console.log(error);
     } finally {
       reset();
+      setSelectedImage(undefined);
     }
   };
 
@@ -175,8 +177,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
               <div key={message.id} className="w-full flex flex-col">
                 {message.sender_id === senderId ? (
                   <div className="max-w-[350px] self-end flex justify-end">
-                    <div className="flex gap-3 ">
-                      <div className="px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
+                    <div className="flex flex-col gap-3 items-end">
+                      <div className="w-fit px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
                         {message.message}
                       </div>
                       {message.msg_image && (
@@ -185,6 +187,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                           width={200}
                           height={150}
                           alt=""
+                          className="rounded-lg border border-content"
                         />
                       )}
                     </div>
@@ -203,7 +206,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                           <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 right-0 z-20 rounded-full border-[1px] border-white"></span>
                         )}
                       </div>
-                      <div className="flex w-full flex-col gap-1">
+                      <div className="flex w-full flex-col gap-2">
                         <div className="flex justify-between">
                           <p className="text-xs font-bold text-gray-700">
                             {message.username.split(" ")[0]}
@@ -221,6 +224,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                             width={200}
                             height={150}
                             alt=""
+                            className="rounded-lg border border-content"
                           />
                         )}
                       </div>
@@ -258,6 +262,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                     name="msg_image"
                     onChange={(e) => {
                       field.onChange(e.target.files?.[0]);
+                      setSelectedImage(e.target.files?.[0]);
                     }}
                     hidden
                     accept="image/jpg, image/jpeg, image/png, image/webp"
@@ -266,13 +271,28 @@ const Page: React.FC<UserProps> = ({ params }) => {
               );
             }}
           />
+          {selectedImage && (
+            <div className="relative w-[55px] h-[50px]">
+              <Image
+                src={URL.createObjectURL(selectedImage)}
+                fill
+                alt=""
+                className="object-contain border-[2px] border-primary rounded-md p-1 z-10"
+              />
+              <span
+                onClick={() => setSelectedImage(undefined)}
+                className="absolute flex items-center justify-center z-20 cursor-pointer -top-1 -right-1 p-1 rounded-full bg-gray-700 hover:bg-black transition"
+              >
+                <X className="w-3 h-3 text-white text-center" />
+              </span>
+            </div>
+          )}
+
           <Input
             {...register("message")}
             name="message"
             placeholder="Write a message"
             type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
             className="border-content"
           />
 
