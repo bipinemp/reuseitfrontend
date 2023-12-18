@@ -2,6 +2,7 @@
 
 import { formatDateMsg } from "@/apis/apicalls";
 import { useGetUsersList } from "@/apis/queries";
+import { cn } from "@/lib/utils";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -63,11 +64,22 @@ const UserLists = () => {
                   <p className="font-semibold text-gray-600">
                     {user.otherUserdata.name}
                   </p>
-                  <p className="w-full text-content text-sm flex justify-between items-center">
-                    <span>
-                      {user.sender_id === user.authUserData.id ? "You: " : ""}{" "}
-                      {lastMsg}
-                    </span>
+                  <p className="w-full text-gray-700 text-sm flex justify-between items-center">
+                    <p className="flex items-center gap-1">
+                      <span>
+                        {user.sender_id === user.authUserData.id ? "You: " : ""}{" "}
+                      </span>
+                      <span
+                        className={cn("font-normal text-gray-500", {
+                          "font-black text-gray-700":
+                            user.sender_id !== user.authUserData.id &&
+                            user.msg_status === 0,
+                        })}
+                      >
+                        {lastMsg}
+                      </span>
+                      <span className="font-semibold">{user.unseen_msg}</span>
+                    </p>
                     <span>{formatDateMsg(user.created_at || "")}</span>
                   </p>
                 </div>

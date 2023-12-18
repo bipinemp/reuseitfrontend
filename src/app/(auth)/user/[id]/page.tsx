@@ -69,6 +69,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
     return sortedIds.join("_");
   }
 
+  // pusher logic for sending and receiving message in Real-Time
   useEffect(() => {
     const pusher = new Pusher("ebf38d954ac2b949a6ca", {
       cluster: "ap2",
@@ -92,6 +93,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
     }
   }, [messages]);
 
+  // for submitting message
   const onSubmit = async (data: TMsgType) => {
     const actual_Data = {
       ...data,
@@ -165,9 +167,13 @@ const Page: React.FC<UserProps> = ({ params }) => {
             <h3 className="font-bold text-gray-500 text-sm">
               {userDetails?.name}
             </h3>
-            <p className="text-gray-500 text-xs">
-              Lives in {userDetails?.District}, {userDetails?.Municipality}
-            </p>
+            {userDetails?.District ||
+            userDetails?.Municipality ||
+            userDetails?.Province ? (
+              <p className="text-gray-500 text-xs">
+                Lives in {userDetails?.District}, {userDetails?.Municipality}
+              </p>
+            ) : null}
           </div>
         </div>
 

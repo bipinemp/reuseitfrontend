@@ -381,7 +381,8 @@ type UserType = {
   created_at: string;
   updated_at: string;
   msg_image: string | null;
-  msg_status: number;
+  msg_status: number; // msg status 0 = highlight latest msg
+  unseen_msg?: number;
   otherUserdata: {
     id: number;
     name: string;
