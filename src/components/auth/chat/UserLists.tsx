@@ -61,9 +61,12 @@ const UserLists = () => {
                   )}
                 </div>
                 <div className="w-full flex flex-col">
-                  <p className="font-semibold text-gray-600">
-                    {user.otherUserdata.name}
-                  </p>
+                  <div>
+                    <p className="font-semibold text-gray-600">
+                      {user.otherUserdata.name}
+                    </p>
+                    <span className="font-semibold">{user.unseen_msg}</span>
+                  </div>
                   <p className="w-full text-gray-700 text-sm flex justify-between items-center">
                     <p className="flex items-center gap-1">
                       <span>
@@ -78,7 +81,6 @@ const UserLists = () => {
                       >
                         {lastMsg}
                       </span>
-                      <span className="font-semibold">{user.unseen_msg}</span>
                     </p>
                     <span>{formatDateMsg(user.created_at || "")}</span>
                   </p>
