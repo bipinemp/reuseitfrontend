@@ -71,9 +71,12 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   // pusher logic for sending and receiving message in Real-Time
   useEffect(() => {
-    const pusher = new Pusher("ebf38d954ac2b949a6ca", {
-      cluster: "ap2",
-    });
+    const pusher = new Pusher(
+      process.env.NEXT_PUBLIC_PUSHER_APP_KEY as string,
+      {
+        cluster: "ap2",
+      }
+    );
 
     const channel = pusher.subscribe(`user.${roomId}`);
 
