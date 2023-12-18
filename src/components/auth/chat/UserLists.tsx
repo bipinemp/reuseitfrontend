@@ -37,6 +37,9 @@ const UserLists = () => {
               user.message.length >= 10
                 ? user.message.substring(0, 10) + "..."
                 : user.message;
+
+            const unseenmsgs = user.unseen_msg || 0;
+
             return (
               <Link
                 href={`/user/${user.otherUserdata.id}`}
@@ -61,11 +64,24 @@ const UserLists = () => {
                   )}
                 </div>
                 <div className="w-full flex flex-col">
-                  <div>
+                  <div className="flex justify-between items-center">
                     <p className="font-semibold text-gray-600">
                       {user.otherUserdata.name}
                     </p>
-                    <span className="font-semibold">{user.unseen_msg}</span>
+
+                    <p
+                      className={cn("flex items-center justify-center", {
+                        "text-xs w-[20px] h-[20px] text-white bg-primary rounded-full":
+                          unseenmsgs > 0,
+                        "w-[30px] h-[26px]": unseenmsgs >= 10,
+                      })}
+                    >
+                      {unseenmsgs >= 10
+                        ? "10+"
+                        : unseenmsgs === 0
+                        ? ""
+                        : unseenmsgs}
+                    </p>
                   </div>
                   <p className="w-full text-gray-700 text-sm flex justify-between items-center">
                     <p className="flex items-center gap-1">
