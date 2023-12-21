@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
     "/dashboard/settings",
   ];
 
-  if (noNavDash.includes(pathname)) {
+  if (pathname.startsWith("/dashboard")) {
     return null;
   }
 

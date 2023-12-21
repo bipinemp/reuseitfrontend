@@ -219,8 +219,8 @@ export const electronicsList = [
     name: "condition",
     list: [
       "Brand New (never used)",
-      "Like New (gently used with minimal signs of wear)",
       "Good (used with some signs of wear but functions well)",
+      "Like New (gently used with minimal signs of wear)",
       "Fair (visible wear and tear but still functional)",
       "Poor (may require repairs or refurbishment)",
     ],

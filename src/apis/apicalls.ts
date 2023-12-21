@@ -457,6 +457,22 @@ export const sendOtp = async (otp: string) => {
   }
 };
 
+// For updating product
+export const updateProduct = async (data: any) => {
+  try {
+    const response = await axios.patch(
+      "http://localhost:8000/api/UpdateProducts",
+      data,
+      {
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Get All Users List for chatting
 export const getUsersList = async () => {
   try {

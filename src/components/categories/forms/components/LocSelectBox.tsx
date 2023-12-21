@@ -44,6 +44,7 @@ const LocSelectBox = <T extends FieldValues>({
                   onChange(e);
                 }
               }}
+              defaultValue={field.value}
             >
               <SelectTrigger
                 className={clsx(

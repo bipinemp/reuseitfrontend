@@ -53,6 +53,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   const [messages, setMessages] = useState<MsgData[]>([]);
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     if (msgData) {
@@ -82,6 +83,13 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
     channel.bind("message", function (data: any) {
       setMessages((prevMessages) => [...prevMessages, data]);
+    });
+
+    channel.bind("isTyping", function (value: any) {
+      // Check if the typing status is for the current user
+      if (value.sender_id !== data?.id) {
+        setIsTyping(value.status);
+      }
     });
 
     return () => {
@@ -129,6 +137,31 @@ const Page: React.FC<UserProps> = ({ params }) => {
       </div>
     );
   }
+
+  const handletyping = () => {
+    fetch("http://localhost:8000/api/typing", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id, // Adjusted to match your Laravel API expectations
+      }),
+    });
+  };
+  const handlenottyping = () => {
+    fetch("http://localhost:8000/api/notTyping", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id, // Adjusted to match your Laravel API expectations
+      }),
+    });
+  };
 
   return (
     <div className="relative flex flex-col w-full h-full">
@@ -247,6 +280,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
       </div>
 
+      {isTyping && <p>typing...</p>}
+
       {/* Form  */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -303,6 +338,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
             placeholder="Write a message"
             type="text"
             className="border-content"
+            onFocus={handletyping}
+            onBlur={handlenottyping}
           />
 
           <Button>

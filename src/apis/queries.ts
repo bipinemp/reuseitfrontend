@@ -59,6 +59,19 @@ export const useProductDetails = (id: number, user_id: number | null) => {
   return { data, isPending };
 };
 
+// for fetching product details for updating product
+export const useViewProductDetails = (id: number) => {
+  const { data, isPending } = useQuery({
+    queryKey: ["productdetails", id],
+    queryFn: (obj) => {
+      const prodDetails = getProductDetails(obj.queryKey[1] as number);
+      return prodDetails;
+    },
+  });
+
+  return { data, isPending };
+};
+
 // for fetching LoggedIn user Details
 export const useUserProfile = () => {
   const { data, isPending, isSuccess } = useQuery<TUserDetail>({

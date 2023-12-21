@@ -38,7 +38,7 @@ const SelectBox = <T extends FieldValues>({
         control={control}
         render={({ field }) => {
           return (
-            <Select onValueChange={field.onChange}>
+            <Select onValueChange={field.onChange} defaultValue={field.value}>
               <SelectTrigger
                 className={clsx(
                   "w-full border-content text-[0.9rem] lg:text-lg font-semibold text-content",

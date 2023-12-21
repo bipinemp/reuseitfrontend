@@ -10,13 +10,25 @@ interface FileUploadProps {
   files: any[];
   setFiles: React.Dispatch<React.SetStateAction<any[]>>;
   imgError: string;
+  backendImgs?: any[];
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
   files,
   setFiles,
   imgError,
+  backendImgs,
 }) => {
+  // if (backendImgs) {
+  //   setFiles(
+  //     backendImgs.map((img) => ({
+  //       ...img,
+  //       preview: `http://localhost:8000/images/hello.png`,
+  //       id: uuidv4(),
+  //     }))
+  //   );
+  // }
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       if (acceptedFiles?.length) {

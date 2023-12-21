@@ -9,15 +9,21 @@ import { Control, FieldErrors } from "react-hook-form";
 interface LocationBoxProps {
   control: Control<TElectronics>;
   errors: FieldErrors<TElectronics>;
+  whileEditing?: boolean;
+  Prov?: string;
+  Dist?: string;
 }
 
 const ElectronicsLocationBox: React.FC<LocationBoxProps> = ({
   control,
   errors,
+  whileEditing,
+  Prov,
+  Dist,
 }) => {
   const AllProvinces = Locations.provinceList.flatMap((val) => val.name);
 
-  const [province, setProvince] = useState<string>("");
+  const [province, setProvince] = useState<string>(Prov || "");
 
   const ProvinceDetails = Locations.provinceList.filter(
     (provinc) => provinc.name === province
@@ -25,7 +31,7 @@ const ElectronicsLocationBox: React.FC<LocationBoxProps> = ({
 
   const DistrictList = ProvinceDetails[0]?.districtList.map((val) => val.name);
 
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState(Dist || "");
 
   const MunicipilityDetails = ProvinceDetails[0]?.districtList.find(
     (val) => val.name === district
@@ -49,7 +55,19 @@ const ElectronicsLocationBox: React.FC<LocationBoxProps> = ({
         onChange={(val) => setProvince(val)}
       />
 
-      {province !== "" ? (
+      {whileEditing ? (
+        <>
+          <LocSelectBox<TElectronics>
+            name="District"
+            control={control}
+            array={DistrictList}
+            placeholder="Select Districts"
+            label="All Districts:"
+            error={errors?.District?.message || ""}
+            onChange={(val) => setDistrict(val)}
+          />
+        </>
+      ) : province !== "" ? (
         <>
           <LocSelectBox<TElectronics>
             name="District"
@@ -63,7 +81,18 @@ const ElectronicsLocationBox: React.FC<LocationBoxProps> = ({
         </>
       ) : null}
 
-      {district !== "" ? (
+      {whileEditing ? (
+        <>
+          <LocSelectBox<TElectronics>
+            name="Municipality"
+            control={control}
+            array={MunicipilityList}
+            placeholder="Select Municipality"
+            label="All Municipalities:"
+            error={errors?.Municipality?.message || ""}
+          />
+        </>
+      ) : district !== "" ? (
         <>
           <LocSelectBox<TElectronics>
             name="Municipality"

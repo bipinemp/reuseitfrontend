@@ -47,11 +47,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useCheckToken from "@/lib/useCheckToken";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { useRouter } from "next/navigation";
 
 const Page: React.FC = () => {
-  // useCheckToken();
+  const router = useRouter();
   const [actualPrice, setActualPrice] = useState<string>("");
 
   const queryClient = useQueryClient();
@@ -170,24 +170,21 @@ const Page: React.FC = () => {
                       "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer bg-primary"
                     )}
                   >
-                    Sold Out
+                    Sold
                   </span>
                 )}
-
-                {/* <Button
-                  size="icon"
-                  variant="outline"
-                  className="py-[0.1rem] border-content"
-                >
-                  Set
-                </Button> */}
               </TableCell>
               <TableCell className="text-center">{formattedDate}</TableCell>
               <TableCell className="flex items-center gap-2">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger>
-                      <Button size="sm">
+                      <Button
+                        size="sm"
+                        onClick={() =>
+                          router.push(`/dashboard/products/${product.id}`)
+                        }
+                      >
                         <Edit className="w-4 h-4" strokeWidth={2} />
                       </Button>
                     </TooltipTrigger>
