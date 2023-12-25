@@ -16,7 +16,12 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewFurniture, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import {
+  createNewFurniture,
+  createNewProduct,
+  sendOtp,
+  sendPhoneNumber,
+} from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import FurnitureLocation from "./components/locations/FurnitureLocation";
@@ -71,8 +76,8 @@ const HomeAppliances: React.FC = () => {
   ];
 
   // mutation function for creating Home Appliance AD
-  const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewFurniture,
+  const { mutate: CreateProduct, isPending } = useMutation({
+    mutationFn: createNewProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -179,8 +184,9 @@ const HomeAppliances: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
+      path: pathname.split("/")[2],
     };
-    CreateBlog(actualData);
+    CreateProduct(actualData);
   }
 
   useEffect(() => {

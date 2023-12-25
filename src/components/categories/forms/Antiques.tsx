@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewAntiques, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import { createNewProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import AntiquesLocationBox from "./components/locations/AntiquesLocationBox";
@@ -72,18 +72,16 @@ const Antiques: React.FC = () => {
   const locations = antiquesCollectiblesList.filter(
     (val) => val.name === "provenance_location"
   );
-
   const rarities = antiquesCollectiblesList.filter(
     (val) => val.name === "rarity"
   );
-
   const histories = antiquesCollectiblesList.filter(
     (val) => val.name === "historical_significance"
   );
 
   // mutation function for creating Home Appliance AD
-  const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewAntiques,
+  const { mutate: CreateProduct, isPending } = useMutation({
+    mutationFn: createNewProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -188,9 +186,11 @@ const Antiques: React.FC = () => {
       ...data,
       image_urls: files,
       user_id: UserData?.id,
+      path: pathname.split("/")[2],
       price: parseInt(data.price),
+      category_id: 310,
     };
-    CreateBlog(actualData);
+    CreateProduct(actualData);
   }
 
   useEffect(() => {

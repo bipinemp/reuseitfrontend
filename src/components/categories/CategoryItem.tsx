@@ -6,13 +6,13 @@ import Link from "next/link";
 interface CategoryProps {
   length: number;
   i: number;
-  icon: IconType;
+  // icon?: IconType;
   name: string;
   link: string;
 }
 
 const CategoryItem: React.FC<CategoryProps> = ({
-  icon: Icon,
+  // icon: Icon,
   name,
   i,
   length,
@@ -28,7 +28,7 @@ const CategoryItem: React.FC<CategoryProps> = ({
         }
       )}
     >
-      <Icon size={30} color="gray" />
+      {/* <Icon size={30} color="gray" /> */}
       <p className="p-2 text-[0.9rem] lg:text-[1rem]">{name}</p>
     </Link>
   );

@@ -418,3 +418,10 @@ type UserType = {
 type CountChatType = {
   count: number;
 };
+
+// type for categories list
+type TCategories = {
+  id: number;
+  category_name: string;
+  function_name: string;
+};

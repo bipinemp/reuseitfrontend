@@ -35,6 +35,36 @@ interface PreviewFile extends File {
   preview: string;
 }
 
+export const createNewProduct = async (data: any) => {
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/api/sellproducts`,
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
+// get categories list
+export const getCategoriesList = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/getCategory");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createNewAppliance = async (data: any) => {
   try {
     const response = await axios.post(
@@ -467,7 +497,7 @@ export const updateProduct = async (data: any) => {
         withCredentials: true,
       }
     );
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }

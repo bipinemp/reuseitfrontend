@@ -16,7 +16,12 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewMusics, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import {
+  createNewMusics,
+  createNewProduct,
+  sendOtp,
+  sendPhoneNumber,
+} from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import RadioBox from "./components/RadioBox";
@@ -77,8 +82,8 @@ const Musics: React.FC = () => {
   ];
 
   // mutation function for creating Home Appliance AD
-  const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewMusics,
+  const { mutate: CreateProduct, isPending } = useMutation({
+    mutationFn: createNewProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -185,7 +190,7 @@ const Musics: React.FC = () => {
       user_id: UserData?.id,
       price: parseInt(data.price),
     };
-    CreateBlog(actualData);
+    CreateProduct(actualData);
   }
 
   useEffect(() => {

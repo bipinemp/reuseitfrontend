@@ -3,6 +3,7 @@ import {
   deleteMyProduct,
   fetchAllProducts,
   fetchMyProducts,
+  getCategoriesList,
   getCount,
   getLatestMessageId,
   getMessagesList,
@@ -70,6 +71,16 @@ export const useViewProductDetails = (id: number) => {
   });
 
   return { data, isPending };
+};
+
+// for fetching categories list
+export const useCategoriesList = () => {
+  const { data, isPending, isSuccess } = useQuery<TCategories[]>({
+    queryKey: ["categories"],
+    queryFn: getCategoriesList,
+  });
+
+  return { data, isPending, isSuccess };
 };
 
 // for fetching LoggedIn user Details

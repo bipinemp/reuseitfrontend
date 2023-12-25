@@ -16,7 +16,12 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewSports, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import {
+  createNewProduct,
+  createNewSports,
+  sendOtp,
+  sendPhoneNumber,
+} from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import SportsLocationBox from "./components/locations/SportsLocationBox";
@@ -76,8 +81,8 @@ const Sports: React.FC = () => {
   );
 
   // mutation function for creating Home Appliance AD
-  const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewSports,
+  const { mutate: CreateProduct, isPending } = useMutation({
+    mutationFn: createNewProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -183,8 +188,9 @@ const Sports: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
+      // category_id
     };
-    CreateBlog(actualData);
+    CreateProduct(actualData);
   }
 
   useEffect(() => {

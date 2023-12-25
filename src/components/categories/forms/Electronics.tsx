@@ -17,6 +17,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
 import {
   createNewElectronics,
+  createNewProduct,
   sendOtp,
   sendPhoneNumber,
 } from "@/apis/apicalls";
@@ -69,8 +70,8 @@ const Electronics: React.FC = () => {
   );
 
   // mutation function for creating Electronics AD
-  const { mutate: CreateElectronics, isPending } = useMutation({
-    mutationFn: createNewElectronics,
+  const { mutate: CreateProduct, isPending } = useMutation({
+    mutationFn: createNewProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -107,7 +108,6 @@ const Electronics: React.FC = () => {
       setPhoneDialog(false);
       setPhoneNumber("");
       if (parseInt(data[0].split("=>")[1]) === 200) {
-        console.log(getValues());
         handleCreateElectronics(getValues());
         setOtpDialog(false);
       }
@@ -177,8 +177,9 @@ const Electronics: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
+      path: pathname.split("/")[2],
     };
-    CreateElectronics(actualData);
+    CreateProduct(actualData);
   }
 
   //  for handling Image validation
@@ -190,6 +191,8 @@ const Electronics: React.FC = () => {
       setImgError("");
     }
   }, [files]);
+
+  console.log(pathname);
 
   return (
     <div className="max-w-[1920px] mx-auto px-2 md:px-10 xl:px-52 2xl:px-80">
