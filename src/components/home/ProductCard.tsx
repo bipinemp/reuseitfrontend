@@ -26,32 +26,34 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   return (
     <div
       onClick={() => router.push(`/productdetails/${product.id}`)}
-      className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2"
+      className="group col-span-1 cursor-pointer"
     >
-      <div className="relative w-full aspect-square overflow-hidden">
-        <Image
-          fill
-          src={
-            product?.image === undefined ||
-            product?.image.length === 0 ||
-            product?.image[0]?.image_url === null ||
-            product?.image[0]?.image_url === undefined
-              ? fallbackimage
-              : imgurl + product.image[0]?.image_url
-          }
-          alt="product image"
-          className="rounded-md w-full h-full object-fill mix-blend-darken bg-gray-300"
-          // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </div>
-      <div className="sm:px-2 flex flex-col gap-5">
-        <div>
-          <h2 className="font-bold">{formattedPrice}</h2>
-          <p className="text-content text-lg">{formattedtitle}</p>
+      <div className="flex w-full flex-col gap-2">
+        <div className="relative aspect-square max-h-[14rem] w-full overflow-hidden rounded-xl">
+          <Image
+            fill
+            src={
+              product?.image === undefined ||
+              product?.image.length === 0 ||
+              product?.image[0]?.image_url === null ||
+              product?.image[0]?.image_url === undefined
+                ? fallbackimage
+                : imgurl + product.image[0]?.image_url
+            }
+            alt="product image"
+            className="h-full w-full  object-cover transition group-hover:scale-110"
+            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 z-30 bg-gradient-to-b from-gray-700/10 via-gray-900/10 to-black/30"></div>
+          <div className="font-semi-bold absolute bottom-0 z-30 flex w-full items-center justify-between px-3 pb-2 text-[0.8rem] text-white">
+            <p>{location.toUpperCase()}</p>
+            <p className="hidden sm:block">{formattedDate}</p>
+          </div>
         </div>
-        <div className="text-xs text-content flex justify-between items-center">
-          <p>{location.toUpperCase()}</p>
-          <p className="hidden sm:block">{formattedDate}</p>
+
+        <div className="flex flex-col">
+          <h2 className="font-bold text-gray-800">{formattedPrice}</h2>
+          <p className="text-lg text-content">{formattedtitle}</p>
         </div>
       </div>
     </div>
