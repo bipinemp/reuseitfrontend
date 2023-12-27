@@ -420,8 +420,18 @@ type CountChatType = {
 };
 
 // type for categories list
+type Field = {
+  type: string;
+  label: string;
+  placeholder: string;
+};
+
 type TCategories = {
   id: number;
   category_name: string;
+  admin_status: number;
+  created_at: string;
+  updated_at: string;
   function_name: string;
+  fields: Field[];
 };

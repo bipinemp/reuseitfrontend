@@ -9,6 +9,8 @@ interface CategoryProps {
   // icon?: IconType;
   name: string;
   link: string;
+  id?: number;
+  adminStatus?: number;
 }
 
 const CategoryItem: React.FC<CategoryProps> = ({
@@ -17,15 +19,17 @@ const CategoryItem: React.FC<CategoryProps> = ({
   i,
   length,
   link,
+  adminStatus,
+  id,
 }) => {
   return (
     <Link
-      href={`/post/${link}`}
+      href={adminStatus === 1 ? `/post/${link}/${id}` : `/post/${link}`}
       className={clsx(
-        `flex items-center p-4 hover:bg-neutral-200 cursor-pointer transition`,
+        `flex cursor-pointer items-center p-4 transition hover:bg-neutral-200`,
         {
           "border-b-gray border-b-[1px]": i !== length - 1,
-        }
+        },
       )}
     >
       {/* <Icon size={30} color="gray" /> */}

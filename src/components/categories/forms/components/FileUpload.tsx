@@ -1,6 +1,6 @@
 "use client";
 import { v4 as uuidv4 } from "uuid";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Image from "next/image";
 import { X } from "lucide-react";
@@ -39,12 +39,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
             Object.assign(file, {
               preview: URL.createObjectURL(file),
               id: uuidv4(),
-            })
+            }),
           ),
         ]);
       }
     },
-    [files, setFiles]
+    [files, setFiles],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -73,7 +73,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 lg:px-10 py-8">
+    <div className="relative flex flex-col gap-4 border-b-[1px] border-content px-3 py-8 lg:px-10">
       <h3 className="font-semibold underline underline-offset-2">
         UPLOAD UPTO 5 PHOTOS
       </h3>
@@ -85,7 +85,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             {
               "border-[3px] border-red-500 placeholder:text-destructive bg-destructive/20":
                 imgError !== "",
-            }
+            },
           ),
         })}
       >
@@ -97,11 +97,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
           />
 
           {isDragActive ? (
-            <p className="font-semibold text-destructive text-center">
+            <p className="text-center font-semibold text-destructive">
               Drop the Images here ...
             </p>
           ) : (
-            <p className="text-sm lg:text-[1.125rem] font-semibold text-destructive text-center">
+            <p className="text-center text-sm font-semibold text-destructive lg:text-[1.125rem]">
               Drag and Drop Images here, or click to select images <br />
               &quot;First Selected Image will be the cover of AD&quot;
             </p>
@@ -110,16 +110,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
       </div>
 
       {imgError && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {imgError}
         </span>
       )}
 
-      <div className="flex gap-5 items-center">
+      <div className="flex items-center gap-5">
         {files.map((file, i) => (
           <div
             key={file.id}
-            className="relative w-[150px] h-[100px] rounded-lg"
+            className="relative h-[100px] w-[150px] rounded-lg"
           >
             <Image
               src={file.preview}
@@ -128,16 +128,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
               onLoad={() => {
                 URL.revokeObjectURL(file.preview);
               }}
-              className="rounded-lg brightness-90 z-10"
+              className="z-10 rounded-lg brightness-90"
             />
             {i === 0 && (
-              <span className="rounded-lg rounded-tl-none rounded-tr-none absolute text-sm font-semibold tracking-wide py-1 z-20 text-white bg-primary w-full text-center bottom-0">
+              <span className="absolute bottom-0 z-20 w-full rounded-lg rounded-tl-none rounded-tr-none bg-primary py-1 text-center text-sm font-semibold tracking-wide text-white">
                 Cover
               </span>
             )}
             <X
               onClick={() => removeFile(file.id)}
-              className="z-20 absolute right-1 cursor-pointer hover:opacity-90 bg-destructive-foreground font-bold transition p-[0.3rem] top-1 h-8 w-8 rounded-full brightness-150 text-destructive"
+              className="absolute right-1 top-1 z-20 h-8 w-8 cursor-pointer rounded-full bg-destructive-foreground p-[0.3rem] font-bold text-destructive brightness-150 transition hover:opacity-90"
             />
           </div>
         ))}

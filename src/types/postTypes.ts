@@ -35,7 +35,7 @@ export const ApplianceSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
   user_id: z.number().optional(),
@@ -85,7 +85,7 @@ export const ElectronicsSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -141,7 +141,7 @@ export const FurnitureSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -197,7 +197,7 @@ export const ClothingSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -253,7 +253,7 @@ export const ToysSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -312,7 +312,7 @@ export const SportsSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -365,7 +365,7 @@ export const BooksSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -422,7 +422,7 @@ export const AntiquesSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -488,7 +488,7 @@ export const VehicleSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -541,7 +541,7 @@ export const MusicsSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -613,7 +613,7 @@ export const CarsSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -681,7 +681,7 @@ export const BikesSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -720,7 +720,7 @@ export const BicycleSchema = z.object({
     .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      "Only .jpg, .jpeg, .png and .webp formats are supported."
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
     )
     .optional(),
 
@@ -747,3 +747,38 @@ export const BicycleSchema = z.object({
 });
 
 export type TBicycles = z.infer<typeof BicycleSchema>;
+
+export const DynamicFormSchema = z.object({
+  image_urls: z
+    .any()
+    .refine((file: File[]) => file?.length === 0, "Image is required")
+    .refine((file: File[]) => file?.length > 5, "Only 5 Images are Allowed")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
+    )
+    .optional(),
+
+  // product
+  user_id: z.number().optional(),
+  pname: z
+    .string({ required_error: "Title is required" })
+    .min(1, { message: "You must enter a Title" }),
+  description: z
+    .string({ required_error: "Description is required" })
+    .min(1, { message: "You must enter a Description" }),
+  price: z
+    .string({ required_error: "Price is required" })
+    .min(1, { message: "You must enter a Price amount" }),
+  Province: z
+    .string({ required_error: "Province is required" })
+    .min(1, { message: "You must enter a Province amount" }),
+  District: z
+    .string({ required_error: "District is required" })
+    .min(1, { message: "You must enter a District" }),
+  Municipality: z
+    .string({ required_error: "Municipility is required" })
+    .min(1, { message: "You must enter a Municipility" }),
+});
+
+export type TDynamicForm = z.infer<typeof DynamicFormSchema>;

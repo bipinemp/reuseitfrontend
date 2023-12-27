@@ -148,6 +148,7 @@ export const nonavbarlist = [
   "/login",
   "/register",
   "/user",
+  "/formbuilder",
 ];
 
 export const homeapplianceslist = [

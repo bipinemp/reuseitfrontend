@@ -4,6 +4,7 @@ import {
   fetchAllProducts,
   fetchMyProducts,
   getCategoriesList,
+  getCategoryDetails,
   getCount,
   getLatestMessageId,
   getMessagesList,
@@ -91,6 +92,19 @@ export const useUserProfile = () => {
   });
 
   return { data, isPending, isSuccess };
+};
+
+// for fetching LoggedIn user Details
+export const useCategoryDetails = (id: number) => {
+  const { data, isPending } = useQuery<TCategories>({
+    queryKey: ["categoryDetails", id],
+    queryFn: (obj) => {
+      const prodDetails = getCategoryDetails(obj.queryKey[1] as number);
+      return prodDetails;
+    },
+  });
+
+  return { data, isPending };
 };
 
 // Dashboard
@@ -192,7 +206,7 @@ export const useGetLatestMessages = (senderId: number, id: number) => {
     queryFn: (obj) => {
       const messages = getMessagesList(
         obj.queryKey[1] as number,
-        obj.queryKey[2] as number
+        obj.queryKey[2] as number,
       );
 
       return messages;

@@ -9,7 +9,7 @@ export const fetchAllProducts = async ({
 }) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/getdat?page=${pageParam}&limit=10`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/getdat?page=${pageParam}&limit=10`,
     );
     return response.data;
   } catch (error) {
@@ -21,7 +21,7 @@ export const fetchAllProducts = async ({
 export const getProductDetails = async (id: number) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/getIndivProduct/${id}`
+      `http://localhost:8000/api/getIndivProduct/${id}`,
     );
     return response.data;
   } catch (error) {
@@ -45,7 +45,7 @@ export const createNewProduct = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -74,7 +74,7 @@ export const createNewAppliance = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -108,7 +108,7 @@ export const createNewElectronics = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -127,7 +127,7 @@ export const createNewFurniture = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -146,7 +146,7 @@ export const createNewClothing = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -180,7 +180,7 @@ export const createNewSports = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -214,7 +214,7 @@ export const createNewAntiques = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -248,7 +248,7 @@ export const createNewBikes = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -267,7 +267,7 @@ export const createNewScooters = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -286,7 +286,7 @@ export const createNewBicycles = async (data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     const resData = response.data;
 
@@ -306,7 +306,7 @@ export const registerCall = async (actual_Data: any) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -324,7 +324,7 @@ export const loginCall = async (actual_Data: any) => {
           "Content-Type": "application/json",
         },
         withCredentials: true,
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -337,7 +337,7 @@ export const logoutCall = async () => {
     const response = await axios.post(
       "http://localhost:8000/api/logout",
       {},
-      { withCredentials: true }
+      { withCredentials: true },
     );
     return response;
   } catch (error) {
@@ -355,7 +355,7 @@ export const getUserProfile = async () => {
           "Content-type": "application/json",
         },
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -366,7 +366,7 @@ export const getUserProfile = async () => {
 // for Recommendation system
 export const postUserIdFromProductDetailsPage = async (
   product_id: number,
-  user_id: number | null
+  user_id: number | null,
 ) => {
   try {
     const UserId = user_id ? user_id : null;
@@ -384,7 +384,7 @@ export const postUserIdFromHomePage = async (user_id: number) => {
   try {
     const response = await axios.post(
       "http://localhost:8000/api/get_recommend",
-      { user_id: user_id }
+      { user_id: user_id },
     );
     return response;
   } catch (error) {
@@ -399,7 +399,7 @@ export const filterProducts = async (pageNum: number, params: any) => {
       `http://localhost:8000/api/filter?page=${pageNum}`,
       {
         params,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -415,7 +415,7 @@ export const fetchMyProducts = async ({ pageParam }: { pageParam: number }) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/myproducts?page=${pageParam}&limit=10`,
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -429,7 +429,7 @@ export const deleteMyProduct = async (id: number) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/deleteads/${id}`,
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -449,7 +449,7 @@ export const setStatus = async (data: StatusType) => {
       data,
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -464,7 +464,7 @@ export const sendPhoneNumber = async (phone: string) => {
       { number: phone },
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -479,7 +479,7 @@ export const sendOtp = async (otp: string) => {
       { otp: otp },
       {
         withCredentials: true,
-      }
+      },
     );
     return response.data;
   } catch (error) {
@@ -495,7 +495,19 @@ export const updateProduct = async (data: any) => {
       data,
       {
         withCredentials: true,
-      }
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for getting individual Category details
+export const getCategoryDetails = async (id: number) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/getindivcategory/${id}`,
     );
     return response.data;
   } catch (error) {
@@ -510,7 +522,7 @@ export const getUsersList = async () => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/getUsers`,
       {
         withCredentials: true,
-      }
+      },
     );
 
     return response.data;
@@ -523,7 +535,7 @@ export const getUsersList = async () => {
 export const getMessagesList = async (senderId: number, id: number) => {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/messages/${senderId}/${id}`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/messages/${senderId}/${id}`,
     );
 
     return response.data.messages;
@@ -539,7 +551,7 @@ export const getUserDetails = async (id: number) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/userdetails/${id}`,
       {
         withCredentials: true,
-      }
+      },
     );
 
     return response.data;
@@ -555,7 +567,7 @@ export const getLatestMessageId = async () => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
       {
         withCredentials: true,
-      }
+      },
     );
 
     return response.data;
@@ -594,7 +606,7 @@ export const makeOffline = async () => {
       "http://localhost:8000/api/notactiveuser",
       {
         withCredentials: true,
-      }
+      },
     );
     return response;
   } catch (error) {
