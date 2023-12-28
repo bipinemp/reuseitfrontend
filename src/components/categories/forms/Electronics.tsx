@@ -71,7 +71,7 @@ const Electronics: React.FC = () => {
 
   // mutation function for creating Electronics AD
   const { mutate: CreateProduct, isPending } = useMutation({
-    mutationFn: createNewProduct,
+    mutationFn: createNewElectronics,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");

@@ -8,6 +8,7 @@ import BikesDetails from "@/components/categories/detailspage/bikes/BikesDetails
 import BooksDetails from "@/components/categories/detailspage/books/BooksDetails";
 import CarsDetails from "@/components/categories/detailspage/cars/CarsDetails";
 import ClothingDetails from "@/components/categories/detailspage/clothing/ClothingDetails";
+import DynamicDetails from "@/components/categories/detailspage/dynamicDetails.tsx/DynamicDetails";
 import ElectronicsDetails from "@/components/categories/detailspage/electronics/ElectronicsDetails";
 import FurnitureDetails from "@/components/categories/detailspage/furnitures/FurnitureDetails";
 import HomeApplianceDetails from "@/components/categories/detailspage/homeappliances/HomeApplianceDetails";
@@ -35,6 +36,8 @@ const Page: React.FC<ProductProps> = ({ params }) => {
   const { data, isPending } = useProductDetails(productId, user_id);
 
   const ProductDetails = data?.data[0];
+
+  // console.log(data);
 
   if (isPending) {
     return <ProductDetailsLoading />;
@@ -78,7 +81,14 @@ const Page: React.FC<ProductProps> = ({ params }) => {
     }
   };
 
-  return <div>{renderProductDetails()}</div>;
+  const renderDetails =
+    ProductDetails?.product.category.admin_status === 1 ? (
+      <DynamicDetails ProductDetails={ProductDetails} />
+    ) : (
+      renderProductDetails()
+    );
+
+  return <div>{renderDetails}</div>;
 };
 
 export default Page;

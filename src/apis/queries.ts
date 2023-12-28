@@ -102,6 +102,7 @@ export const useCategoryDetails = (id: number) => {
       const prodDetails = getCategoryDetails(obj.queryKey[1] as number);
       return prodDetails;
     },
+    staleTime: 10 * 60 * 1000,
   });
 
   return { data, isPending };

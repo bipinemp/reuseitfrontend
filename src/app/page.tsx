@@ -66,5 +66,9 @@ export default function Home() {
   // };
   // }, []);
 
-  return <main>{/* <Products /> */}</main>;
+  return (
+    <main>
+      <Products />
+    </main>
+  );
 }

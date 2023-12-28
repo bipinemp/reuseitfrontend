@@ -44,16 +44,18 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
             className="h-full w-full  object-cover transition group-hover:scale-110"
             // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-          <div className="absolute inset-0 z-30 bg-gradient-to-b from-gray-700/10 via-gray-900/10 to-black/30"></div>
+          <div className="absolute inset-0 z-30 bg-gradient-to-b from-gray-700/10 via-gray-800/10 to-black/80"></div>
           <div className="font-semi-bold absolute bottom-0 z-30 flex w-full items-center justify-between px-3 pb-2 text-[0.8rem] text-white">
             <p>{location.toUpperCase()}</p>
             <p className="hidden sm:block">{formattedDate}</p>
           </div>
         </div>
 
-        <div className="flex flex-col">
-          <h2 className="font-bold text-gray-800">{formattedPrice}</h2>
-          <p className="text-lg text-content">{formattedtitle}</p>
+        <div className="flex flex-col pl-3">
+          <h2 className="font-bold leading-6 text-gray-800">
+            {formattedPrice}
+          </h2>
+          <p className="text-[1rem] text-content">{formattedtitle}</p>
         </div>
       </div>
     </div>
