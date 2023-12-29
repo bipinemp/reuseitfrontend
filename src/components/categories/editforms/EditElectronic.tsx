@@ -45,6 +45,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
   const imgurl = "http://127.0.0.1:8000/images/";
+  const [imggurl, setImggurl] = useState<string>("");
 
   const {
     register,
@@ -73,10 +74,10 @@ const EditElectronic: React.FC<EDetailsProps> = ({
 
   const typeofelectronic = electronicsList.filter((val) => val.name === "type");
   const typeofcondition = electronicsList.filter(
-    (val) => val.name === "condition"
+    (val) => val.name === "condition",
   );
   const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty"
+    (val) => val.name === "warrenty",
   );
 
   // mutation function for creating Electronics AD
@@ -129,23 +130,48 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     }
   }, [files]);
 
+  useEffect(() => {
+    const imageUrl = "http://localhost:8000/images/bipin.jpg"; // Replace with your image URL
+
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(imageUrl, {
+          credentials: "include",
+        });
+        const blob = await response.blob();
+
+        // You can dynamically generate the file name and type based on the image URL
+        const fileName = imageUrl.split("/").pop() as string;
+        const fileType = blob.type;
+
+        const file = new File([blob], fileName!, { type: fileType });
+        console.log("file image: ", file);
+        setImggurl(URL.createObjectURL(file));
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+
+    fetchImage();
+  }, []);
+
   return (
     <DashboardContainer>
-      <div className="w-[1000px] mx-auto flex flex-col gap-2 mb-20">
+      <div className="mx-auto mb-20 flex w-[1000px] flex-col gap-2">
         <div className="flex items-center gap-5">
-          <div className="flex items-center gap-1 py-3 px-5 bg-neutral-200 rounded-md w-fit cursor-pointer opacity-80 hover:opacity-100 transition">
+          <div className="flex w-fit cursor-pointer items-center gap-1 rounded-md bg-neutral-200 px-5 py-3 opacity-80 transition hover:opacity-100">
             <PiArrowLeftBold size={25} />
           </div>
-          <h2 className="font-semibold my-1 underline underline-offset-2">
+          <h2 className="my-1 font-semibold underline underline-offset-2">
             Edit Product
           </h2>
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col border-[1px] border-content rounded-lg mb-10"
+          className="mb-10 flex flex-col rounded-lg border-[1px] border-content"
         >
           {/* Details Section */}
-          <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
+          <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 py-8 lg:px-10">
             <h3 className="font-semibold underline underline-offset-2">
               INCLUDE SOME DETAILS :
             </h3>
@@ -245,13 +271,15 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           {/* Photo Selection Section */}
           <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
 
+          <Image src={imggurl} alt="" width={200} height={200} />
+
           {/* <Image src={imgfile} width={100} height={100} alt="" /> */}
 
           {/* Submitting Product Sell Button */}
-          <div className="px-3 lg:px-10 py-8">
-            <Button type="submit" size="lg" className="text-lg w-fit">
+          <div className="px-3 py-8 lg:px-10">
+            <Button type="submit" size="lg" className="w-fit text-lg">
               {isPending ? (
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin" />
                   <p>Updating..</p>
                 </div>

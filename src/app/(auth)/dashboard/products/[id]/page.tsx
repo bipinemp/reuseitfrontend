@@ -17,7 +17,10 @@ const Page: FC<pageProps> = ({ params }) => {
   const { data, isPending } = useViewProductDetails(parseInt(productID));
 
   const renderProductDetails = () => {
-    switch (data?.data[0].product.category.category_name) {
+    switch (
+      data?.data[0]?.product?.category &&
+      data?.data[0]?.product.category.category_name
+    ) {
       case "Electronics":
         return (
           <EditElectronic
