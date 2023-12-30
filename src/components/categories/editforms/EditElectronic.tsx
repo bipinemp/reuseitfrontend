@@ -10,19 +10,18 @@ import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
-import FileUpload from "./../forms/components/FileUpload";
 import PriceBox from "./../forms/components/PriceBox";
 import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
-import { usePathname, useRouter } from "next/navigation";
-import { createNewElectronics, updateProduct } from "@/apis/apicalls";
+import { useRouter } from "next/navigation";
+import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
 import { useUserProfile } from "@/apis/queries";
 import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
-import Image from "next/image";
-import axios from "axios";
+import UploadFileUpload from "../forms/components/UpdateFileUpload";
+import UpdateFileUpload from "../forms/components/UpdateFileUpload";
+import toast from "react-hot-toast";
 
 interface PreviewFile extends File {
   id: string;
@@ -33,6 +32,11 @@ interface EDetailsProps {
   isPending: boolean;
   ProductDetails: EProductDetails;
 }
+
+export type OldImages = {
+  id: number;
+  image_url: string;
+};
 
 const EditElectronic: React.FC<EDetailsProps> = ({
   ProductDetails,
@@ -45,7 +49,10 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
   const imgurl = "http://127.0.0.1:8000/images/";
-  const [imggurl, setImggurl] = useState<string>("");
+  const [oldImages, setOldImages] = useState<OldImages[] | []>(
+    ProductDetails?.product.image ?? [],
+  );
+  const [oldImagesId, setOldImagesId] = useState<number[] | []>([]);
 
   const {
     register,
@@ -84,16 +91,15 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   const { mutate: updateElectronic, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
-      console.log(data);
-      // if (data.status === 200) {
-      //   toast.success("Post Successfull");
-      //   reset();
-      //   router.push(`/productdetails/${data.product_id}`);
-      // }
-      // if (data.response.status === 422) {
-      //   const errorArr: any[] = Object.values(data.response.data.errors);
-      //   toast.error(errorArr[0]);
-      // }
+      if (data.success === "Successful Update") {
+        toast.success("Post Successfull");
+        reset();
+        router.push(`/productdetails/${ProductDetails?.product_id}`);
+      }
+      if (data.response.status === 422) {
+        const errorArr: any[] = Object.values(data.response.data.errors);
+        toast.error(errorArr[0]);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
@@ -102,9 +108,9 @@ const EditElectronic: React.FC<EDetailsProps> = ({
 
   // actual form submission function
   const onSubmit = async (data: any) => {
-    // if (files.length === 0) {
-    //   return;
-    // }
+    if (files.length === 0 && oldImages.length === 0) {
+      return;
+    }
     handleCreateElectronics(data);
   };
 
@@ -115,45 +121,20 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       price: parseInt(data.price),
       id: ProductDetails?.product_id,
       user_id: ProductDetails?.product.user_id,
+      image_urls: files,
+      old_image: oldImagesId,
     };
-
     updateElectronic(actualData);
   }
 
   //  for handling Image validation
   useEffect(() => {
-    if (files.length === 0) {
+    if (oldImages.length === 0 && files.length === 0) {
       setImgError("Image is required");
-    }
-    if (files.length > 0) {
+    } else {
       setImgError("");
     }
-  }, [files]);
-
-  useEffect(() => {
-    const imageUrl = "http://localhost:8000/images/bipin.jpg"; // Replace with your image URL
-
-    const fetchImage = async () => {
-      try {
-        const response = await fetch(imageUrl, {
-          credentials: "include",
-        });
-        const blob = await response.blob();
-
-        // You can dynamically generate the file name and type based on the image URL
-        const fileName = imageUrl.split("/").pop() as string;
-        const fileType = blob.type;
-
-        const file = new File([blob], fileName!, { type: fileType });
-        console.log("file image: ", file);
-        setImggurl(URL.createObjectURL(file));
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      }
-    };
-
-    fetchImage();
-  }, []);
+  }, [oldImages, files]);
 
   return (
     <DashboardContainer>
@@ -269,11 +250,16 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/* Photo Selection Section */}
-          <FileUpload files={files} setFiles={setFiles} imgError={imgError} />
-
-          <Image src={imggurl} alt="" width={200} height={200} />
-
-          {/* <Image src={imgfile} width={100} height={100} alt="" /> */}
+          <UpdateFileUpload
+            files={files}
+            setFiles={setFiles}
+            imgError={imgError}
+            oldImages={oldImages}
+            totalImgCount={oldImages.length}
+            setOldImages={setOldImages}
+            setOldImagesId={setOldImagesId}
+            oldImagesId={oldImagesId}
+          />
 
           {/* Submitting Product Sell Button */}
           <div className="px-3 py-8 lg:px-10">

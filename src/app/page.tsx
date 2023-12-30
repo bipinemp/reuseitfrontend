@@ -12,44 +12,44 @@ export default function Home() {
 
   useEffect(() => {
     setSearch("");
-  }, []);
+  }, [setSearch]);
 
-  useEffect(() => {
-    // Connect to the server when the component mounts
-    socket.connect();
+  // useEffect(() => {
+  //   // Connect to the server when the component mounts
+  //   socket.connect();
 
-    // Send an API request when the user opens the website
-    makeOnline()
-      .then((response: any) => {
-        socket.emit("apiRequest", {
-          type: "open",
-          data: response?.data,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  //   // Send an API request when the user opens the website
+  //   makeOnline()
+  //     .then((response: any) => {
+  //       socket.emit("apiRequest", {
+  //         type: "open",
+  //         data: response?.data,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
 
-    // Listen for the 'beforeunload' event
-    window.addEventListener("beforeunload", () => {
-      // Send an API request when the user closes the website
-      makeOffline()
-        .then((response: any) => {
-          socket.emit("apiRequest", { type: "close", data: response?.data });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+  //   // Listen for the 'beforeunload' event
+  //   window.addEventListener("beforeunload", () => {
+  //     // Send an API request when the user closes the website
+  //     makeOffline()
+  //       .then((response: any) => {
+  //         socket.emit("apiRequest", { type: "close", data: response?.data });
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
 
-      // Disconnect from the server
-      socket.disconnect();
-    });
+  //     // Disconnect from the server
+  //     socket.disconnect();
+  //   });
 
-    // Cleanup function
-    return () => {
-      window.removeEventListener("beforeunload", makeOffline);
-    };
-  }, []); // Empty dependency array ensures that this effect runs once
+  // Cleanup function
+  //   return () => {
+  //     window.removeEventListener("beforeunload", makeOffline);
+  //   };
+  // }, []); // Empty dependency array ensures that this effect runs once
 
   // Rest of your component code
 

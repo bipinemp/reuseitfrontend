@@ -490,11 +490,14 @@ export const sendOtp = async (otp: string) => {
 // For updating product
 export const updateProduct = async (data: any) => {
   try {
-    const response = await axios.patch(
-      "http://localhost:8000/api/UpdateProducts",
+    const response = await axios.post(
+      "http://localhost:8000/api/update/electronics",
       data,
       {
         withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       },
     );
     return response.data;

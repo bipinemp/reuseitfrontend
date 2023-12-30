@@ -41,7 +41,7 @@ const Products: React.FC = () => {
       const user_id = Number(id);
       PostUserId(user_id);
     }
-  }, [isSuccess]);
+  }, [isSuccess, UserData?.id, PostUserId]);
 
   const prods = data?.pages.map((products) => products)[0] as any[];
 
