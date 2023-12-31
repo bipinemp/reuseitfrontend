@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import AntiquesLocationBox from "./components/locations/AntiquesLocationBox";
@@ -58,30 +58,30 @@ const Antiques: React.FC = () => {
   });
 
   const typeofantiques = antiquesCollectiblesList.filter(
-    (val) => val.name === "type"
+    (val) => val.name === "type",
   );
   const eraperiods = antiquesCollectiblesList.filter(
-    (val) => val.name === "era_period"
+    (val) => val.name === "era_period",
   );
   const materials = antiquesCollectiblesList.filter(
-    (val) => val.name === "material"
+    (val) => val.name === "material",
   );
   const conditions = antiquesCollectiblesList.filter(
-    (val) => val.name === "condition"
+    (val) => val.name === "condition",
   );
   const locations = antiquesCollectiblesList.filter(
-    (val) => val.name === "provenance_location"
+    (val) => val.name === "provenance_location",
   );
   const rarities = antiquesCollectiblesList.filter(
-    (val) => val.name === "rarity"
+    (val) => val.name === "rarity",
   );
   const histories = antiquesCollectiblesList.filter(
-    (val) => val.name === "historical_significance"
+    (val) => val.name === "historical_significance",
   );
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateProduct, isPending } = useMutation({
-    mutationFn: createNewProduct,
+    mutationFn: createOldProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -165,7 +165,7 @@ const Antiques: React.FC = () => {
   };
   const handleOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     currentOTPIndex = index;
     if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
@@ -188,7 +188,7 @@ const Antiques: React.FC = () => {
       user_id: UserData?.id,
       path: pathname.split("/")[2],
       price: parseInt(data.price),
-      category_id: 310,
+      fnname: pathname.split("/")[2],
     };
     CreateProduct(actualData);
   }
@@ -203,14 +203,14 @@ const Antiques: React.FC = () => {
   }, [files]);
 
   return (
-    <div className="max-w-[1920px] mx-auto px-2 md:px-10 xl:px-52 2xl:px-80">
+    <div className="mx-auto max-w-[1920px] px-2 md:px-10 xl:px-52 2xl:px-80">
       <Title array={pathname.split("/")} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col border-[1px] border-content rounded-lg mb-10"
+        className="mb-10 flex flex-col rounded-lg border-[1px] border-content"
       >
         {/* Details Section */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 py-8 lg:px-10">
           <h3 className="font-semibold underline underline-offset-2">
             INCLUDE SOME DETAILS :
           </h3>
@@ -361,10 +361,10 @@ const Antiques: React.FC = () => {
         />
 
         {/* Submitting Post Button */}
-        <div className="px-3 lg:px-10 py-8">
-          <Button type="submit" size="lg" className="text-lg w-fit">
+        <div className="px-3 py-8 lg:px-10">
+          <Button type="submit" size="lg" className="w-fit text-lg">
             {isPending ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <p>Posting..</p>
               </div>

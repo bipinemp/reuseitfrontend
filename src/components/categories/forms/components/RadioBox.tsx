@@ -32,16 +32,20 @@ const RadioBox = <T extends FieldValues>({
         control={control}
         render={({ field }) => {
           return (
-            <div className="flex gap-2 lg:gap-4 items-center">
+            <div className="flex items-center gap-2 lg:gap-4">
               <Label className="text-[0.9rem] lg:text-lg">{placeholder} </Label>
-              <RadioGroup onValueChange={field.onChange} className="flex">
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                className="flex"
+              >
                 {array.map((val, i) => (
                   <div key={i} className="flex items-center space-x-2">
                     <RadioGroupItem
                       value={val.value}
                       id="r1"
                       className={clsx("", {
-                        "border-destructive border-[2px]": error !== "",
+                        "border-[2px] border-destructive": error !== "",
                       })}
                     />
                     <Label className="text-lg text-content" htmlFor="r1">
@@ -55,7 +59,7 @@ const RadioBox = <T extends FieldValues>({
         }}
       />
       {error && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {error}
         </span>
       )}

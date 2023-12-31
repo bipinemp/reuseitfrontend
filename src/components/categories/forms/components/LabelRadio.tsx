@@ -29,6 +29,7 @@ const LabelRadio = <T extends FieldValues>({
           return (
             <RadioGroup
               onValueChange={field.onChange}
+              defaultValue={field.value}
               className="flex flex-col gap-2"
             >
               <Label className="text-lg">{placeholder} </Label>
@@ -42,7 +43,7 @@ const LabelRadio = <T extends FieldValues>({
                     />
                     <Label
                       htmlFor={val}
-                      className="flex text-[0.8rem] sm:text-[0.9rem] flex-col items-center justify-between rounded border-[2px] border-content bg-popover p-3 w-fit hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                      className="flex w-fit flex-col items-center justify-between rounded border-[2px] border-content bg-popover p-3 text-[0.8rem] hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary sm:text-[0.9rem] [&:has([data-state=checked])]:border-primary"
                     >
                       <p>{val}</p>
                     </Label>
@@ -54,7 +55,7 @@ const LabelRadio = <T extends FieldValues>({
         }}
       />
       {error && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {error}
         </span>
       )}

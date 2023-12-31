@@ -35,6 +35,27 @@ interface PreviewFile extends File {
   preview: string;
 }
 
+export const createOldProduct = async (data: any) => {
+  const { fnname, ...actualdata } = data;
+  try {
+    const response = await axios.post(
+      `http://127.0.0.1:8000/api/${fnname}`,
+      actualdata,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    const resData = response.data;
+
+    return resData;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const createNewProduct = async (data: any) => {
   try {
     const response = await axios.post(
@@ -489,10 +510,11 @@ export const sendOtp = async (otp: string) => {
 
 // For updating product
 export const updateProduct = async (data: any) => {
+  const { function_name, ...actualdata } = data;
   try {
     const response = await axios.post(
-      "http://localhost:8000/api/update/electronics",
-      data,
+      `http://localhost:8000/api/update/${function_name}`,
+      actualdata,
       {
         withCredentials: true,
         headers: {

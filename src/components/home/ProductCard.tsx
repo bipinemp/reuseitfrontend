@@ -41,7 +41,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
                 : imgurl + product.image[0]?.image_url
             }
             alt="product image"
-            className="h-full w-full  object-cover transition group-hover:scale-110"
+            className="h-full w-full object-cover object-top transition group-hover:scale-110"
             // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 z-30 bg-gradient-to-b from-gray-700/10 via-gray-800/10 to-black/80"></div>

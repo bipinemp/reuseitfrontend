@@ -3,15 +3,13 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
 import { useState } from "react";
+import ScooterData from "@/json/scooter.json";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import { BicycleSchema, TBicycles } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
-import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +18,8 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import CarSelectBox from "../forms/components/CarSelectBox";
+import BicyclesLocationBox from "../forms/components/locations/BicyclesLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +27,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EBicyclesDetails;
   fnname: string;
 }
 
@@ -36,10 +36,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditBicycles: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,33 +52,23 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TBicycles>({
+    resolver: zodResolver(BicycleSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
-      condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      brand: ProductDetails.brand,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
-    (val) => val.name === "condition",
-  );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
-  );
+  const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateClothing, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +91,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateClothing(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateClothing(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +105,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateClothing(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +138,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TBicycles>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +149,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TBicycles>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -172,62 +159,18 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Description"
             />
 
-            <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
-                control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
-              />
-            </div>
-
-            <InputBox<TElectronics>
-              id="brand"
+            <CarSelectBox
               name="brand"
-              placeholder="Enter Brand Name..."
+              control={control}
+              array={brands}
+              placeholder="Select Brand"
+              label="All Brands"
               error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
             />
-
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
-            />
-
-            <div>
-              <SelectBox<TElectronics>
-                name="condition"
-                control={control}
-                array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
-                error={errors.condition?.message || ""}
-              />
-            </div>
-
-            <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
-                control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
-              />
-            </div>
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TBicycles>
             name="price"
             id="price"
             register={register}
@@ -235,7 +178,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <BicyclesLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +216,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditBicycles;

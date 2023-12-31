@@ -149,6 +149,7 @@ export const nonavbarlist = [
   "/register",
   "/user",
   "/formbuilder",
+  "/chart"
 ];
 
 export const homeapplianceslist = [

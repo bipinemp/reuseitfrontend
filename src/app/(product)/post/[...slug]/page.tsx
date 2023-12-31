@@ -41,7 +41,7 @@ interface EditObj {
 }
 
 let currentOTPIndex: number = 0;
-const page: React.FC<PageProps> = ({ params }) => {
+const Page: React.FC<PageProps> = ({ params }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { data: cateData, isPending } = useCategoryDetails(
@@ -355,4 +355,4 @@ const page: React.FC<PageProps> = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

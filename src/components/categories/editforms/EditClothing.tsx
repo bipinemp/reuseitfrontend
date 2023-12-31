@@ -3,15 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
+import { clothingAccessoryList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import { ClothingSchema, TClothing } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import ClothingLocationBox from "../forms/components/locations/ClothingLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +27,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EClothingDetails;
   fnname: string;
 }
 
@@ -36,10 +36,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditClothing: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,33 +52,43 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TClothing>({
+    resolver: zodResolver(ClothingSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
       condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      material: ProductDetails.material,
+      color: ProductDetails.color,
+      brand: ProductDetails.brand,
+      care_instructions: ProductDetails.care_instructions,
+      size: ProductDetails.size,
+      type_of_clothing_accessory: ProductDetails.type_of_clothing_accessory,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
+  const typeofclothing = clothingAccessoryList.filter(
+    (val) => val.name === "type",
+  );
+  const size = clothingAccessoryList.filter((val) => val.name === "size");
+  const color = clothingAccessoryList.filter((val) => val.name === "color");
+  const brand = clothingAccessoryList.filter((val) => val.name === "brand");
+  const material = clothingAccessoryList.filter(
+    (val) => val.name === "material",
+  );
+  const typeofcondition = clothingAccessoryList.filter(
     (val) => val.name === "condition",
   );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
+  const care_instructions = clothingAccessoryList.filter(
+    (val) => val.name === "care_instructions",
   );
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateClothing, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +111,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateClothing(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateClothing(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +125,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateClothing(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +158,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TClothing>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +169,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TClothing>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -173,61 +180,85 @@ const EditElectronic: React.FC<EDetailsProps> = ({
             />
 
             <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
+              <SelectBox<TClothing>
+                name="type_of_clothing_accessory"
                 control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
+                array={typeofclothing[0]?.list}
+                placeholder="Select Type of Clothing"
+                label="Clothings:"
+                error={errors.type_of_clothing_accessory?.message || ""}
               />
             </div>
 
-            <InputBox<TElectronics>
-              id="brand"
-              name="brand"
-              placeholder="Enter Brand Name..."
-              error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
-            />
-
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
-            />
+            <div>
+              <SelectBox<TClothing>
+                name="size"
+                control={control}
+                array={size[0]?.list}
+                placeholder="Select the Size"
+                label="Sizes:"
+                error={errors.size?.message || ""}
+              />
+            </div>
 
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TClothing>
+                name="color"
+                control={control}
+                array={color[0]?.list}
+                placeholder="Select the color"
+                label="colors:"
+                error={errors.color?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TClothing>
+                name="brand"
+                control={control}
+                array={brand[0]?.list}
+                placeholder="Select the Brand"
+                label="brands:"
+                error={errors.brand?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TClothing>
+                name="material"
+                control={control}
+                array={material[0]?.list}
+                placeholder="Select Type of material"
+                label="materials:"
+                error={errors.material?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TClothing>
                 name="condition"
                 control={control}
                 array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
+                placeholder="Select Type of condition"
+                label="conditions:"
                 error={errors.condition?.message || ""}
               />
             </div>
 
             <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
+              <SelectBox<TClothing>
+                name="care_instructions"
                 control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
+                array={care_instructions[0]?.list}
+                placeholder="Select Care Instructions"
+                label="Care Instructions:"
+                error={errors.care_instructions?.message || ""}
               />
             </div>
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TClothing>
             name="price"
             id="price"
             register={register}
@@ -235,7 +266,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <ClothingLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +304,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditClothing;

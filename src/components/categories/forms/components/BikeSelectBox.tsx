@@ -43,12 +43,13 @@ const BikeSelectBox = <T extends FieldValues>({
         render={({ field }) => {
           return (
             <Select
+              defaultValue={field.value}
               onValueChange={(e) => {
-                field.onChange(field.name);
                 if (onChange) {
                   const selectedOption = array.find(
-                    (option) => option.name === e
+                    (option) => option.name === e,
                   );
+                  field.onChange(selectedOption?.name || "");
                   onChange(selectedOption?.id || 0);
                 }
               }}
@@ -57,21 +58,21 @@ const BikeSelectBox = <T extends FieldValues>({
                 className={clsx(
                   "w-full border-content text-lg font-semibold text-content",
                   {
-                    "border-destructive border-[2px] placeholder:text-destructive":
+                    "border-[2px] border-destructive placeholder:text-destructive":
                       error !== "",
-                  }
+                  },
                 )}
               >
                 <SelectValue className="text-lg" placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel className="underline underline-offset-2 text-2xl">
+                  <SelectLabel className="text-2xl underline underline-offset-2">
                     {label}
                   </SelectLabel>
                   {array.map((type) => (
                     <SelectItem
-                      className="text-lg cursor-pointer"
+                      className="cursor-pointer text-lg"
                       value={type.name}
                       key={type.id}
                     >
@@ -85,7 +86,7 @@ const BikeSelectBox = <T extends FieldValues>({
         }}
       />
       {error && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {error}
         </span>
       )}

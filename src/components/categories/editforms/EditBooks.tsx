@@ -3,15 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
+import { booksMediaList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import { BooksSchema, TBooks } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import BooksLocationBox from "../forms/components/locations/BooksLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +27,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EBooksDetails;
   fnname: string;
 }
 
@@ -36,10 +36,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditBooks: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,33 +52,31 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TBooks>({
+    resolver: zodResolver(BooksSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
       condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      author_artist: ProductDetails.author_artist,
+      edition: ProductDetails.edition,
+      format: ProductDetails.format,
+      genre: ProductDetails.genre,
+      isbn_upc: ProductDetails.isbn_upc,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
-    (val) => val.name === "condition",
-  );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
-  );
+  const genres = booksMediaList.filter((val) => val.name === "genre");
+  const formats = booksMediaList.filter((val) => val.name === "format");
+  const conditions = booksMediaList.filter((val) => val.name === "condition");
+  const editions = booksMediaList.filter((val) => val.name === "edition");
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateClothing, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +99,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateClothing(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateClothing(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +113,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateClothing(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +146,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TBooks>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +157,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TBooks>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -172,62 +167,74 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Description"
             />
 
+            <InputBox<TBooks>
+              name="author_artist"
+              id="author_artist"
+              placeholder="Enter Author/Artist..."
+              register={register}
+              error={errors?.author_artist?.message || ""}
+              desc="Write the Author/Artist of the Book/Media"
+              label="Author/Artistf"
+            />
+
             <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
+              <SelectBox<TBooks>
+                name="genre"
                 control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
+                array={genres[0]?.list}
+                placeholder="Select Type of Genre"
+                label="Genres:"
+                error={errors.genre?.message || ""}
               />
             </div>
 
-            <InputBox<TElectronics>
-              id="brand"
-              name="brand"
-              placeholder="Enter Brand Name..."
-              error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
-            />
-
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
-            />
+            <div>
+              <SelectBox<TBooks>
+                name="format"
+                control={control}
+                array={formats[0]?.list}
+                placeholder="Select the format"
+                label="formats:"
+                error={errors.format?.message || ""}
+              />
+            </div>
 
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TBooks>
                 name="condition"
                 control={control}
-                array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
+                array={conditions[0]?.list}
+                placeholder="Select Type of condition"
+                label="conditions:"
                 error={errors.condition?.message || ""}
               />
             </div>
 
             <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
+              <SelectBox<TBooks>
+                name="edition"
                 control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
+                array={editions[0]?.list}
+                placeholder="Select Type of edition"
+                label="editions:"
+                error={errors.edition?.message || ""}
               />
             </div>
+
+            <InputBox<TBooks>
+              name="isbn_upc"
+              id="isbn_upc"
+              type="number"
+              placeholder="Enter ISBN/UPC..."
+              register={register}
+              error={errors?.author_artist?.message || ""}
+              desc="Write the ISBN/UPC of the Book/Media"
+              label="ISBN/UPC"
+            />
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TBooks>
             name="price"
             id="price"
             register={register}
@@ -235,7 +242,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <BooksLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +280,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditBooks;

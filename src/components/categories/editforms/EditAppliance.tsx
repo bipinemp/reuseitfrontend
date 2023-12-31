@@ -3,15 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
+import { homeapplianceslist } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import { ApplianceSchema, TAppliance } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import ApplianceLocationBox from "../forms/components/locations/ApplianceLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +27,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EHomeApplianceDetails;
   fnname: string;
 }
 
@@ -36,10 +36,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditAppliance: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,8 +52,8 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TAppliance>({
+    resolver: zodResolver(ApplianceSchema),
     defaultValues: {
       brand: ProductDetails.brand,
       condition: ProductDetails.condition,
@@ -67,21 +64,25 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
+      capacity: ProductDetails.capacity,
+      features: ProductDetails.features,
+      type_of_appliance: ProductDetails.type_of_appliance,
       warranty_information: ProductDetails.warranty_information,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
+  const typeofappliance = homeapplianceslist.filter(
+    (val) => val.name === "type",
+  );
+  const typeofcondition = homeapplianceslist.filter(
     (val) => val.name === "condition",
   );
-  const typeofwarrenty = electronicsList.filter(
+  const typeofwarrenty = homeapplianceslist.filter(
     (val) => val.name === "warrenty",
   );
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateAppliance, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +105,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateAppliance(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateAppliance(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +119,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateAppliance(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +152,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TAppliance>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +163,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TAppliance>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -173,38 +174,18 @@ const EditElectronic: React.FC<EDetailsProps> = ({
             />
 
             <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
+              <SelectBox<TAppliance>
+                name="type_of_appliance"
                 control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
+                array={typeofappliance[0].list}
+                placeholder="Select Type of Appliance"
+                label="Appliances:"
+                error={errors.type_of_appliance?.message || ""}
               />
             </div>
 
-            <InputBox<TElectronics>
-              id="brand"
-              name="brand"
-              placeholder="Enter Brand Name..."
-              error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
-            />
-
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
-            />
-
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TAppliance>
                 name="condition"
                 control={control}
                 array={typeofcondition[0]?.list}
@@ -215,7 +196,49 @@ const EditElectronic: React.FC<EDetailsProps> = ({
             </div>
 
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TAppliance>
+                name="warranty_information"
+                control={control}
+                array={typeofwarrenty[0]?.list}
+                placeholder="Select the Warranty"
+                label="Available Warrenties:"
+                error={errors?.warranty_information?.message || ""}
+              />
+            </div>
+
+            <InputBox<TAppliance>
+              id="brand"
+              name="brand"
+              placeholder="Enter Brand Name..."
+              error={errors?.brand?.message || ""}
+              desc="Enter the name of the Brand"
+              register={register}
+              label="Brand"
+            />
+
+            <InputBox<TAppliance>
+              id="model"
+              name="model"
+              placeholder="Enter Model Name..."
+              error={errors?.model?.message || ""}
+              desc="Enter the name of the Model"
+              register={register}
+              label="Model"
+            />
+
+            <div>
+              <SelectBox<TAppliance>
+                name="condition"
+                control={control}
+                array={typeofcondition[0]?.list}
+                placeholder="Select Condition"
+                label="Conditions:"
+                error={errors.condition?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TAppliance>
                 name="warranty_information"
                 control={control}
                 array={typeofwarrenty[0]?.list}
@@ -227,7 +250,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TAppliance>
             name="price"
             id="price"
             register={register}
@@ -235,7 +258,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <ApplianceLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +296,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditAppliance;

@@ -13,15 +13,21 @@ import SelectBox from "../SelectBox";
 import FileUpload from "../FileUpload";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewCars, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import {
+  createNewCars,
+  createOldProduct,
+  sendOtp,
+  sendPhoneNumber,
+} from "@/apis/apicalls";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import CarsLocationBox from "../locations/CarsLocationBox";
 import PriceBox from "../PriceBox";
 import { useUserProfile } from "@/apis/queries";
 import OtpDialog from "@/components/categories/dialogs/OtpDialog";
 import PhoneDialog from "@/components/categories/dialogs/PhoneDialog";
+import Title from "../Title";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,6 +38,7 @@ let currentOTPIndex: number = 0;
 const Cars: React.FC = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
   const brands = CarsData.map((car) => car.brand);
@@ -81,7 +88,7 @@ const Cars: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewCars,
+    mutationFn: createOldProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -130,6 +137,7 @@ const Cars: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async () => {
+    console.log(getValues());
     if (files.length === 0) {
       return;
     } else {
@@ -165,7 +173,7 @@ const Cars: React.FC = () => {
   };
   const handleOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     currentOTPIndex = index;
     if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
@@ -187,6 +195,7 @@ const Cars: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
+      fnname: pathname.split("/")[2],
     };
 
     CreateBlog(actualData);
@@ -202,14 +211,15 @@ const Cars: React.FC = () => {
   }, [files]);
 
   return (
-    <div className="mt-10">
+    <div className="mx-auto max-w-[1920px] px-2 md:px-10 xl:px-52 2xl:px-80">
+      <Title array={pathname.split("/")} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col border-[1px] border-content rounded-lg mb-10"
+        className="mb-10 flex flex-col rounded-lg border-[1px] border-content"
       >
         {/* Details Section  */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
-          <h3 className="font-semibold text-[0.95rem] sm:text-[1.17rem] underline underline-offset-2">
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 py-8 lg:px-10">
+          <h3 className="text-[0.95rem] font-semibold underline underline-offset-2 sm:text-[1.17rem]">
             INCLUDE SOME DETAILS (Cars) :
           </h3>
 
@@ -378,10 +388,10 @@ const Cars: React.FC = () => {
         />
 
         {/* Submitting Post Button */}
-        <div className="px-3 lg:px-10 py-8">
-          <Button type="submit" size="lg" className="text-lg w-fit">
+        <div className="px-3 py-8 lg:px-10">
+          <Button type="submit" size="lg" className="w-fit text-lg">
             {isPending ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <p>Posting..</p>
               </div>

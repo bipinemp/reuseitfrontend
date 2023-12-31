@@ -44,26 +44,27 @@ const CarSelectBox = <T extends FieldValues>({
                   onChange(e);
                 }
               }}
+              defaultValue={field.value}
             >
               <SelectTrigger
                 className={clsx(
-                  "w-full border-content text-[0.9rem] lg:text-lg font-semibold text-content",
+                  "w-full border-content text-[0.9rem] font-semibold text-content lg:text-lg",
                   {
-                    "border-destructive border-[2px] placeholder:text-destructive":
+                    "border-[2px] border-destructive placeholder:text-destructive":
                       error !== "",
-                  }
+                  },
                 )}
               >
                 <SelectValue className="text-lg" placeholder={placeholder} />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel className="underline underline-offset-2 text-2xl">
+                  <SelectLabel className="text-2xl underline underline-offset-2">
                     {label}
                   </SelectLabel>
                   {array.map((type) => (
                     <SelectItem
-                      className="text-[0.9rem] lg:text-lg cursor-pointer"
+                      className="cursor-pointer text-[0.9rem] lg:text-lg"
                       value={type}
                       key={type}
                     >
@@ -77,7 +78,7 @@ const CarSelectBox = <T extends FieldValues>({
         }}
       />
       {error && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {error}
         </span>
       )}

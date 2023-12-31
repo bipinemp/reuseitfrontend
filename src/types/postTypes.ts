@@ -585,7 +585,9 @@ export const CarsSchema = z.object({
     .string({ required_error: "Used Time is required" })
     .min(1, { message: "You must enter the Used Time " }),
 
-  fuel_type: z.enum(["CNG & Hybrids", "Diesel", "Electric", "LPG", "Petrol"]),
+  fuel_type: z
+    .string({ required_error: "Fuel Type is required" })
+    .min(1, { message: "You must select a Fuel Type " }),
 
   mileage: z
     .string({ required_error: "Mileage is required" })
@@ -595,7 +597,9 @@ export const CarsSchema = z.object({
     .string({ required_error: "Condition is required" })
     .min(1, { message: "You must select the Condition " }),
 
-  transmission_type: z.enum(["Automatic", "Manual"]),
+  transmission_type: z
+    .string({ required_error: "Tranmission Type is required" })
+    .min(1, { message: "You must select a Tranmission Type " }),
 
   color: z
     .string({ required_error: "Color is required" })
@@ -605,7 +609,9 @@ export const CarsSchema = z.object({
     .string({ required_error: "Year is required" })
     .min(1, { message: "You must select the Year " }),
 
-  owner: z.enum(["1st", "2nd", "3rd", "4th", "4+"]),
+  owner: z
+    .string({ required_error: "Owner is required" })
+    .min(1, { message: "You must select a Owner" }),
 
   image_urls: z
     .any()
@@ -673,7 +679,9 @@ export const BikesSchema = z.object({
     .string({ required_error: "Year is required" })
     .min(1, { message: "You must select the Year " }),
 
-  owner: z.enum(["1st", "2nd", "3rd", "4th", "4+"]),
+  owner: z
+    .string({ required_error: "Owner is required" })
+    .min(1, { message: "You must select the Owner " }),
 
   image_urls: z
     .any()

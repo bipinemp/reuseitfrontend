@@ -3,10 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
+import { electronicsList, furnitureList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import {
+  ElectronicsSchema,
+  FurnitureSchema,
+  TFurnitures,
+} from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
@@ -20,6 +24,8 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import RadioBox from "../forms/components/RadioBox";
+import FurnitureLocationBox from "../forms/components/locations/FurnitureLocation";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +33,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EFurnitureDetails;
   fnname: string;
 }
 
@@ -36,10 +42,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditFurniture: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,30 +58,37 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TFurnitures>({
+    resolver: zodResolver(FurnitureSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
       condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      assembly_required:
+        parseInt(ProductDetails.assembly_required) === 1 ? "true" : "false",
+      dimensions: ProductDetails.dimensions,
+      material: ProductDetails.material,
+      style: ProductDetails.style,
+      type_of_furniture: ProductDetails.type_of_furniture,
+      color: ProductDetails.color,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
+  const typeoffurniture = furnitureList.filter((val) => val.name === "type");
+  const typeofcondition = furnitureList.filter(
     (val) => val.name === "condition",
   );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
-  );
+  const material = furnitureList.filter((val) => val.name === "material");
+  const style = furnitureList.filter((val) => val.name === "style");
+  const color = furnitureList.filter((val) => val.name === "color");
+  const assemblyarray = [
+    { name: "Yes", value: "true" },
+    { name: "No", value: "false" },
+  ];
 
   // mutation function for creating Electronics AD
   const { mutate: updateElectronic, isPending } = useMutation({
@@ -117,6 +127,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       image_urls: files,
       old_image: oldImagesId,
       function_name: fnname,
+      assembly_required: data.assembly_required === "true" ? 1 : 0,
     };
     updateElectronic(actualData);
   }
@@ -151,7 +162,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TFurnitures>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +173,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TFurnitures>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -173,61 +184,81 @@ const EditElectronic: React.FC<EDetailsProps> = ({
             />
 
             <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
+              <SelectBox<TFurnitures>
+                name="type_of_furniture"
                 control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
+                array={typeoffurniture[0]?.list}
+                placeholder="Select Type of Furniture"
+                label="Furnitures:"
+                error={errors.type_of_furniture?.message || ""}
               />
             </div>
 
-            <InputBox<TElectronics>
-              id="brand"
-              name="brand"
-              placeholder="Enter Brand Name..."
-              error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
-            />
+            <div>
+              <SelectBox<TFurnitures>
+                name="material"
+                control={control}
+                array={material[0]?.list}
+                placeholder="Select Type of Material"
+                label="Materials:"
+                error={errors.material?.message || ""}
+              />
+            </div>
 
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
+            <InputBox<TFurnitures>
+              id="dimensions"
+              name="dimensions"
+              placeholder="Enter Dimensions of Furniture..."
+              error={errors?.dimensions?.message || ""}
+              desc="Enter the proper Dimensions of ( 10x20x30 ) format"
               register={register}
-              label="Model"
+              label="Dimensions"
             />
 
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TFurnitures>
+                name="color"
+                control={control}
+                array={color[0]?.list}
+                placeholder="Select Type of color"
+                label="colors:"
+                error={errors.color?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TFurnitures>
+                name="style"
+                control={control}
+                array={style[0]?.list}
+                placeholder="Select Type of style"
+                label="styles:"
+                error={errors.style?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TFurnitures>
                 name="condition"
                 control={control}
                 array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
+                placeholder="Select Type of condition"
+                label="conditions:"
                 error={errors.condition?.message || ""}
               />
             </div>
 
-            <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
-                control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
-              />
-            </div>
+            <RadioBox<TFurnitures>
+              array={assemblyarray}
+              control={control}
+              error={errors?.assembly_required?.message || ""}
+              name="assembly_required"
+              placeholder="Assembly Required:"
+            />
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TFurnitures>
             name="price"
             id="price"
             register={register}
@@ -235,7 +266,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <FurnitureLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +304,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditFurniture;

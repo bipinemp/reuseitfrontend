@@ -3,15 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import CarsData from "@/json/cars.json";
+import { CarsSchema, TCars } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +19,10 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import AntiquesLocationBox from "../forms/components/locations/AntiquesLocationBox";
+import CarSelectBox from "../forms/components/CarSelectBox";
+import LabelRadio from "../forms/components/LabelRadio";
+import CarsLocationBox from "../forms/components/locations/CarsLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +30,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: ECarsDetails;
   fnname: string;
 }
 
@@ -36,10 +39,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditCars: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -49,39 +49,62 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
   const [oldImagesId, setOldImagesId] = useState<number[] | []>([]);
 
+  const brands = CarsData.map((car) => car.brand);
+  const [brand, setBrand] = useState("");
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TCars>({
+    resolver: zodResolver(CarsSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
       condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      brand: ProductDetails.brand,
+      color: ProductDetails.color,
+      fuel_type: ProductDetails.fuel_type,
+      model: ProductDetails.model,
+      transmission_type: ProductDetails.transmission_type,
+      used_time: ProductDetails.used_time,
+      year: ProductDetails.year.toString(),
+      km_driven: ProductDetails.km_driven,
+      mileage: ProductDetails.mileage.toString(),
+      owner: ProductDetails.owner,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
-    (val) => val.name === "condition",
-  );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
-  );
+  const models = CarsData.filter((car) => car.brand === brand)
+    .map((car) => car.models)
+    .flat();
+  const fuels = ["CNG & Hybrids", "Diesel", "Electric", "LPG", "Petrol"];
+  const tranmissions = ["Automatic", "Manual"];
+  const owners = ["1st", "2nd", "3rd", "4th", "4+"];
+  const usedtimes = [
+    "1 Year",
+    "2 Year",
+    "3 Year",
+    "4 Year",
+    "5 Year",
+    "5+ Years",
+  ];
+  const conditions = [
+    "Brand New (never used)",
+    "Like New (gently used with minimal signs of wear)",
+    "Good (used with some signs of wear but functions well)",
+    "Fair (visible wear and tear but still functional)",
+    "Poor (may require repairs or refurbishment)",
+  ];
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateClothing, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +127,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateClothing(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateClothing(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +141,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateClothing(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +174,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TCars>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +185,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TCars>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -172,62 +195,115 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Description"
             />
 
-            <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
-                control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
-              />
-            </div>
-
-            <InputBox<TElectronics>
-              id="brand"
+            <CarSelectBox<TCars>
               name="brand"
-              placeholder="Enter Brand Name..."
+              control={control}
+              array={brands}
+              placeholder="Select Brand"
+              label="All Brands:"
               error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
+              onChange={(val) => setBrand(val)}
             />
 
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
+            {brand !== "" ? (
+              <CarSelectBox<TCars>
+                name="model"
+                control={control}
+                array={models}
+                placeholder="Select model"
+                label="All models:"
+                error={errors?.model?.message || ""}
+              />
+            ) : null}
+
+            <LabelRadio<TCars>
+              array={fuels}
+              control={control}
+              name="fuel_type"
+              error={errors?.fuel_type?.message || ""}
+              placeholder="Fuel Type"
             />
 
-            <div>
-              <SelectBox<TElectronics>
-                name="condition"
-                control={control}
-                array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
-                error={errors.condition?.message || ""}
-              />
-            </div>
+            <LabelRadio<TCars>
+              array={tranmissions}
+              control={control}
+              name="transmission_type"
+              error={errors?.transmission_type?.message || ""}
+              placeholder="Transmission Type"
+            />
 
-            <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
-                control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
-              />
-            </div>
+            <InputBox<TCars>
+              name="km_driven"
+              id="km_driven"
+              type="number"
+              placeholder="Enter KM Driven..."
+              register={register}
+              error={errors?.km_driven?.message || ""}
+              desc="Mention the Total KM Driven"
+              label="KM Driven"
+            />
+
+            <LabelRadio<TCars>
+              array={owners}
+              control={control}
+              name="owner"
+              error={errors?.owner?.message || ""}
+              placeholder="No. of Owners"
+            />
+
+            <InputBox<TCars>
+              name="year"
+              id="year"
+              placeholder="Enter Year..."
+              register={register}
+              error={errors?.year?.message || ""}
+              desc="Mention which's year's model it is"
+              label="Year"
+              type="number"
+            />
+
+            <SelectBox<TCars>
+              array={usedtimes}
+              control={control}
+              error={errors?.used_time?.message || ""}
+              label="Times:"
+              placeholder="Select Used Time"
+              name="used_time"
+            />
+
+            <InputBox<TCars>
+              name="mileage"
+              id="mileage"
+              placeholder="Enter Mileage..."
+              register={register}
+              error={errors?.mileage?.message || ""}
+              desc="Mention KM / Miles"
+              label="Mileage"
+              type="number"
+            />
+
+            <SelectBox<TCars>
+              array={conditions}
+              control={control}
+              error={errors?.condition?.message || ""}
+              label="Conditions:"
+              placeholder="Select Condition"
+              name="condition"
+            />
+
+            <InputBox<TCars>
+              name="color"
+              id="color"
+              placeholder="Enter Color..."
+              register={register}
+              error={errors?.color?.message || ""}
+              desc="Mention the Color"
+              label="Color"
+            />
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TCars>
             name="price"
             id="price"
             register={register}
@@ -235,7 +311,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <CarsLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +349,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditCars;

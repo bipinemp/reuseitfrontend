@@ -1,8 +1,11 @@
-// 2	name	varchar(255)
-// 3	email 	varchar(255)
-// 5	password	varchar(255)
-// 9	Province	varchar(255)
-// 10	District	varchar(255)
-// 11	Municipality	varchar(255)
-// 12	Phone_no	varchar(255)
-// 13	Profile_image	varchar(255)
+const inputObject = {
+  id: 1,
+  title: "Sample Title",
+  body: "Sample Body",
+  likes: 10,
+};
+
+// Destructuring assignment to exclude the "likes" property
+const { likes, ...outputObject } = inputObject;
+
+console.log(outputObject);

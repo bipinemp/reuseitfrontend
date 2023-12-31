@@ -19,6 +19,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createNewProduct,
   createNewToys,
+  createOldProduct,
   sendOtp,
   sendPhoneNumber,
 } from "@/apis/apicalls";
@@ -67,10 +68,10 @@ const Toys: React.FC = () => {
   const brands = toyGameList.filter((val) => val.name === "brand");
   const agegroups = toyGameList.filter((val) => val.name === "age_group");
   const safetystandards = toyGameList.filter(
-    (val) => val.name === "safety_information"
+    (val) => val.name === "safety_information",
   );
   const typeofcondition = furnitureList.filter(
-    (val) => val.name === "condition"
+    (val) => val.name === "condition",
   );
 
   const assemblyarray = [
@@ -80,7 +81,7 @@ const Toys: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateProduct, isPending } = useMutation({
-    mutationFn: createNewProduct,
+    mutationFn: createOldProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -164,7 +165,7 @@ const Toys: React.FC = () => {
   };
   const handleOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     currentOTPIndex = index;
     if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
@@ -187,29 +188,29 @@ const Toys: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
-      path: pathname.split("/")[2],
+      fnname: pathname.split("/")[2],
     };
     CreateProduct(actualData);
   }
-
-  useEffect(() => {
-    if (files.length === 0) {
-      setImgError("Image is required");
-    }
-    if (files.length > 0) {
-      setImgError("");
-    }
-  }, [files]);
+  fname: pathname.split("/")[2],
+    useEffect(() => {
+      if (files.length === 0) {
+        setImgError("Image is required");
+      }
+      if (files.length > 0) {
+        setImgError("");
+      }
+    }, [files]);
 
   return (
-    <div className="max-w-[1920px] mx-auto px-2 md:px-10 xl:px-52 2xl:px-80">
+    <div className="mx-auto max-w-[1920px] px-2 md:px-10 xl:px-52 2xl:px-80">
       <Title array={pathname.split("/")} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col border-[1px] border-content rounded-lg mb-10"
+        className="mb-10 flex flex-col rounded-lg border-[1px] border-content"
       >
         {/* Details Section */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 py-8 lg:px-10">
           <h3 className="font-semibold underline underline-offset-2">
             INCLUDE SOME DETAILS :
           </h3>
@@ -346,10 +347,10 @@ const Toys: React.FC = () => {
         />
 
         {/* Submitting Post Button */}
-        <div className="px-3 lg:px-10 py-8">
-          <Button type="submit" size="lg" className="text-lg w-fit">
+        <div className="px-3 py-8 lg:px-10">
+          <Button type="submit" size="lg" className="w-fit text-lg">
             {isPending ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <p>Posting..</p>
               </div>

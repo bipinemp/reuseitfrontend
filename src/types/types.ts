@@ -273,6 +273,7 @@ type ECarsDetails = {
   color: string;
   used_time: string;
   fuel_type: string;
+  mileage: string;
   owner: string;
   transmission_type: string;
 };

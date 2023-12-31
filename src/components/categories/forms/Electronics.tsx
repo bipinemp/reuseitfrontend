@@ -18,6 +18,7 @@ import Title from "./components/Title";
 import {
   createNewElectronics,
   createNewProduct,
+  createOldProduct,
   sendOtp,
   sendPhoneNumber,
 } from "@/apis/apicalls";
@@ -71,7 +72,7 @@ const Electronics: React.FC = () => {
 
   // mutation function for creating Electronics AD
   const { mutate: CreateProduct, isPending } = useMutation({
-    mutationFn: createNewElectronics,
+    mutationFn: createOldProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -177,7 +178,7 @@ const Electronics: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
-      path: pathname.split("/")[2],
+      fnname: pathname.split("/")[2],
     };
     CreateProduct(actualData);
   }

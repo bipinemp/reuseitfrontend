@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNewBikes, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import PriceBox from "../PriceBox";
 import BikesBrands from "@/json/bikesbrands.json";
@@ -24,6 +24,7 @@ import BikesLocationBox from "../locations/BikesLocationBox";
 import { useUserProfile } from "@/apis/queries";
 import OtpDialog from "@/components/categories/dialogs/OtpDialog";
 import PhoneDialog from "@/components/categories/dialogs/PhoneDialog";
+import Title from "../Title";
 
 interface PreviewFile extends File {
   id: string;
@@ -34,6 +35,7 @@ let currentOTPIndex: number = 0;
 const Bikes: React.FC = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const pathname = usePathname();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
   const { data: UserData } = useUserProfile();
@@ -58,14 +60,13 @@ const Bikes: React.FC = () => {
   });
 
   const brands = BikesBrands.data.map((bike) => bike);
+  console.log(brands);
   const [brandId, setBrandId] = useState<number>(0);
   const modelsDetails = BikesModels.data.filter(
-    (bike) => bike.brand_id === brandId
+    (bike) => bike.brand_id === brandId,
   );
   const models = modelsDetails.map((bike) => bike.name);
 
-  const fuels = ["CNG & Hybrids", "Diesel", "Electric", "LPG", "Petrol"];
-  const tranmissions = ["Automatic", "Manual"];
   const owners = ["1st", "2nd", "3rd", "4th", "4+"];
   const usedtimes = [
     "1 Year",
@@ -169,7 +170,7 @@ const Bikes: React.FC = () => {
   };
   const handleOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     currentOTPIndex = index;
     if (e.key === "Backspace") setActiveOTPIndex(currentOTPIndex - 1);
@@ -191,7 +192,9 @@ const Bikes: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
+      fnname: pathname.split("/")[2],
     };
+    console.log(actualData);
     CreateBlog(actualData);
   }
 
@@ -205,14 +208,15 @@ const Bikes: React.FC = () => {
   }, [files]);
 
   return (
-    <div className="mt-10">
+    <div className="mx-auto max-w-[1920px] px-2 md:px-10 xl:px-52 2xl:px-80">
+      <Title array={pathname.split("/")} />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col border-[1px] border-content rounded-lg mb-10"
+        className="mb-10 flex flex-col rounded-lg border-[1px] border-content"
       >
         {/* Details Section  */}
-        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 lg:px-10 py-8">
-          <h3 className="font-semibold text-[0.94rem] sm:text-[1.17rem] underline underline-offset-2">
+        <div className="relative flex flex-col gap-7 border-b-[1px] border-content px-3 py-8 lg:px-10">
+          <h3 className="text-[0.94rem] font-semibold underline underline-offset-2 sm:text-[1.17rem]">
             INCLUDE SOME DETAILS (Bikes) :
           </h3>
 
@@ -365,10 +369,10 @@ const Bikes: React.FC = () => {
         />
 
         {/* Submitting Post Button */}
-        <div className="px-3 lg:px-10 py-8">
-          <Button type="submit" size="lg" className="text-lg w-fit">
+        <div className="px-3 py-8 lg:px-10">
+          <Button type="submit" size="lg" className="w-fit text-lg">
             {isPending ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <p>Posting..</p>
               </div>

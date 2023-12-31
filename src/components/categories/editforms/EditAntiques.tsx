@@ -3,15 +3,14 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { electronicsList } from "@/lib/lists";
+import { antiquesCollectiblesList, clothingAccessoryList } from "@/lib/lists";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ElectronicsSchema, TElectronics } from "@/types/postTypes";
+import { AntiquesSchema, ClothingSchema, TAntiques } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
-import ElectronicsLocationBox from "./../forms/components/locations/ElectronicsLocationBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,6 +19,8 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
+import ClothingLocationBox from "../forms/components/locations/ClothingLocationBox";
+import AntiquesLocationBox from "../forms/components/locations/AntiquesLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -27,7 +28,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EProductDetails;
+  ProductDetails: EAntiquesDetails;
   fnname: string;
 }
 
@@ -36,10 +37,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditElectronic: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditAntiques: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -55,33 +53,50 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TElectronics>({
-    resolver: zodResolver(ElectronicsSchema),
+  } = useForm<TAntiques>({
+    resolver: zodResolver(AntiquesSchema),
     defaultValues: {
-      brand: ProductDetails.brand,
       condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
-      model: ProductDetails.model,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      type_of_electronic: ProductDetails.type_of_electronic,
-      warranty_information: ProductDetails.warranty_information,
+      certification: ProductDetails.certification,
+      era_period: ProductDetails.era_period,
+      historical_significance: ProductDetails.historical_significance,
+      material: ProductDetails.material,
+      provenance_location: ProductDetails.provenance_location,
+      rarity: ProductDetails.rarity,
+      type_of_item: ProductDetails.type_of_item,
     },
   });
 
-  const typeofelectronic = electronicsList.filter((val) => val.name === "type");
-  const typeofcondition = electronicsList.filter(
+  const typeofantiques = antiquesCollectiblesList.filter(
+    (val) => val.name === "type",
+  );
+  const eraperiods = antiquesCollectiblesList.filter(
+    (val) => val.name === "era_period",
+  );
+  const materials = antiquesCollectiblesList.filter(
+    (val) => val.name === "material",
+  );
+  const conditions = antiquesCollectiblesList.filter(
     (val) => val.name === "condition",
   );
-  const typeofwarrenty = electronicsList.filter(
-    (val) => val.name === "warrenty",
+  const locations = antiquesCollectiblesList.filter(
+    (val) => val.name === "provenance_location",
+  );
+  const rarities = antiquesCollectiblesList.filter(
+    (val) => val.name === "rarity",
+  );
+  const histories = antiquesCollectiblesList.filter(
+    (val) => val.name === "historical_significance",
   );
 
   // mutation function for creating Electronics AD
-  const { mutate: updateElectronic, isPending } = useMutation({
+  const { mutate: updateClothing, isPending } = useMutation({
     mutationFn: updateProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
@@ -104,11 +119,11 @@ const EditElectronic: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    handleCreateElectronics(data);
+    handleCreateClothing(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateElectronics(data: any) {
+  async function handleCreateClothing(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
@@ -118,7 +133,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
       old_image: oldImagesId,
       function_name: fnname,
     };
-    updateElectronic(actualData);
+    updateClothing(actualData);
   }
 
   //  for handling Image validation
@@ -151,7 +166,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TElectronics>
+            <InputBox<TAntiques>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -162,7 +177,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TElectronics>
+            <TextareaBox<TAntiques>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -173,61 +188,95 @@ const EditElectronic: React.FC<EDetailsProps> = ({
             />
 
             <div>
-              <SelectBox<TElectronics>
-                name="type_of_electronic"
+              <SelectBox<TAntiques>
+                name="type_of_item"
                 control={control}
-                array={typeofelectronic[0].list}
-                placeholder="Select Type of Electronic"
-                label="Electronics:"
-                error={errors.type_of_electronic?.message || ""}
+                array={typeofantiques[0]?.list}
+                placeholder="Select Type of Antique/Collectible"
+                label="Antiques/Collectibles:"
+                error={errors.type_of_item?.message || ""}
               />
             </div>
 
-            <InputBox<TElectronics>
-              id="brand"
-              name="brand"
-              placeholder="Enter Brand Name..."
-              error={errors?.brand?.message || ""}
-              desc="Enter the name of the Brand"
-              register={register}
-              label="Brand"
-            />
-
-            <InputBox<TElectronics>
-              id="model"
-              name="model"
-              placeholder="Enter Model Name..."
-              error={errors?.model?.message || ""}
-              desc="Enter the name of the Model"
-              register={register}
-              label="Model"
-            />
+            <div>
+              <SelectBox<TAntiques>
+                name="era_period"
+                control={control}
+                array={eraperiods[0]?.list}
+                placeholder="Select the Era/Period"
+                label="Eras/Periods:"
+                error={errors.era_period?.message || ""}
+              />
+            </div>
 
             <div>
-              <SelectBox<TElectronics>
+              <SelectBox<TAntiques>
+                name="material"
+                control={control}
+                array={materials[0]?.list}
+                placeholder="Select the material"
+                label="materials:"
+                error={errors.material?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TAntiques>
                 name="condition"
                 control={control}
-                array={typeofcondition[0]?.list}
-                placeholder="Select Condition"
-                label="Conditions:"
+                array={conditions[0]?.list}
+                placeholder="Select Type of condition"
+                label="conditions:"
                 error={errors.condition?.message || ""}
               />
             </div>
 
             <div>
-              <SelectBox<TElectronics>
-                name="warranty_information"
+              <SelectBox<TAntiques>
+                name="provenance_location"
                 control={control}
-                array={typeofwarrenty[0]?.list}
-                placeholder="Select the Warranty"
-                label="Available Warrenties:"
-                error={errors?.warranty_information?.message || ""}
+                array={locations[0]?.list}
+                placeholder="Select the Provenance Locations"
+                label="Locations:"
+                error={errors.provenance_location?.message || ""}
               />
             </div>
+
+            <div>
+              <SelectBox<TAntiques>
+                name="rarity"
+                control={control}
+                array={rarities[0]?.list}
+                placeholder="Select the Rarity"
+                label="Rarities:"
+                error={errors.rarity?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TAntiques>
+                name="historical_significance"
+                control={control}
+                array={histories[0]?.list}
+                placeholder="Select the Historical Significance"
+                label="Historical Significance:"
+                error={errors.historical_significance?.message || ""}
+              />
+            </div>
+
+            <InputBox<TAntiques>
+              name="certification"
+              id="certification"
+              placeholder="Enter Certification..."
+              register={register}
+              error={errors?.certification?.message || ""}
+              desc="Mention Certification if available"
+              label="Certification ( Optional )"
+            />
           </div>
 
           {/* Price Section */}
-          <PriceBox<TElectronics>
+          <PriceBox<TAntiques>
             name="price"
             id="price"
             register={register}
@@ -235,7 +284,7 @@ const EditElectronic: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <ElectronicsLocationBox
+          <AntiquesLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -273,4 +322,4 @@ const EditElectronic: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditElectronic;
+export default EditAntiques;
