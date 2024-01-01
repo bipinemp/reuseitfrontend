@@ -16,13 +16,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createNewMusics,
-  createNewProduct,
-  createOldProduct,
-  sendOtp,
-  sendPhoneNumber,
-} from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import RadioBox from "./components/RadioBox";
@@ -190,7 +184,7 @@ const Musics: React.FC = () => {
       image_urls: files,
       user_id: UserData?.id,
       price: parseInt(data.price),
-      fnname: pathname.split("/")[2],
+      fnname: "musics",
     };
     CreateProduct(actualData);
   }

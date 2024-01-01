@@ -4,27 +4,25 @@ import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import BikesBrands from "@/json/bikesbrands.json";
-import BikesModels from "@/json/bikesmodels.json";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BicycleSchema, BikesSchema, TBikes } from "@/types/postTypes";
+import { TDynamicForm, DynamicFormSchema } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import PriceBox from "./../forms/components/PriceBox";
 import { useRouter } from "next/navigation";
-import { updateProduct } from "@/apis/apicalls";
+import { updateDynamicProduct, updateProduct } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
-import CarSelectBox from "../forms/components/CarSelectBox";
-import BicyclesLocationBox from "../forms/components/locations/BicyclesLocationBox";
-import BikeSelectBox from "../forms/components/BikeSelectBox";
-import SelectBox from "../forms/components/SelectBox";
-import LabelRadio from "../forms/components/LabelRadio";
-import BikesLocationBox from "../forms/components/locations/BikesLocationBox";
+import { useCategoryDetails } from "@/apis/queries";
+import { z } from "zod";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import clsx from "clsx";
+import DynamicLocationBox from "../forms/components/locations/DynamicLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,8 +30,9 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EBikesScootersDetails;
+  ProductDetails: EDynamicFormDetails;
   fnname: string;
+  catId: number;
 }
 
 export type OldImages = {
@@ -41,27 +40,77 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditMotorcycles: React.FC<EDetailsProps> = ({
+interface EditObj {
+  data: any[];
+  //     [key: string]: string; // Add an index signature for string keys
+  //   };
+}
+
+const EditDynamic: React.FC<EDetailsProps> = ({
   ProductDetails,
   fnname,
+  catId,
 }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [imgError, setImgError] = useState<string>("Image is required");
+  const { data: cateData, isPending } = useCategoryDetails(catId);
   const [oldImages, setOldImages] = useState<OldImages[] | []>(
     ProductDetails?.product.image ?? [],
   );
   const [oldImagesId, setOldImagesId] = useState<number[] | []>([]);
 
+  const editObj: EditObj = {
+    data: ProductDetails.fields as any,
+  };
+
+  //   console.log(ProductDetails);
+  //   console.log(editObj);
+  function formatCategory(inputString: string) {
+    // Split the input string by underscores
+    var parts = inputString.split("_");
+
+    // Capitalize the first letter of each part
+    for (var i = 0; i < parts.length; i++) {
+      parts[i] = parts[i].charAt(0).toUpperCase() + parts[i].slice(1);
+    }
+
+    // Join the parts back together without underscores
+    var formattedString = parts.join(" ");
+
+    return formattedString;
+  }
+
+  // Assuming `fields` is the array you get from the API
+  const apiFields = cateData?.fields?.reduce(
+    (acc: Record<string, any>, field: any) => {
+      acc[field.name] = z
+        .string()
+        .min(1, { message: `You must enter a ${field.name}` });
+      return acc;
+    },
+    {},
+  );
+
+  // Combine your existing schema with the new fields
+  const CombinedSchema = z.object({
+    ...DynamicFormSchema.shape,
+    ...apiFields,
+  });
+
+  type TSchema = z.infer<typeof CombinedSchema>;
+
+  // Use the combined schema in your form
   const {
     register,
     handleSubmit,
     control,
+    getValues,
     formState: { errors },
     reset,
-  } = useForm<TBikes>({
-    resolver: zodResolver(BikesSchema),
+  } = useForm<TSchema>({
+    resolver: zodResolver(CombinedSchema),
     defaultValues: {
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
@@ -69,60 +118,17 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      brand: ProductDetails.brand,
-      color: ProductDetails.color,
-      condition: ProductDetails.condition,
-      km_driven: ProductDetails.km_driven.toString(),
-      mileage: ProductDetails.mileage.toString(),
-      model: ProductDetails.model,
-      owner: ProductDetails.owner,
-      used_time: ProductDetails.used_time,
-      year: ProductDetails.year.toString(),
     },
   });
 
-  const brands = BikesBrands.data.map((bike) => bike);
-
-  const defaultBrand = brands.find(
-    (bike) => bike.name === ProductDetails.brand,
-  );
-
-  const defaultId = brands.findLast(
-    (bike) => bike.id.toString() === defaultBrand?.id.toString(),
-  );
-
-  const [brandId, setBrandId] = useState<number>(defaultId?.id || 0);
-  const modelsDetails = BikesModels.data.filter(
-    (bike) => bike.brand_id === brandId,
-  );
-
-  const models = modelsDetails.map((bike) => bike.name);
-
-  const owners = ["1st", "2nd", "3rd", "4th", "4+"];
-  const usedtimes = [
-    "1 Year",
-    "2 Year",
-    "3 Year",
-    "4 Year",
-    "5 Year",
-    "5+ Years",
-  ];
-  const conditions = [
-    "Brand New (never used)",
-    "Like New (gently used with minimal signs of wear)",
-    "Good (used with some signs of wear but functions well)",
-    "Fair (visible wear and tear but still functional)",
-    "Poor (may require repairs or refurbishment)",
-  ];
-
   // mutation function for creating Electronics AD
-  const { mutate: updateClothing, isPending } = useMutation({
-    mutationFn: updateProduct,
+  const { mutate: updateAppliance, isPending: Updating } = useMutation({
+    mutationFn: updateDynamicProduct,
     onSettled: (data: any) => {
       if (data.success === "Successful Update") {
         toast.success("Update Successfull");
         reset();
-        router.push(`/productdetails/${ProductDetails?.product_id}`);
+        router.push(`/productdetails/${ProductDetails?.product.id}`);
       }
       if (data.response.status === 422) {
         const errorArr: any[] = Object.values(data.response.data.errors);
@@ -139,23 +145,22 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    console.log(data);
-    handleCreateClothing(data);
+    handleCreateAppliance(data);
   };
 
   //  mutation function for posting Product
-  async function handleCreateClothing(data: any) {
+  async function handleCreateAppliance(data: any) {
     const actualData = {
       ...data,
       price: parseInt(data.price),
-      id: ProductDetails?.product_id,
+      id: ProductDetails?.product.id,
       user_id: ProductDetails?.product.user_id,
       image_urls: files,
       old_image: oldImagesId,
-      function_name: fnname,
+      category_id: catId,
     };
-    console.log(actualData);
-    updateClothing(actualData);
+    // console.log("ActualData: ", actualData);
+    updateAppliance(actualData);
   }
 
   //  for handling Image validation
@@ -188,127 +193,68 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TBikes>
+            <InputBox<TDynamicForm>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
               register={register}
-              error={errors?.pname?.message || ""}
+              error={(errors && errors?.pname?.message?.toString()) || ""}
               desc="Mention the key features of you item (e.g. brand, model, age,
-              type)"
+                type)"
               label="Ad Title"
             />
-
-            <TextareaBox<TBikes>
+            <TextareaBox<TDynamicForm>
               name="description"
               id="description"
               placeholder="Enter Description..."
               register={register}
-              error={errors?.description?.message || ""}
+              error={(errors && errors?.description?.message?.toString()) || ""}
               desc="Include condition, features and reason for selling"
               label="Description"
             />
 
-            <BikeSelectBox
-              name="brand"
-              control={control}
-              array={brands}
-              placeholder="Select Brand"
-              label="All Brands"
-              error={errors?.brand?.message || ""}
-              onChange={(val) => setBrandId(val)}
-            />
+            {apiFields &&
+              Object.keys(apiFields).map((key) => {
+                const newKey = formatCategory(key);
 
-            <CarSelectBox<TBikes>
-              name="model"
-              control={control}
-              array={models}
-              placeholder="Select model"
-              label="All models:"
-              error={errors?.model?.message || ""}
-            />
-
-            <InputBox<TBikes>
-              name="year"
-              id="year"
-              placeholder="Enter Year..."
-              register={register}
-              error={errors?.year?.message || ""}
-              desc="Mention which's year's model it is"
-              label="Year"
-              type="number"
-            />
-
-            <InputBox<TBikes>
-              name="mileage"
-              id="mileage"
-              placeholder="Enter Mileage..."
-              register={register}
-              error={errors?.mileage?.message || ""}
-              desc="Mention KM / Miles"
-              label="Mileage"
-              type="number"
-            />
-
-            <SelectBox<TBikes>
-              array={conditions}
-              control={control}
-              error={errors?.condition?.message || ""}
-              label="Conditions:"
-              placeholder="Select Condition"
-              name="condition"
-            />
-
-            <InputBox<TBikes>
-              name="km_driven"
-              id="km_driven"
-              type="number"
-              placeholder="Enter KM Driven..."
-              register={register}
-              error={errors?.km_driven?.message || ""}
-              desc="Mention the Total KM Driven"
-              label="KM Driven"
-            />
-
-            <InputBox<TBikes>
-              name="color"
-              id="color"
-              placeholder="Enter Color..."
-              register={register}
-              error={errors?.color?.message || ""}
-              desc="Mention the Color"
-              label="Color"
-            />
-
-            <LabelRadio<TBikes>
-              array={owners}
-              control={control}
-              name="owner"
-              error={errors?.owner?.message || ""}
-              placeholder="No. of Owners"
-            />
-
-            <SelectBox<TBikes>
-              array={usedtimes}
-              control={control}
-              error={errors?.used_time?.message || ""}
-              label="Times:"
-              placeholder="Select Used Time"
-              name="used_time"
-            />
+                return (
+                  <div key={key}>
+                    <Label>{newKey}</Label>
+                    <Input
+                      /* @ts-ignore */
+                      {...register(key)}
+                      //   @ts-ignore
+                      defaultValue={ProductDetails[key] as string}
+                      placeholder={`Enter ${newKey}`}
+                      className={clsx("border-content py-6", {
+                        "border-[2px] border-destructive placeholder:text-destructive":
+                          /* @ts-ignore */
+                          errors[key]?.message?.toString() !== undefined,
+                      })}
+                    />
+                    {/* @ts-ignore */}
+                    {errors[key] && (
+                      <span className="pl-3 text-sm font-semibold text-destructive">
+                        {/* @ts-ignore  */}
+                        ** {errors[key]?.message?.toString()}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
           </div>
 
           {/* Price Section */}
-          <PriceBox<TBikes>
+          <PriceBox<TDynamicForm>
             name="price"
             id="price"
             register={register}
-            error={errors?.price?.message || ""}
+            error={(errors && errors?.price?.message?.toString()) || ""}
           />
 
           {/*Location selection Section */}
-          <BikesLocationBox
-            control={control}
+          <DynamicLocationBox<TDynamicForm>
+            control={control as any}
             errors={errors}
             whileEditing={true}
             Prov={ProductDetails?.product?.Province || ""}
@@ -329,7 +275,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
           {/* Submitting Product Sell Button */}
           <div className="px-3 py-8 lg:px-10">
             <Button type="submit" size="lg" className="w-fit text-lg">
-              {isPending ? (
+              {Updating ? (
                 <div className="flex items-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin" />
                   <p>Updating..</p>
@@ -345,4 +291,4 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditMotorcycles;
+export default EditDynamic;

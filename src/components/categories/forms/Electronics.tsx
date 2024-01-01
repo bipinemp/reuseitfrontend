@@ -15,13 +15,7 @@ import PriceBox from "./components/PriceBox";
 import ElectronicsLocationBox from "./components/locations/ElectronicsLocationBox";
 import { usePathname, useRouter } from "next/navigation";
 import Title from "./components/Title";
-import {
-  createNewElectronics,
-  createNewProduct,
-  createOldProduct,
-  sendOtp,
-  sendPhoneNumber,
-} from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";

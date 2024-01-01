@@ -34,12 +34,6 @@ interface PreviewFile extends File {
   preview: string;
 }
 
-interface EditObj {
-  data: {
-    [key: string]: string; // Add an index signature for string keys
-  };
-}
-
 let currentOTPIndex: number = 0;
 const Page: React.FC<PageProps> = ({ params }) => {
   const queryClient = useQueryClient();
@@ -84,13 +78,6 @@ const Page: React.FC<PageProps> = ({ params }) => {
     },
     {},
   );
-
-  const editObj: EditObj = {
-    data: {
-      type_of_category: "New Category value",
-      age_group: "age group value",
-    },
-  };
 
   // Combine your existing schema with the new fields
   const CombinedSchema = z.object({
@@ -280,7 +267,6 @@ const Page: React.FC<PageProps> = ({ params }) => {
                     <Label>{newKey}</Label>
                     <Input
                       {...register(key)}
-                      defaultValue={editObj?.data[key] as string}
                       placeholder={`Enter ${newKey}`}
                       className={clsx("border-content py-6", {
                         "border-[2px] border-destructive placeholder:text-destructive":

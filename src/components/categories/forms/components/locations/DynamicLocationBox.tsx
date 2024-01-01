@@ -13,17 +13,23 @@ type LocationItem = {
 interface LocationBoxProps<T extends FieldValues> {
   control: Control<T>;
   errors: FieldErrors<T>;
+  whileEditing?: boolean;
+  Prov?: string;
+  Dist?: string;
 }
 
 const DynamicLocationBox = <T extends Record<string, any>>({
   control,
   errors,
+  whileEditing,
+  Prov,
+  Dist,
 }: LocationBoxProps<T>) => {
   const AllProvinces = Locations.provinceList.flatMap(
     (val: LocationItem) => val.name,
   );
 
-  const [province, setProvince] = useState<string>("");
+  const [province, setProvince] = useState<string>(Prov || "");
 
   const ProvinceDetails = Locations.provinceList.filter(
     (provinc: LocationItem) => provinc.name === province,
@@ -33,7 +39,7 @@ const DynamicLocationBox = <T extends Record<string, any>>({
     (val: LocationItem) => val.name,
   );
 
-  const [district, setDistrict] = useState("");
+  const [district, setDistrict] = useState(Dist || "");
 
   const MunicipilityDetails = ProvinceDetails[0]?.districtList.find(
     (val: LocationItem) => val.name === district,
@@ -48,7 +54,6 @@ const DynamicLocationBox = <T extends Record<string, any>>({
       <h3 className="text-[1.1rem] font-semibold underline underline-offset-2">
         CONFIRM YOUR LOCATION
       </h3>
-
       <LocSelectBox<T>
         name="Province"
         control={control}
@@ -59,7 +64,19 @@ const DynamicLocationBox = <T extends Record<string, any>>({
         onChange={(val) => setProvince(val)}
       />
 
-      {province !== "" ? (
+      {whileEditing ? (
+        <>
+          <LocSelectBox<T>
+            name="District"
+            control={control}
+            array={DistrictList}
+            placeholder="Select Districts"
+            label="All Districts:"
+            error={(errors && errors?.District?.message?.toString()) || ""}
+            onChange={(val) => setDistrict(val)}
+          />
+        </>
+      ) : province !== "" ? (
         <>
           <LocSelectBox<T>
             name="District"
@@ -73,7 +90,18 @@ const DynamicLocationBox = <T extends Record<string, any>>({
         </>
       ) : null}
 
-      {district !== "" ? (
+      {whileEditing ? (
+        <>
+          <LocSelectBox<T>
+            name="Municipality"
+            control={control}
+            array={MunicipilityList}
+            placeholder="Select Municipality"
+            label="All Municipalities:"
+            error={(errors && errors?.Municipality?.message?.toString()) || ""}
+          />
+        </>
+      ) : district !== "" ? (
         <>
           <LocSelectBox<T>
             name="Municipality"

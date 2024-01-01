@@ -308,6 +308,16 @@ type EBicyclesDetails = {
   brand: string;
 };
 
+// for Product Details (Dynamic Form)
+type EDynamicFormDetails = {
+  id: number;
+  created_at: string;
+  updated_at: string;
+  product: EProduct;
+  product_id: number;
+  fields: any[];
+};
+
 // for Product Details (Musics)
 type EMusicsDetails = {
   id: number;

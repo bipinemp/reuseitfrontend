@@ -14,34 +14,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Plus, Trash } from "lucide-react";
+import { Loader2, Plus, Trash } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteField from "./DeleteField";
+import { useMutation } from "@tanstack/react-query";
+import { makeCategory } from "@/apis/apicalls";
+import toast from "react-hot-toast";
 
-interface pageProps {}
+interface PageProps {}
 interface Field {
   id: string;
-  category_name: string;
-  type: string;
   label: string;
-  placeholder: string;
   [key: string]: string;
 }
 
-const page: FC<pageProps> = ({}) => {
-  const [fields, setFields] = useState<Field[]>([
-    { id: "", category_name: "", type: "text", label: "", placeholder: "" },
-  ]);
+const Page: FC<PageProps> = ({}) => {
+  const [fields, setFields] = useState<Field[]>([{ id: "", label: "" }]);
+  const [categoryName, setCategoryName] = useState<string>("");
 
   const handleAddField = () => {
     setFields([
       ...fields,
       {
         id: uuidv4(),
-        category_name: "",
-        type: "text",
         label: "",
-        placeholder: "",
       },
     ]);
   };
@@ -52,9 +48,34 @@ const page: FC<pageProps> = ({}) => {
     setFields(newFields);
   };
 
+  const { mutate: CreateCategory, isPending } = useMutation({
+    mutationFn: makeCategory,
+    onSettled: (data: any) => {
+      if (data.response.status === 422) {
+        const errorArr: any[] = Object.values(data.response.data.errors);
+        toast.error(errorArr[0]);
+      }
+    },
+    onSuccess: () => {
+      toast.success("Category Made Successfully");
+      setCategoryName("");
+      setFields([{ id: "", label: "" }]);
+    },
+  });
+
   const handleSubmit = () => {
-    // Handle form submission logic
-    console.log("Submitted Fields:", fields);
+    const actualData = {
+      category_name: categoryName,
+      fields: fields.map((field) => {
+        return {
+          type: "text",
+          label: field.label,
+          placeholder: `Enter ${field.label}`,
+        };
+      }),
+    };
+
+    CreateCategory(actualData);
   };
 
   const handleDeleteField = (id: string) => {
@@ -66,6 +87,18 @@ const page: FC<pageProps> = ({}) => {
     <Container>
       <div className="mx-auto mb-20 flex w-[350px] flex-col justify-center gap-5">
         <h1 className="textg-gray-700 font-bold">Add Category</h1>
+
+        <div>
+          <Label>Category Name:</Label>
+          <Input
+            className="border-content"
+            type="text"
+            placeholder="Enter Category Name..."
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.target.value)}
+          />
+        </div>
+
         <div className="flex flex-col gap-10">
           {fields.map((field, index) => (
             <div
@@ -89,57 +122,13 @@ const page: FC<pageProps> = ({}) => {
               </div>
 
               <div>
-                <Label>Category Name:</Label>
-                <Input
-                  className="border-content"
-                  type="text"
-                  value={field.category_name}
-                  placeholder="Enter Category Name..."
-                  onChange={(e) =>
-                    handleChange(index, "category_name", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Type:</Label>
-                <Select
-                  value={field.type}
-                  onValueChange={(e) => handleChange(index, "type", e)}
-                >
-                  <SelectTrigger className="border-content">
-                    <SelectValue placeholder="Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Types</SelectLabel>
-                      <SelectItem value="text">Text</SelectItem>
-                      <SelectItem value="number">Number</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label>Label:</Label>
+                <Label>Name:</Label>
                 <Input
                   className="border-content"
                   type="text"
                   value={field.label}
-                  placeholder="Enter Label..."
+                  placeholder="Enter Name..."
                   onChange={(e) => handleChange(index, "label", e.target.value)}
-                />
-              </div>
-
-              <div>
-                <Label>Placeholder:</Label>
-                <Input
-                  className="border-content"
-                  type="text"
-                  value={field.placeholder}
-                  placeholder="Enter Placeholder..."
-                  onChange={(e) =>
-                    handleChange(index, "placeholder", e.target.value)
-                  }
                 />
               </div>
             </div>
@@ -153,14 +142,70 @@ const page: FC<pageProps> = ({}) => {
           >
             <Plus className="h-5 w-5" />
           </Button>
-          <Button onClick={handleSubmit}>Add Category</Button>
+          <Button onClick={handleSubmit}>
+            {isPending ? (
+              <div className="flex items-center gap-2">
+                <Loader2 className="h-5 w-5 animate-spin" />
+                <p>Adding Category..</p>
+              </div>
+            ) : (
+              "Add Category"
+            )}
+          </Button>
         </div>
       </div>
     </Container>
   );
 };
 
-export default page;
+export default Page;
+
+{
+  /* <div>
+  <Label>Placeholder:</Label>
+  <Input
+    className="border-content"
+    type="text"
+    value={field.placeholder}
+    placeholder="Enter Placeholder..."
+    onChange={(e) => handleChange(index, "placeholder", e.target.value)}
+  />
+</div>; */
+}
+
+{
+  /* <div>
+  <Label>Type:</Label>
+  <Select
+    value={field.type}
+    onValueChange={(e) => handleChange(index, "type", e)}
+  >
+    <SelectTrigger className="border-content">
+      <SelectValue placeholder="Type" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectLabel>Types</SelectLabel>
+        <SelectItem value="text">Text</SelectItem>
+        <SelectItem value="number">Number</SelectItem>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+</div>; */
+}
+
+{
+  /* <div>
+  <Label>Category Name:</Label>
+  <Input
+    className="border-content"
+    type="text"
+    value={field.category_name}
+    placeholder="Enter Category Name..."
+    onChange={(e) => handleChange(index, "category_name", e.target.value)}
+  />
+</div>; */
+}
 
 // "use client";
 
@@ -168,7 +213,7 @@ export default page;
 // import { Input } from "@/components/ui/input";
 // import { useState } from "react";
 
-// const page = () => {
+// const Page = () => {
 //   const [widgets, setWidgets] = useState<String[]>([]);
 
 //   function handleOnDrag(e: React.DragEvent, widgetType: string) {
@@ -237,7 +282,7 @@ export default page;
 //   );
 // };
 
-// export default page;
+// export default Page;
 
 // // const [formFields, setFormFields] = useState();
 // //   const [previewFormFields, setPreviewFields] = useState();

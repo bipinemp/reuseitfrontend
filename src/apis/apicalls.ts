@@ -353,6 +353,19 @@ export const loginCall = async (actual_Data: any) => {
   }
 };
 
+export const makeCategory = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/makeCategory",
+      data,
+      { withCredentials: true },
+    );
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const logoutCall = async () => {
   try {
     const response = await axios.post(
@@ -515,6 +528,24 @@ export const updateProduct = async (data: any) => {
     const response = await axios.post(
       `http://localhost:8000/api/update/${function_name}`,
       actualdata,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const updateDynamicProduct = async (data: any) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8000/api/UpdateProducts`,
+      data,
       {
         withCredentials: true,
         headers: {

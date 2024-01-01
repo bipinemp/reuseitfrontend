@@ -8,10 +8,14 @@ import EditBicycles from "@/components/categories/editforms/EditBicycles";
 import EditBooks from "@/components/categories/editforms/EditBooks";
 import EditCars from "@/components/categories/editforms/EditCars";
 import EditClothing from "@/components/categories/editforms/EditClothing";
+import EditDynamic from "@/components/categories/editforms/EditDynamic";
 import EditElectronic from "@/components/categories/editforms/EditElectronic";
 import EditFurniture from "@/components/categories/editforms/EditFurniture";
 import EditMotorcycles from "@/components/categories/editforms/EditMotorcycles";
+import EdiTMusic from "@/components/categories/editforms/EditMusic";
+import EditScooters from "@/components/categories/editforms/EditScooters";
 import EditSports from "@/components/categories/editforms/EditSports";
+import EdiTToys from "@/components/categories/editforms/EditToys";
 import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
 import { FC } from "react";
 
@@ -26,6 +30,8 @@ const Page: FC<pageProps> = ({ params }) => {
   const { data, isPending } = useViewProductDetails(parseInt(productID));
   const prodData = data?.data[0];
   const funcname = data?.data[0]?.product?.category?.function_name;
+
+  console.log(data?.data[0]);
 
   const renderProductDetails = () => {
     switch (
@@ -53,11 +59,11 @@ const Page: FC<pageProps> = ({ params }) => {
       case "Motorcycles":
         return <EditMotorcycles ProductDetails={prodData} fnname={funcname} />;
       case "Scooters":
-        return <h1>Product</h1>;
+        return <EditScooters ProductDetails={prodData} fnname={funcname} />;
       case "Toys and Games":
-        return <h1>Product</h1>;
+        return <EdiTToys ProductDetails={prodData} fnname={funcname} />;
       case "Musical Instruments":
-        return <h1>Product</h1>;
+        return <EdiTMusic ProductDetails={prodData} fnname={funcname} />;
 
       default:
         return (
@@ -67,7 +73,19 @@ const Page: FC<pageProps> = ({ params }) => {
         );
     }
   };
-  return <>{isPending ? <ProductDetailsLoading /> : renderProductDetails()}</>;
+
+  const content =
+    data?.data[0].product.category.admin_status === 1 ? (
+      <EditDynamic
+        ProductDetails={prodData}
+        fnname={funcname}
+        catId={data?.data[0].product.category_id}
+      />
+    ) : (
+      renderProductDetails()
+    );
+
+  return <>{isPending ? <ProductDetailsLoading /> : content}</>;
 };
 
 export default Page;

@@ -3,13 +3,13 @@
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
+import { furnitureList, toyGameList } from "@/lib/lists";
 import { useState } from "react";
-import BikesBrands from "@/json/bikesbrands.json";
-import BikesModels from "@/json/bikesmodels.json";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BicycleSchema, BikesSchema, TBikes } from "@/types/postTypes";
+import { TToys, ToysSchema } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
+import SelectBox from "./../forms/components/SelectBox";
 import PriceBox from "./../forms/components/PriceBox";
 import { useRouter } from "next/navigation";
 import { updateProduct } from "@/apis/apicalls";
@@ -19,12 +19,9 @@ import DashboardContainer from "@/components/DashboardContainer";
 import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
-import CarSelectBox from "../forms/components/CarSelectBox";
-import BicyclesLocationBox from "../forms/components/locations/BicyclesLocationBox";
-import BikeSelectBox from "../forms/components/BikeSelectBox";
-import SelectBox from "../forms/components/SelectBox";
-import LabelRadio from "../forms/components/LabelRadio";
-import BikesLocationBox from "../forms/components/locations/BikesLocationBox";
+import BooksLocationBox from "../forms/components/locations/BooksLocationBox";
+import RadioBox from "../forms/components/RadioBox";
+import ToysLocationBox from "../forms/components/locations/ToysLocationBox";
 
 interface PreviewFile extends File {
   id: string;
@@ -32,7 +29,7 @@ interface PreviewFile extends File {
 }
 
 interface EDetailsProps {
-  ProductDetails: EBikesScootersDetails;
+  ProductDetails: EToysDetails;
   fnname: string;
 }
 
@@ -41,10 +38,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditMotorcycles: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EdiTToys: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -53,6 +47,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
     ProductDetails?.product.image ?? [],
   );
   const [oldImagesId, setOldImagesId] = useState<number[] | []>([]);
+  console.log(ProductDetails);
 
   const {
     register,
@@ -60,59 +55,39 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
     control,
     formState: { errors },
     reset,
-  } = useForm<TBikes>({
-    resolver: zodResolver(BikesSchema),
+  } = useForm<TToys>({
+    resolver: zodResolver(ToysSchema),
     defaultValues: {
+      condition: ProductDetails.condition,
       description: ProductDetails.product.description,
       District: ProductDetails.product.District,
       Municipality: ProductDetails.product.Municipality,
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
+      age_group: ProductDetails.age_group,
+      assembly_required:
+        parseInt(ProductDetails.assembly_required) === 1 ? "true" : "false",
       brand: ProductDetails.brand,
-      color: ProductDetails.color,
-      condition: ProductDetails.condition,
-      km_driven: ProductDetails.km_driven.toString(),
-      mileage: ProductDetails.mileage.toString(),
-      model: ProductDetails.model,
-      owner: ProductDetails.owner,
-      used_time: ProductDetails.used_time,
-      year: ProductDetails.year.toString(),
+      recommended_use: ProductDetails.recommended_use,
+      safety_information: ProductDetails.safety_information,
+      type_of_toy_game: ProductDetails.type_of_toy_game,
     },
   });
 
-  const brands = BikesBrands.data.map((bike) => bike);
-
-  const defaultBrand = brands.find(
-    (bike) => bike.name === ProductDetails.brand,
+  const typeoftoy = toyGameList.filter((val) => val.name === "type");
+  const brands = toyGameList.filter((val) => val.name === "brand");
+  const agegroups = toyGameList.filter((val) => val.name === "age_group");
+  const safetystandards = toyGameList.filter(
+    (val) => val.name === "safety_information",
+  );
+  const typeofcondition = furnitureList.filter(
+    (val) => val.name === "condition",
   );
 
-  const defaultId = brands.findLast(
-    (bike) => bike.id.toString() === defaultBrand?.id.toString(),
-  );
-
-  const [brandId, setBrandId] = useState<number>(defaultId?.id || 0);
-  const modelsDetails = BikesModels.data.filter(
-    (bike) => bike.brand_id === brandId,
-  );
-
-  const models = modelsDetails.map((bike) => bike.name);
-
-  const owners = ["1st", "2nd", "3rd", "4th", "4+"];
-  const usedtimes = [
-    "1 Year",
-    "2 Year",
-    "3 Year",
-    "4 Year",
-    "5 Year",
-    "5+ Years",
-  ];
-  const conditions = [
-    "Brand New (never used)",
-    "Like New (gently used with minimal signs of wear)",
-    "Good (used with some signs of wear but functions well)",
-    "Fair (visible wear and tear but still functional)",
-    "Poor (may require repairs or refurbishment)",
+  const assemblyarray = [
+    { name: "Yes", value: "true" },
+    { name: "No", value: "false" },
   ];
 
   // mutation function for creating Electronics AD
@@ -139,7 +114,6 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
     if (files.length === 0 && oldImages.length === 0) {
       return;
     }
-    console.log(data);
     handleCreateClothing(data);
   };
 
@@ -153,8 +127,8 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
       image_urls: files,
       old_image: oldImagesId,
       function_name: fnname,
+      assembly_required: data.assembly_required === "true" ? 1 : 0,
     };
-    console.log(actualData);
     updateClothing(actualData);
   }
 
@@ -188,7 +162,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
               INCLUDE SOME DETAILS :
             </h3>
 
-            <InputBox<TBikes>
+            <InputBox<TToys>
               name="pname"
               id="pname"
               placeholder="Enter Title..."
@@ -199,7 +173,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
               label="Ad Title"
             />
 
-            <TextareaBox<TBikes>
+            <TextareaBox<TToys>
               name="description"
               id="description"
               placeholder="Enter Description..."
@@ -208,98 +182,82 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
               desc="Include condition, features and reason for selling"
               label="Description"
             />
+            <div>
+              <SelectBox<TToys>
+                name="type_of_toy_game"
+                control={control}
+                array={typeoftoy[0]?.list}
+                placeholder="Select Type of Toys/Games"
+                label="Toys/Games:"
+                error={errors.type_of_toy_game?.message || ""}
+              />
+            </div>
 
-            <BikeSelectBox
-              name="brand"
+            <div>
+              <SelectBox<TToys>
+                name="age_group"
+                control={control}
+                array={agegroups[0]?.list}
+                placeholder="Select the Age-Group"
+                label="Age-Groups:"
+                error={errors.age_group?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TToys>
+                name="brand"
+                control={control}
+                array={brands[0]?.list}
+                placeholder="Select the Brand"
+                label="Brands:"
+                error={errors.brand?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TToys>
+                name="condition"
+                control={control}
+                array={typeofcondition[0]?.list}
+                placeholder="Select Type of condition"
+                label="conditions:"
+                error={errors.condition?.message || ""}
+              />
+            </div>
+
+            <div>
+              <SelectBox<TToys>
+                name="safety_information"
+                control={control}
+                array={safetystandards[0]?.list}
+                placeholder="Select Safety Standard"
+                label="Safety Standards:"
+                error={errors.safety_information?.message || ""}
+              />
+            </div>
+
+            <RadioBox<TToys>
+              array={assemblyarray}
               control={control}
-              array={brands}
-              placeholder="Select Brand"
-              label="All Brands"
-              error={errors?.brand?.message || ""}
-              onChange={(val) => setBrandId(val)}
+              error={errors?.assembly_required?.message || ""}
+              name="assembly_required"
+              placeholder="Assembly Required:"
             />
 
-            <CarSelectBox<TBikes>
-              name="model"
-              control={control}
-              array={models}
-              placeholder="Select model"
-              label="All models:"
-              error={errors?.model?.message || ""}
-            />
-
-            <InputBox<TBikes>
-              name="year"
-              id="year"
-              placeholder="Enter Year..."
+            <TextareaBox<TToys>
+              name="recommended_use"
+              id="recommended_use"
+              placeholder="Enter Recommendation..."
               register={register}
-              error={errors?.year?.message || ""}
-              desc="Mention which's year's model it is"
-              label="Year"
-              type="number"
-            />
-
-            <InputBox<TBikes>
-              name="mileage"
-              id="mileage"
-              placeholder="Enter Mileage..."
-              register={register}
-              error={errors?.mileage?.message || ""}
-              desc="Mention KM / Miles"
-              label="Mileage"
-              type="number"
-            />
-
-            <SelectBox<TBikes>
-              array={conditions}
-              control={control}
-              error={errors?.condition?.message || ""}
-              label="Conditions:"
-              placeholder="Select Condition"
-              name="condition"
-            />
-
-            <InputBox<TBikes>
-              name="km_driven"
-              id="km_driven"
-              type="number"
-              placeholder="Enter KM Driven..."
-              register={register}
-              error={errors?.km_driven?.message || ""}
-              desc="Mention the Total KM Driven"
-              label="KM Driven"
-            />
-
-            <InputBox<TBikes>
-              name="color"
-              id="color"
-              placeholder="Enter Color..."
-              register={register}
-              error={errors?.color?.message || ""}
-              desc="Mention the Color"
-              label="Color"
-            />
-
-            <LabelRadio<TBikes>
-              array={owners}
-              control={control}
-              name="owner"
-              error={errors?.owner?.message || ""}
-              placeholder="No. of Owners"
-            />
-
-            <SelectBox<TBikes>
-              array={usedtimes}
-              control={control}
-              error={errors?.used_time?.message || ""}
-              label="Times:"
-              placeholder="Select Used Time"
-              name="used_time"
+              error={errors?.recommended_use?.message || ""}
+              desc="Include how to use the Toys/Games"
+              label="Recommendation"
             />
           </div>
 
           {/* Price Section */}
-          <PriceBox<TBikes>
+          <PriceBox<TToys>
             name="price"
             id="price"
             register={register}
@@ -307,7 +265,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
           />
 
           {/*Location selection Section */}
-          <BikesLocationBox
+          <ToysLocationBox
             control={control}
             errors={errors}
             whileEditing={true}
@@ -345,4 +303,4 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditMotorcycles;
+export default EdiTToys;

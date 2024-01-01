@@ -4,10 +4,9 @@ import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import BikesBrands from "@/json/bikesbrands.json";
-import BikesModels from "@/json/bikesmodels.json";
+import ScooterData from "@/json/scooter.json";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BicycleSchema, BikesSchema, TBikes } from "@/types/postTypes";
+import { BikesSchema, TBikes } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import PriceBox from "./../forms/components/PriceBox";
@@ -20,8 +19,6 @@ import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
 import CarSelectBox from "../forms/components/CarSelectBox";
-import BicyclesLocationBox from "../forms/components/locations/BicyclesLocationBox";
-import BikeSelectBox from "../forms/components/BikeSelectBox";
 import SelectBox from "../forms/components/SelectBox";
 import LabelRadio from "../forms/components/LabelRadio";
 import BikesLocationBox from "../forms/components/locations/BikesLocationBox";
@@ -41,10 +38,7 @@ export type OldImages = {
   image_url: string;
 };
 
-const EditMotorcycles: React.FC<EDetailsProps> = ({
-  ProductDetails,
-  fnname,
-}) => {
+const EditScooters: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
   const queryClient = useQueryClient();
   const router = useRouter();
   const [files, setFiles] = useState<PreviewFile[]>([]);
@@ -81,22 +75,14 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
     },
   });
 
-  const brands = BikesBrands.data.map((bike) => bike);
+  const [brand, setBrand] = useState(ProductDetails?.brand || "");
 
-  const defaultBrand = brands.find(
-    (bike) => bike.name === ProductDetails.brand,
-  );
-
-  const defaultId = brands.findLast(
-    (bike) => bike.id.toString() === defaultBrand?.id.toString(),
-  );
-
-  const [brandId, setBrandId] = useState<number>(defaultId?.id || 0);
-  const modelsDetails = BikesModels.data.filter(
-    (bike) => bike.brand_id === brandId,
-  );
-
-  const models = modelsDetails.map((bike) => bike.name);
+  const brands = ScooterData.Scooters.map((scooter) => scooter.brand);
+  const models = ScooterData.Scooters.filter(
+    (scooter) => scooter.brand === brand,
+  )
+    .map((scooter) => scooter.models)
+    .flat();
 
   const owners = ["1st", "2nd", "3rd", "4th", "4+"];
   const usedtimes = [
@@ -209,14 +195,14 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
               label="Description"
             />
 
-            <BikeSelectBox
+            <CarSelectBox
               name="brand"
               control={control}
               array={brands}
               placeholder="Select Brand"
               label="All Brands"
               error={errors?.brand?.message || ""}
-              onChange={(val) => setBrandId(val)}
+              onChange={(val) => setBrand(val)}
             />
 
             <CarSelectBox<TBikes>
@@ -345,4 +331,4 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
   );
 };
 
-export default EditMotorcycles;
+export default EditScooters;
