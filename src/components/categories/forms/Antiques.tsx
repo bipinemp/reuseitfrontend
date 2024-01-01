@@ -180,13 +180,14 @@ const Antiques: React.FC = () => {
     SendOTP(otp.join(""));
   };
 
+  console.log(pathname);
+
   // for mutation function
   async function handleCreateAppliance(data: TAntiques) {
     const actualData = {
       ...data,
       image_urls: files,
       user_id: UserData?.id,
-      path: pathname.split("/")[2],
       price: parseInt(data.price),
       fnname: pathname.split("/")[2],
     };

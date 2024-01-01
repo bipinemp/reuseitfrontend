@@ -12,7 +12,7 @@ import SelectBox from "../SelectBox";
 import FileUpload from "../FileUpload";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNewBikes, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -86,7 +86,7 @@ const Bikes: React.FC = () => {
 
   // mutation function for creating Home Appliance AD
   const { mutate: CreateBlog, isPending } = useMutation({
-    mutationFn: createNewBikes,
+    mutationFn: createOldProduct,
     onSettled: (data: any) => {
       if (data.status === 200) {
         toast.success("Post Successfull");
@@ -194,7 +194,7 @@ const Bikes: React.FC = () => {
       price: parseInt(data.price),
       fnname: pathname.split("/")[2],
     };
-    console.log(actualData);
+
     CreateBlog(actualData);
   }
 

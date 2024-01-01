@@ -13,12 +13,7 @@ import SelectBox from "../SelectBox";
 import FileUpload from "../FileUpload";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createNewCars,
-  createOldProduct,
-  sendOtp,
-  sendPhoneNumber,
-} from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";

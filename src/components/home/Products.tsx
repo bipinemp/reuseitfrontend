@@ -56,7 +56,7 @@ const Products: React.FC = () => {
 
   return (
     <Container>
-      <div className="mb-20 flex flex-col gap-14">
+      <div className="mb-20 flex flex-col gap-10">
         {UserRecommendations?.data?.recommendations?.length >= 4 && (
           <div className="flex flex-col gap-2 rounded-lg bg-primary/20 p-5">
             <>
@@ -100,29 +100,27 @@ const Products: React.FC = () => {
           </div>
         )}
 
-        {!AllProductsLoading ||
-          !prods ||
-          (prods.length === 0 && (
-            <div className="mx-auto">
-              <Button
-                disabled={!hasNextPage || isFetchingNextPage}
-                onClick={() => fetchNextPage()}
-                variant="default"
-                size="lg"
-                className="text-lg font-semibold tracking-wide"
-              >
-                {isFetchingNextPage ? (
-                  <div className="flex items-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" /> Loading...
-                  </div>
-                ) : hasNextPage ? (
-                  "Load More"
-                ) : (
-                  "Nothing to Load"
-                )}
-              </Button>
-            </div>
-          ))}
+        {!AllProductsLoading && (
+          <div className="mx-auto">
+            <Button
+              disabled={!hasNextPage || isFetchingNextPage}
+              onClick={() => fetchNextPage()}
+              variant="default"
+              size="lg"
+              className="text-lg font-semibold tracking-wide"
+            >
+              {isFetchingNextPage ? (
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading...
+                </div>
+              ) : hasNextPage ? (
+                "Load More"
+              ) : (
+                "Nothing to Load"
+              )}
+            </Button>
+          </div>
+        )}
       </div>
     </Container>
   );

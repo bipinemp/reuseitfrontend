@@ -17,13 +17,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Title from "./components/Title";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  createNewAppliance,
-  createNewProduct,
-  createOldProduct,
-  sendOtp,
-  sendPhoneNumber,
-} from "@/apis/apicalls";
+import { createOldProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useUserProfile } from "@/apis/queries";
