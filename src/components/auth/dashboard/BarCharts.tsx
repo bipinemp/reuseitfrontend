@@ -23,7 +23,8 @@ const BarCharts = () => {
     name: data.month,
   }));
   return (
-    <div className="rounded-lg border border-input p-7 shadow-lg">
+    <div className="flex h-[550px] w-full flex-col justify-between rounded-lg border border-input pb-7 pl-7 pr-7 pt-3 shadow-lg">
+      <h1 className="font-bold text-gray-600">Sales</h1>
       {/*  Barchart  */}
       {BarData && BarData.analyticsData.length > 0 && (
         <div className="relative mx-auto h-[400px] w-full">
@@ -33,7 +34,7 @@ const BarCharts = () => {
               height={300}
               data={BarChartData}
               barGap={0}
-              barSize={15}
+              barSize={25}
               margin={{
                 top: 5,
                 bottom: 5,

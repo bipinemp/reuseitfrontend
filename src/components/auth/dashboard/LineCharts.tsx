@@ -18,11 +18,12 @@ const LineCharts = () => {
   var PrevYear = ThisYear - 1;
 
   return (
-    <div className="w-[65%] rounded-lg border border-input pb-5 pr-5 pt-5 shadow-lg">
+    <div className="flex h-[530px] w-[65%] flex-col justify-between rounded-lg border border-input pb-5 pr-5 pt-5 shadow-lg">
       {LineDataLoading && <h1>Loading...</h1>}
+      <h1 className="ml-14 font-bold text-gray-600">Users</h1>
       {/* Line Chart  */}
       {LineData && LineData.engagementData.length > 0 && (
-        <div className="relative mx-auto h-[400px] w-full">
+        <div className="relative h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               width={500}

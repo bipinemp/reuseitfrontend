@@ -17,8 +17,11 @@ const onPieEnter = () => {
 
 const PieCharts = () => {
   return (
-    <div className="flex h-[440px] w-[33%] flex-col gap-5 rounded-lg  border border-input p-5 shadow-lg">
+    <div className="flex h-[530px] w-[33%] flex-col justify-between rounded-lg  border border-input p-5 shadow-lg">
       {/* PieChart  */}
+      <h1 className="text-center font-bold text-gray-600 underline underline-offset-2">
+        Traffic
+      </h1>
       <div className="relative mx-auto h-[250px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart width={200} height={200} onMouseEnter={onPieEnter}>
