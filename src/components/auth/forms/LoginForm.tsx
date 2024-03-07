@@ -1,6 +1,6 @@
 "use client";
 
-import { loginCall } from "@/apis/apicalls";
+import { loginCall, sendEmail } from "@/apis/apicalls";
 import InputBox from "@/components/categories/forms/components/InputBox";
 import { Button } from "@/components/ui/button";
 import { LoginSchema, TLogin } from "@/types/authTypes";
@@ -10,15 +10,46 @@ import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Login from "../../../../public/image/login.png";
-import Register from "../../../../public/image/register.png";
-import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 const LoginForm = () => {
   const router = useRouter();
+
+  // For forget password logic
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+
+  const handleOpenDialog = () => {
+    setOpenDialog(!openDialog);
+  };
+
+  const { mutate: SendEmail, isPending: forgetPassPending } = useMutation({
+    mutationKey: ["forgetpassword"],
+    mutationFn: sendEmail,
+    onSuccess() {
+      toast.success("Reset Link Send to Mail");
+    },
+    onError(){
+      toast.error("Something went wrong, Try again")
+    }
+  });
+
+  function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    SendEmail(email);
+  }
 
   const {
     register,
@@ -51,24 +82,24 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex shadow-lg rounded-lg border">
+    <div className="relative flex h-full w-full rounded-lg border shadow-lg">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-[60%] flex flex-col gap-4 py-6 px-12"
+        className="flex w-[60%] flex-col gap-4 px-12 py-6"
       >
         <h1 className="font-semibold">Login</h1>
 
-        <p className="flex gap-2 items-center">
+        <p className="flex items-center gap-2">
           <span>Don&apos;t have an account?</span>
           <Link
-            className="text-primary font-semibold underline underline-offset-2"
+            className="font-semibold text-primary underline underline-offset-2"
             href={"/register"}
           >
             Register here
           </Link>
         </p>
 
-        <div className="flex flex-col gap-4 mt-4">
+        <div className="mt-4 flex flex-col gap-4">
           <InputBox<TLogin>
             name="email"
             id="email"
@@ -89,14 +120,17 @@ const LoginForm = () => {
           />
 
           <div>
-            <p className="text-primary font-semibold underline underline-offset-2 cursor-pointer">
+            <p
+              onClick={handleOpenDialog}
+              className="cursor-pointer font-semibold text-primary underline underline-offset-2"
+            >
               Forgot Password?
             </p>
           </div>
 
           <Button size="lg" className="text-[1rem] font-semibold tracking-wide">
             {isPending ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex items-center gap-2">
                 <Loader2 className="h-5 w-5 animate-spin" />
                 <p>Logging In..</p>
               </div>
@@ -107,9 +141,45 @@ const LoginForm = () => {
         </div>
       </form>
 
-      <div className="relative w-[40%] h-full flex items-center justify-between border-l-[2px]">
+      <div className="relative flex h-full w-[40%] items-center justify-between border-l-[2px]">
         <Image src={Login} fill alt="" className="object-contain" />
       </div>
+
+      {/* For Forgot Password Dialog for putting email */}
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogContent>
+          <DialogHeader className="flex flex-col gap-8">
+            <DialogTitle>Enter your Email.</DialogTitle>
+            <DialogDescription>
+              <form
+                onSubmit={handleEmailSubmit}
+                className="flex flex-col gap-4"
+              >
+                <Input
+                  placeholder="Enter Email..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  required
+                />
+                <Button
+                  size="lg"
+                  className="text-[1rem] font-semibold tracking-wide"
+                >
+                  {forgetPassPending ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <p>Sending...</p>
+                    </div>
+                  ) : (
+                    "Send"
+                  )}
+                </Button>
+              </form>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

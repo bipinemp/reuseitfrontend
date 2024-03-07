@@ -439,6 +439,65 @@ export const makeOffline = async () => {
   }
 };
 
+// Analytics
+export const getBarChartData = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/sellAnalytics",
+      {
+        withCredentials: true,
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getLineChartData = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/engagementAnalytics",
+      {
+        withCredentials: true,
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for Forget password
+export const sendEmail = async (email: string) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/forgotPassword",
+      { email: email },
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for reset password
+export const sendResetData = async (data: TResetPassword) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/reset-password",
+      data,
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Date formating
 export const formatDate = (date: string) => {
   const currentDate = new Date();

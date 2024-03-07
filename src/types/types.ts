@@ -446,3 +446,11 @@ type TCategories = {
   function_name: string;
   fields: Field[];
 };
+
+// Reset password  data
+type TResetPassword = {
+  email: string;
+  token: string;
+  password: string;
+  password_confirmation: string;
+};

@@ -1,10 +1,20 @@
+"use client";
+
 import DashboardContainer from "@/components/DashboardContainer";
-import React from "react";
+import LineCharts from "./LineCharts";
+import BarCharts from "./BarCharts";
+import PieCharts from "./PieCharts";
 
 const Dashboard: React.FC = () => {
   return (
     <DashboardContainer>
-      <h1>Main Dashboard</h1>
+      <div className="relative mb-10 flex w-full flex-col gap-10 px-14">
+        <div className="flex w-full items-center justify-between">
+          <LineCharts />
+          <PieCharts />
+        </div>
+        <BarCharts />
+      </div>
     </DashboardContainer>
   );
 };

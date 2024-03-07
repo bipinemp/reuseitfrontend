@@ -1,8 +1,10 @@
+"use client";
+
 import Dashboard from "@/components/auth/dashboard/Dashboard";
 import React from "react";
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   return <Dashboard />;
 };
 
-export default page;
+export default Page;

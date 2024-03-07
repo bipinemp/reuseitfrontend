@@ -3,10 +3,12 @@ import {
   deleteMyProduct,
   fetchAllProducts,
   fetchMyProducts,
+  getBarChartData,
   getCategoriesList,
   getCategoryDetails,
   getCount,
   getLatestMessageId,
+  getLineChartData,
   getMessagesList,
   getProductDetails,
   getUserDetails,
@@ -212,6 +214,25 @@ export const useGetLatestMessages = (senderId: number, id: number) => {
 
       return messages;
     },
+  });
+
+  return { data, isPending };
+};
+
+// Analytics Data querying
+export const useBarChartData = () => {
+  const { data, isPending } = useQuery({
+    queryKey: ["barchart"],
+    queryFn: getBarChartData,
+  });
+
+  return { data, isPending };
+};
+
+export const useLineChartData = () => {
+  const { data, isPending } = useQuery({
+    queryKey: ["linechart"],
+    queryFn: getLineChartData,
   });
 
   return { data, isPending };
