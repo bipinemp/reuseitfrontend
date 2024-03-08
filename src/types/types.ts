@@ -454,3 +454,19 @@ type TResetPassword = {
   password: string;
   password_confirmation: string;
 };
+
+type TDashData = {
+  products: number;
+  Engagedata: {
+    currengagement: string;
+    percentageGap: number;
+    status: string;
+  };
+  Income: string;
+};
+
+// Enagagement
+// increased
+// decreased
+// unchanged
+// undefined

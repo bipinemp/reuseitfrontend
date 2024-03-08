@@ -470,6 +470,30 @@ export const getLineChartData = async () => {
   }
 };
 
+export const getPieChartData = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/pieAnalytics", {
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getDashData = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/getDashData", {
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 // for Forget password
 export const sendEmail = async (email: string) => {
   try {

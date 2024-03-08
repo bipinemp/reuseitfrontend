@@ -1,13 +1,8 @@
 "use client";
 
+import { usePieChartData } from "@/apis/queries";
 import { Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
-
-const piedata = [
-  { name: "ELectronics", value: 10 },
-  { name: "Furniture", value: 11 },
-  { name: "Cars", value: 5 },
-  { name: "Musics", value: 22 },
-];
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -16,81 +11,108 @@ const onPieEnter = () => {
 };
 
 const PieCharts = () => {
+  const { data, isPending } = usePieChartData();
+
+  const valArr = data?.category_names.map((data: any) => data.value);
+
+  const totalSum = valArr?.reduce(
+    (prev: number, curr: number) => (prev += curr),
+    0,
+  );
+
   return (
-    <div className="flex h-[530px] w-[33%] flex-col justify-between rounded-lg  border border-input p-5 shadow-lg">
+    <div className="flex h-[530px] w-[33%] flex-col justify-between rounded-lg border border-input p-5 shadow-lg">
+      {isPending && <h1>Loading...</h1>}
       {/* PieChart  */}
       <h1 className="text-center font-bold text-gray-600 underline underline-offset-2">
         Traffic
       </h1>
-      <div className="relative mx-auto h-[250px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart width={200} height={200} onMouseEnter={onPieEnter}>
-            <Tooltip
-              content={({ active, payload }) => {
-                if (active && payload && payload.length) {
-                  return (
-                    <div className="w-[150px] rounded-lg border bg-background p-2 shadow-sm">
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="flex flex-col">
-                          <span className="text-[1rem] text-muted-foreground">
+      {data && data.category_names && (
+        <div className="relative mx-auto h-[250px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart width={200} height={200} onMouseEnter={onPieEnter}>
+              <Tooltip
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="w-fit rounded-lg border bg-background p-4 shadow-sm">
+                        <div className="flex flex-col items-center">
+                          <p className="text-[1rem] text-muted-foreground">
                             {payload[0].name}
-                          </span>
-                          <span className="font-bold">{payload[0].value}</span>
+                          </p>
+                          <p className="font-bold">{payload[0].value}</p>
                         </div>
                       </div>
-                    </div>
-                  );
-                }
+                    );
+                  }
 
-                return null;
-              }}
-            />
-            <Pie
-              data={piedata}
-              innerRadius={65}
-              outerRadius={120}
-              fill="#8884d8"
-              paddingAngle={5}
-              dataKey="value"
-            >
-              {piedata.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-      <div className="flex flex-wrap items-center justify-center gap-5">
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Furniture</p>
-          <span className="text-[0.8rem]">20%</span>
+                  return null;
+                }}
+              />
+              <Pie
+                data={data?.category_names}
+                innerRadius={65}
+                outerRadius={120}
+                fill="#8884d8"
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {data?.category_names.map((_: any, index: number) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Clothing</p>
-          <span className="text-[0.8rem]">50%</span>
+      )}
+
+      <ScrollArea className="h-[120px] rounded-lg border border-gray-300">
+        <div className="flex flex-col items-center gap-2">
+          {data &&
+            data.category_names &&
+            data.category_names.map((data: any, i: number) => (
+              <div
+                key={i}
+                className="flex flex-col items-center justify-center gap-1"
+              >
+                <p className="text-[0.9rem] font-semibold">{data.name}</p>
+                <span className="text-[0.8rem]">
+                  {(data.value / totalSum) * 100}%
+                </span>
+              </div>
+            ))}
         </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Electronics</p>
-          <span className="text-[0.8rem]">20%</span>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Books</p>
-          <span className="text-[0.8rem]">10%</span>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Cars</p>
-          <span className="text-[0.8rem]">13%</span>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <p className="text-[0.9rem] font-semibold">Antiques</p>
-          <span className="text-[0.8rem]">10%</span>
-        </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 };
 
 export default PieCharts;
+
+// <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Furniture</p>
+//           <span className="text-[0.8rem]">20%</span>
+//         </div>
+//         <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Clothing</p>
+//           <span className="text-[0.8rem]">50%</span>
+//         </div>
+//         <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Electronics</p>
+//           <span className="text-[0.8rem]">20%</span>
+//         </div>
+//         <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Books</p>
+//           <span className="text-[0.8rem]">10%</span>
+//         </div>
+//         <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Cars</p>
+//           <span className="text-[0.8rem]">13%</span>
+//         </div>
+//         <div className="flex flex-col items-center justify-center gap-1">
+//           <p className="text-[0.9rem] font-semibold">Antiques</p>
+//           <span className="text-[0.8rem]">10%</span>
+//         </div>

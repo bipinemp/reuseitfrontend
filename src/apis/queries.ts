@@ -7,9 +7,11 @@ import {
   getCategoriesList,
   getCategoryDetails,
   getCount,
+  getDashData,
   getLatestMessageId,
   getLineChartData,
   getMessagesList,
+  getPieChartData,
   getProductDetails,
   getUserDetails,
   getUserProfile,
@@ -233,6 +235,24 @@ export const useLineChartData = () => {
   const { data, isPending } = useQuery({
     queryKey: ["linechart"],
     queryFn: getLineChartData,
+  });
+
+  return { data, isPending };
+};
+
+export const usePieChartData = () => {
+  const { data, isPending } = useQuery({
+    queryKey: ["piechart"],
+    queryFn: getPieChartData,
+  });
+
+  return { data, isPending };
+};
+
+export const useDashData = () => {
+  const { data, isPending } = useQuery<TDashData>({
+    queryKey: ["dashdata"],
+    queryFn: getDashData,
   });
 
   return { data, isPending };
