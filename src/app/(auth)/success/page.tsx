@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 const Page = () => {
   const searchParams = useSearchParams();
   const pidx = searchParams.get("pidx");
-  const amount = searchParams.get("amount");
   const status = searchParams.get("status");
+
+  const amount = searchParams.get("amount");
   const purchase_order_id = searchParams.get("purchase_order_id");
   const purchase_order_type = "featured";
   const purchase_order_name = searchParams.get("purchase_order_name");
+  const product_ids = [1, 2];
 
   const [message, setMessage] = useState("");
 
