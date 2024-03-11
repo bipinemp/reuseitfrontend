@@ -149,7 +149,16 @@ export const nonavbarlist = [
   "/register",
   "/user",
   "/formbuilder",
-  "/chart"
+  "/chart",
+  "/business_packages",
+  "/success",
+];
+
+export const BusinessPackages = [
+  { id: 1, name: "1 Ad", selected: false, price: "NPR 100", amount: 100 },
+  { id: 2, name: "2 Ad", selected: false, price: "NPR 200", amount: 200 },
+  { id: 3, name: "3 Ad", selected: false, price: "NPR 300", amount: 300 },
+  { id: 4, name: "4 Ad", selected: false, price: "NPR 400", amount: 400 },
 ];
 
 export const homeapplianceslist = [

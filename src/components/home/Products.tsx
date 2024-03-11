@@ -24,7 +24,7 @@ const Products: React.FC = () => {
   } = useFetchAllProducts();
 
   // For getting user_id for making recommendation system
-  const { data: UserData, isPending, isSuccess } = useUserProfile();
+  const { data: UserData, isSuccess } = useUserProfile();
 
   // mutation function for posting user_id for recommendation and getting list of recommendation
   const {

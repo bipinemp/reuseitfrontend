@@ -13,6 +13,7 @@ import {
   getMessagesList,
   getPieChartData,
   getProductDetails,
+  getProductsForPackages,
   getUserDetails,
   getUserProfile,
   getUsersList,
@@ -253,6 +254,16 @@ export const useDashData = () => {
   const { data, isPending } = useQuery<TDashData>({
     queryKey: ["dashdata"],
     queryFn: getDashData,
+  });
+
+  return { data, isPending };
+};
+
+export const useProductsPackages = () => {
+  const { data, isPending } = useQuery<TPackProds[]>({
+    queryKey: ["prodspackages"],
+    queryFn: getProductsForPackages,
+    refetchInterval: 86400000,
   });
 
   return { data, isPending };

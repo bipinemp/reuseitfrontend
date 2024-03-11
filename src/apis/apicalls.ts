@@ -494,6 +494,21 @@ export const getDashData = async () => {
   }
 };
 
+export const getProductsForPackages = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/getPackageProduct",
+      {
+        withCredentials: true,
+      },
+    );
+
+    return response.data.productsBuy;
+  } catch (error) {
+    return error;
+  }
+};
+
 // for Forget password
 export const sendEmail = async (email: string) => {
   try {

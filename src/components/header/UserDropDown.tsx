@@ -1,4 +1,10 @@
-import { LayoutDashboard, LifeBuoy, Settings, User } from "lucide-react";
+import {
+  DollarSign,
+  LayoutDashboard,
+  LifeBuoy,
+  Settings,
+  User,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -21,7 +27,7 @@ export function UserDropDown() {
 
   if (isPending) {
     return (
-      <div className="relative w-[40px] h-[40px] bg-gray-500 animate-pulse rounded-full"></div>
+      <div className="relative h-[40px] w-[40px] animate-pulse rounded-full bg-gray-500"></div>
     );
   }
 
@@ -36,12 +42,12 @@ export function UserDropDown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="relative w-[40px] h-[40px] cursor-pointer">
+        <div className="relative h-[40px] w-[40px] cursor-pointer">
           <Image
             fill
             src={imgurl + data?.Profile_image}
             alt=""
-            className="w-[40px] h-[40px] rounded-full bg-gray-500"
+            className="h-[40px] w-[40px] rounded-full bg-gray-500"
           />
         </div>
       </DropdownMenuTrigger>
@@ -50,7 +56,7 @@ export function UserDropDown() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href={"/profile"} className="w-full flex items-center gap-1">
+            <Link href={"/profile"} className="flex w-full items-center gap-1">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </Link>
@@ -59,10 +65,20 @@ export function UserDropDown() {
           <DropdownMenuItem>
             <Link
               href={"/dashboard"}
-              className="w-full flex items-center gap-1"
+              className="flex w-full items-center gap-1"
             >
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Link
+              href={"/business_packages"}
+              className="flex w-full items-center gap-1"
+            >
+              <DollarSign className="mr-2 h-4 w-4" />
+              <span>Buy Business Packages</span>
             </Link>
           </DropdownMenuItem>
 

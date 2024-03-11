@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import clsx from "clsx";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 

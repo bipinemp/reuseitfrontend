@@ -68,6 +68,34 @@ type Product = {
   };
   image?: Image[];
   status: number;
+  selected?: boolean;
+};
+
+type TPackProds = {
+  id: number;
+  user_id: number;
+  category_id: number;
+  pname: string;
+  description: string;
+  Province: string;
+  District: string;
+  Municipality: string;
+  price: number;
+  extra_features: any; // Change 'any' to the specific type if you know the structure
+  created_at: string;
+  updated_at: string;
+  status: number;
+  selling_price: number | null;
+  sold_at: string | null;
+  selected?: boolean;
+};
+
+type TPack = {
+  id: number;
+  name: string;
+  selected: boolean;
+  price: string;
+  amount: number;
 };
 
 type Image = {
@@ -76,6 +104,25 @@ type Image = {
   image_url: string;
   created_at: string | null;
   updated_at: string | null;
+};
+
+enum TStatus {
+  Completed = "Completed",
+  Pending = "Pending",
+  Failed = "Failed",
+  Initiated = "Initiated",
+  Refunded = "Refunded",
+  Expired = "Expired",
+  UserCanceled = "User canceled",
+}
+
+type TLookUp = {
+  pidx: string;
+  total_amount: number;
+  status: string;
+  transaction_id: string;
+  fee: number;
+  refunded: boolean;
 };
 
 // For User Details
