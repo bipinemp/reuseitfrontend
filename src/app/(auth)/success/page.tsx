@@ -1,6 +1,7 @@
 "use client";
 
 import Container from "@/components/Container";
+import { useProdIds } from "@/store/store";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ const Page = () => {
   const purchase_order_id = searchParams.get("purchase_order_id");
   const purchase_order_type = "featured";
   const purchase_order_name = searchParams.get("purchase_order_name");
-  const product_ids = [1, 2];
+  const { prodIds: product_ids, resetProdIds } = useProdIds();
 
   const [message, setMessage] = useState("");
 
@@ -49,7 +50,9 @@ const Page = () => {
             withCredentials: true,
           },
         );
-        console.log(response);
+        if (response) {
+          resetProdIds();
+        }
       } else if (Response.status === "Pending") {
         setMessage("Payment Pending...");
       } else if (Response.status === "Failed") {

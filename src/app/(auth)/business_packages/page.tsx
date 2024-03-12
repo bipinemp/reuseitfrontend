@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { BusinessPackages } from "@/lib/lists";
 import { cn } from "@/lib/utils";
+import { useProdIds } from "@/store/store";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -18,6 +19,9 @@ const Page = () => {
   const [products, setProducts] = useState<TPackProds[]>([]);
   const [selectedProdLen, setSelectedProdLen] = useState(0);
   const [selectedPackLen, setSelectedPackLen] = useState(0);
+
+  // for setting  product_ids globally
+  const { setProdIds } = useProdIds();
 
   const [selectedPack, setSelectedPack] = useState<TPack>();
   const [selectedProds, setSelectedProds] = useState<
@@ -112,7 +116,9 @@ const Page = () => {
         payload,
         { withCredentials: true },
       );
+
       if (response && response.data.url_data && response.status === 200) {
+        setProdIds(response?.data?.product_ids);
         window.location.href = response?.data?.url_data.payment_url;
       }
     } catch (error: any) {
