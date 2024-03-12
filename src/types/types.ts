@@ -69,6 +69,7 @@ type Product = {
   image?: Image[];
   status: number;
   selected?: boolean;
+  featured_package: number;
 };
 
 type TPackProds = {

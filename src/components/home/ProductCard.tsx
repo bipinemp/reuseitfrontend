@@ -6,6 +6,7 @@ import React from "react";
 import fallbackimage from "../../../public/image/fallbackimage.jpg";
 import useFormatTime from "@/hooks/useFormatTime";
 import useFormatPrice from "@/hooks/useFormatPrice";
+import { Gem } from "lucide-react";
 
 type ProductProps = {
   product: Product;
@@ -28,6 +29,12 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
       onClick={() => router.push(`/productdetails/${product.id}`)}
       className="group col-span-1 cursor-pointer"
     >
+      {product.featured_package === 1 && (
+        <span className="absolute z-20 ml-2 mt-2 flex items-center gap-2 rounded-md bg-primary px-5 py-2 leading-3 text-white shadow">
+          <Gem className="h-5 w-5" />
+          Featured
+        </span>
+      )}
       <div className="flex w-full flex-col gap-2">
         <div className="relative aspect-square max-h-[14rem] w-full overflow-hidden rounded-xl">
           <Image
