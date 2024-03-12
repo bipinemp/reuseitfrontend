@@ -36,6 +36,20 @@ const Page = () => {
 
       if (Response.status === "Completed") {
         setMessage("Payment Completed Successfully");
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_KHALTI_SUCCESS_POST}`,
+          {
+            amount,
+            purchase_order_id,
+            purchase_order_type,
+            purchase_order_name,
+            product_ids,
+          },
+          {
+            withCredentials: true,
+          },
+        );
+        console.log(response);
       } else if (Response.status === "Pending") {
         setMessage("Payment Pending...");
       } else if (Response.status === "Failed") {

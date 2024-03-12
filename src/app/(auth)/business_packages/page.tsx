@@ -110,6 +110,7 @@ const Page = () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_KHALTI_URL}`,
         payload,
+        { withCredentials: true },
       );
       if (response && response.data.payment_url && response.status === 200) {
         window.location.href = response?.data?.payment_url;
