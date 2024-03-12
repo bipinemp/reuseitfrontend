@@ -112,8 +112,8 @@ const Page = () => {
         payload,
         { withCredentials: true },
       );
-      if (response && response.data.payment_url && response.status === 200) {
-        window.location.href = response?.data?.payment_url;
+      if (response && response.data.url_data && response.status === 200) {
+        window.location.href = response?.data?.url_data.payment_url;
       }
     } catch (error: any) {
       toast.error(`Error While Payment: `, error);
