@@ -23,5 +23,7 @@ export const config = {
     "/dashboard/:path*",
     "/login",
     "/register",
+    "/business_packages",
+    "/admin/formbuilder",
   ],
 };

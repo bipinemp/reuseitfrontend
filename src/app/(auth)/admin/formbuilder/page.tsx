@@ -4,19 +4,9 @@ import Container from "@/components/Container";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FC, useState } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus, Trash } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
-import DeleteField from "./DeleteField";
 import { useMutation } from "@tanstack/react-query";
 import { makeCategory } from "@/apis/apicalls";
 import toast from "react-hot-toast";
@@ -85,7 +75,7 @@ const Page: FC<PageProps> = ({}) => {
 
   return (
     <Container>
-      <div className="mx-auto mb-20 flex w-[350px] flex-col justify-center gap-5">
+      <div className="mx-auto my-20 flex w-[500px] flex-col justify-center gap-5">
         <h1 className="textg-gray-700 font-bold">Add Category</h1>
 
         <div>

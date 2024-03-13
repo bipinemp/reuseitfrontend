@@ -10,7 +10,7 @@ import { BarChart } from "lucide-react";
 import { Users } from "lucide-react";
 import { User } from "lucide-react";
 import { ListChecks } from "lucide-react";
-import { Settings } from "lucide-react";
+import { Settings, Boxes } from "lucide-react";
 
 export const dashboard_links = [
   {
@@ -37,6 +37,29 @@ export const dashboard_links = [
     name: "Settings",
     icon: Settings,
     link: "/settings",
+  },
+];
+
+export const admin_dash_links = [
+  {
+    name: "Overview",
+    icon: BarChart,
+    link: "/",
+  },
+  {
+    name: "Add Category",
+    icon: Boxes,
+    link: "/formbuilder",
+  },
+  {
+    name: "Customers",
+    icon: Users,
+    link: "/customers",
+  },
+  {
+    name: "Account",
+    icon: User,
+    link: "/account",
   },
 ];
 

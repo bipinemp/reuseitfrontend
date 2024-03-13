@@ -15,14 +15,14 @@ import { UserDropDown } from "./UserDropDown";
 
 const mainNavbar = (
   <div className=" mx-auto flex max-w-[1920px] items-center justify-between gap-5 px-4 lg:px-10 2xl:px-72">
-    <div className="flex w-full flex-col items-start gap-3 lg:flex-row lg:gap-5">
+    <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
       <div className="flex w-full items-center justify-between lg:w-[280px]">
-        <Link href={"/"}>
-          <h3 className="font-black">ReUseIt</h3>
+        <Link href={"/"} className="text-2xl font-bold">
+          ReUseIt
         </Link>
-        <Link href={"/formbuilder"}>form</Link>
+
         <div className="flex items-center gap-2">
-          <Location />
+          {/* <Location /> */}
           <Sidebar />
         </div>
       </div>
@@ -41,15 +41,8 @@ const mainNavbar = (
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const noNavDash = [
-    "/dashboard",
-    "/dashboard/customers",
-    "/dashboard/account",
-    "/dashboard/products",
-    "/dashboard/settings",
-  ];
 
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith("/dashboard") || pathname.startsWith("/admin")) {
     return null;
   }
 
