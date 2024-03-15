@@ -10,11 +10,14 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ImagePlus, Loader2, Send, X } from "lucide-react";
+import { ChevronLeft, ImagePlus, Loader2, Send, X } from "lucide-react";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { MessageChatSchema, TMsgType } from "@/types/authTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { useShowUsers } from "@/store/store";
 
 interface Props {
   id: string;
@@ -34,6 +37,10 @@ export type MsgData = {
 };
 
 const Page: React.FC<UserProps> = ({ params }) => {
+  const router = useRouter();
+  const { showUsers, users } = useShowUsers();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
   const { register, handleSubmit, control, reset, getValues } =
     useForm<TMsgType>({
       resolver: zodResolver(MessageChatSchema),
@@ -104,6 +111,20 @@ const Page: React.FC<UserProps> = ({ params }) => {
     }
   }, [messages]);
 
+  // for chat sidebar responsive
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   // for submitting message
   const onSubmit = async (data: TMsgType) => {
     const actual_Data = {
@@ -164,8 +185,22 @@ const Page: React.FC<UserProps> = ({ params }) => {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col">
+    <div
+      className={cn("relative hidden h-full w-full flex-col md:flex", {
+        flex: users,
+      })}
+    >
       <div className="z-20 flex items-center gap-2 rounded-tl-md rounded-tr-md border-b border-primary bg-zinc-200 px-4 py-3 shadow">
+        <span
+          onClick={() => {
+            router.push("/user");
+            showUsers(false);
+          }}
+          className="cursor-pointer rounded-full p-3 transition hover:bg-primary/20 md:hidden"
+        >
+          <ChevronLeft className="h-7 w-7 stroke-primary" strokeWidth={3} />
+        </span>
+
         <div className="relative flex h-[40px] w-[40px] flex-col">
           <Image
             src={imgurl + userDetails?.Profile_image}

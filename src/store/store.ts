@@ -29,3 +29,13 @@ export const useProdIds = create<TUseProdIds>()(
     },
   ),
 );
+
+interface TChatSidebar {
+  users: boolean;
+  showUsers: (val: boolean) => void;
+}
+
+export const useShowUsers = create<TChatSidebar>()((set) => ({
+  users: false,
+  showUsers: () => set((state) => ({ users: !state.users })),
+}));

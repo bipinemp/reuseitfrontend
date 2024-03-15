@@ -8,7 +8,7 @@ export default function UserLayout({
 }) {
   return (
     <Container>
-      <section className="relative w-full flex gap-5 h-[80vh]">
+      <section className="relative flex h-[80vh] w-full gap-5">
         <UserLists />
         {children}
       </section>

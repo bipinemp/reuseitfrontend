@@ -3,33 +3,58 @@
 import { formatDateMsg } from "@/apis/apicalls";
 import { useGetUsersList } from "@/apis/queries";
 import { cn } from "@/lib/utils";
+import { useShowUsers } from "@/store/store";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const UserLists = () => {
   const { data, isPending } = useGetUsersList();
+  const { showUsers, users } = useShowUsers();
 
   const pathname = usePathname();
   const extractedPath = pathname.split("/");
 
   const imgurl = "http://127.0.0.1:8000/images/";
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener when the component is unmounted
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <div className="w-[30%] flex flex-col gap-2 bg-zinc-100 py-3 px-3 rounded-md">
-      <h2 className="font-black text-gray-600 underline underline-offset-2 ml-2">
+    <div
+      className={cn(
+        "relative flex w-full flex-col gap-2 rounded-md bg-zinc-100 px-3 py-3 md:w-[60%] lg:w-[45%]",
+        {
+          hidden: users && screenWidth < 800,
+          flex: screenWidth >= 800,
+        },
+      )}
+    >
+      <h2 className="ml-2 font-black text-gray-600 underline underline-offset-2">
         Users
       </h2>
       <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden">
         {isPending ? (
           <div className="flex flex-col gap-1">
-            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
-            <div className="bg-gray-300 animate-pulse max-w-[270px] h-[70px] py-3 px-5 rounded-md"></div>
+            <div className="h-[70px] min-w-[270px] max-w-[600px] animate-pulse rounded-md bg-gray-300 px-5 py-3"></div>
+            <div className="h-[70px] min-w-[270px] max-w-[600px] animate-pulse rounded-md bg-gray-300 px-5 py-3"></div>
+            <div className="h-[70px] min-w-[270px] max-w-[600px] animate-pulse rounded-md bg-gray-300 px-5 py-3"></div>
+            <div className="h-[70px] min-w-[270px] max-w-[600px] animate-pulse rounded-md bg-gray-300 px-5 py-3"></div>
+            <div className="h-[70px] min-w-[270px] max-w-[600px] animate-pulse rounded-md bg-gray-300 px-5 py-3"></div>
           </div>
         ) : (
           data?.map((user) => {
@@ -42,48 +67,49 @@ const UserLists = () => {
 
             return (
               <Link
+                onClick={() => showUsers(true)}
                 href={`/user/${user.otherUserdata.id}`}
                 key={user.id}
                 className={clsx(
-                  "flex gap-2 items-center h-[70px] py-3 px-5 rounded-md border-[1px]",
+                  "flex h-[70px] items-center gap-2 rounded-md border-[1px] px-5 py-3",
                   {
-                    "bg-primary/20 border-[1px] border-primary":
+                    "border-[1px] border-primary bg-primary/20":
                       parseInt(extractedPath[2]) === user.otherUserdata.id,
-                  }
+                  },
                 )}
               >
-                <div className="relative w-[48px] h-[40px]">
+                <div className="relative h-[40px] w-[48px]">
                   <Image
                     src={imgurl + user.otherUserdata.Profile_image}
                     fill
-                    className="object-cover object-top border border-content rounded-full"
+                    className="rounded-full border border-content object-cover object-top"
                     alt=""
                   />
                   {user?.otherUserdata?.ActiveStatus === 1 && (
-                    <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
+                    <span className="absolute -right-1 bottom-0 z-20 h-[15px] w-[15px] rounded-full border-[1px] border-white bg-green-600"></span>
                   )}
                 </div>
-                <div className="w-full flex flex-col">
-                  <div className="flex justify-between items-center">
+                <div className="flex w-full flex-col">
+                  <div className="flex items-center justify-between">
                     <p className="font-semibold text-gray-600">
                       {user.otherUserdata.name}
                     </p>
 
                     <p
                       className={cn("flex items-center justify-center", {
-                        "text-xs w-[20px] h-[20px] text-white bg-primary rounded-full":
+                        "h-[20px] w-[20px] rounded-full bg-primary text-xs text-white":
                           unseenmsgs > 0,
-                        "w-[30px] h-[26px]": unseenmsgs >= 10,
+                        "h-[26px] w-[30px]": unseenmsgs >= 10,
                       })}
                     >
                       {unseenmsgs >= 10
                         ? "10+"
                         : unseenmsgs === 0
-                        ? ""
-                        : unseenmsgs}
+                          ? ""
+                          : unseenmsgs}
                     </p>
                   </div>
-                  <p className="w-full text-gray-700 text-sm flex justify-between items-center">
+                  <p className="flex w-full items-center justify-between text-sm text-gray-700">
                     <p className="flex items-center gap-1">
                       <span>
                         {user.sender_id === user.authUserData.id ? "You: " : ""}{" "}

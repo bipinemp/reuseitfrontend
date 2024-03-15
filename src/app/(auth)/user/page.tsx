@@ -8,13 +8,13 @@ const Page = () => {
   const { data } = useGetLatestMessageId();
   const router = useRouter();
 
-  useEffect(() => {
-    if (data) {
-      router.push(`/user/${data}`);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     router.push(`/user/${data}`);
+  //   }
+  // }, [data]);
 
-  return <div className="w-full h-full"></div>;
+  return <div className="h-full md:w-[50%] lg:w-full"></div>;
 };
 
 export default Page;
