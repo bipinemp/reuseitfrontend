@@ -26,9 +26,10 @@ const Notification = () => {
 
   const fetchNotifications = async () => {
     try {
-      await axios.get("http://localhost:8000/api/getNotification", {
+      const res = await axios.get("http://localhost:8000/api/getNotification", {
         withCredentials: true,
       });
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -100,13 +101,12 @@ const Notification = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-3 w-[400px]">
-        {/* {notifications?.map((notify, i) => (
-          <DropdownMenuItem key={i}>{notify}</DropdownMenuItem>
-        ))} */}
-        <DropdownMenuItem>one</DropdownMenuItem>
-        <DropdownMenuItem>one</DropdownMenuItem>
-        <DropdownMenuItem>one</DropdownMenuItem>
-        <DropdownMenuItem>one</DropdownMenuItem>
+        {notifications?.map((notify, i) => (
+          <>
+            <DropdownMenuItem key={i}>{notify}</DropdownMenuItem>
+            {notifications?.length !== i + 1 && <DropdownMenuSeparator />}
+          </>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );
