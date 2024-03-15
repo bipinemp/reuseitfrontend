@@ -48,7 +48,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   const { data: msgData, isPending } = useGetLatestMessages(
     data?.id || 0,
-    parseInt(id) || 0
+    parseInt(id) || 0,
   );
 
   const [messages, setMessages] = useState<MsgData[]>([]);
@@ -76,7 +76,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
       process.env.NEXT_PUBLIC_PUSHER_APP_KEY as string,
       {
         cluster: "ap2",
-      }
+      },
     );
 
     const channel = pusher.subscribe(`user.${roomId}`);
@@ -132,8 +132,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
 
   if (isPending) {
     return (
-      <div className="w-full h-[80%] flex justify-center items-center">
-        <Loader2 className="w-16 h-16 animate-spin text-primary" />
+      <div className="flex h-[80%] w-full items-center justify-center">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
       </div>
     );
   }
@@ -164,21 +164,21 @@ const Page: React.FC<UserProps> = ({ params }) => {
   };
 
   return (
-    <div className="relative flex flex-col w-full h-full">
-      <div className="flex gap-2 py-3 px-4 bg-zinc-200 shadow z-20 rounded-tl-md rounded-tr-md items-center border-b border-primary">
-        <div className="relative flex flex-col w-[40px] h-[40px]">
+    <div className="relative flex h-full w-full flex-col">
+      <div className="z-20 flex items-center gap-2 rounded-tl-md rounded-tr-md border-b border-primary bg-zinc-200 px-4 py-3 shadow">
+        <div className="relative flex h-[40px] w-[40px] flex-col">
           <Image
             src={imgurl + userDetails?.Profile_image}
             fill
-            className="object-cover rounded-full object-top border z-10 border-content"
+            className="z-10 rounded-full border border-content object-cover object-top"
             alt=""
           />
           {userDetails?.ActiveStatus === 1 && (
-            <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 -right-1 z-20 rounded-full border-[1px] border-white"></span>
+            <span className="absolute -right-1 bottom-0 z-20 h-[15px] w-[15px] rounded-full border-[1px] border-white bg-green-600"></span>
           )}
         </div>
         <div className="flex flex-col">
-          <h3 className="font-bold text-gray-700 text-sm">
+          <h3 className="text-sm font-bold text-gray-700">
             {userDetails?.name}
           </h3>
           <p className="text-xs font-semibold">
@@ -189,24 +189,24 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
       </div>
 
-      <div className="w-full h-full bg-zinc-50 overflow-y-auto overflow-x-hidden rounded-bl-md rounded-br-md flex flex-col gap-10 justify-between px-2 pt-4">
+      <div className="flex h-full w-full flex-col justify-between gap-10 overflow-y-auto overflow-x-hidden rounded-bl-md rounded-br-md bg-zinc-50 px-2 pt-4">
         <div className="flex flex-col items-center gap-2">
-          <div className="relative w-[100px] h-[100px]">
+          <div className="relative h-[100px] w-[100px]">
             <Image
               src={imgurl + userDetails?.Profile_image}
               fill
-              className="object-cover rounded-full object-top border border-black"
+              className="rounded-full border border-black object-cover object-top"
               alt=""
             />
           </div>
-          <div className="flex flex-col gap-1 items-center">
-            <h3 className="font-bold text-gray-500 text-sm">
+          <div className="flex flex-col items-center gap-1">
+            <h3 className="text-sm font-bold text-gray-500">
               {userDetails?.name}
             </h3>
             {userDetails?.District ||
             userDetails?.Municipality ||
             userDetails?.Province ? (
-              <p className="text-gray-500 text-xs">
+              <p className="text-xs text-gray-500">
                 Lives in {userDetails?.District}, {userDetails?.Municipality}
               </p>
             ) : null}
@@ -216,11 +216,11 @@ const Page: React.FC<UserProps> = ({ params }) => {
         <div className="flex flex-col gap-10">
           {messages.map((message: any) => {
             return (
-              <div key={message.id} className="w-full flex flex-col">
+              <div key={message.id} className="flex w-full flex-col">
                 {message.sender_id === senderId ? (
-                  <div className="max-w-[350px] self-end flex justify-end">
-                    <div className="flex flex-col gap-3 items-end">
-                      <div className="w-fit px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm">
+                  <div className="flex max-w-[350px] justify-end self-end">
+                    <div className="flex flex-col items-end gap-3">
+                      <div className="w-fit rounded-lg bg-primary px-3 py-2 text-sm text-primary-foreground">
                         {message.message}
                       </div>
                       {message.msg_image && (
@@ -236,8 +236,8 @@ const Page: React.FC<UserProps> = ({ params }) => {
                   </div>
                 ) : (
                   <div className="max-w-[350px]">
-                    <div className="flex gap-2 items-center">
-                      <div className="relative w-[60px] h-[50px]">
+                    <div className="flex items-center gap-2">
+                      <div className="relative h-[50px] w-[60px]">
                         <Image
                           src={imgurl + userDetails?.Profile_image}
                           fill
@@ -245,7 +245,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                           className="rounded-full object-cover object-top"
                         />
                         {userDetails?.ActiveStatus === 1 && (
-                          <span className="absolute w-[15px] h-[15px] bg-green-600 bottom-0 right-0 z-20 rounded-full border-[1px] border-white"></span>
+                          <span className="absolute bottom-0 right-0 z-20 h-[15px] w-[15px] rounded-full border-[1px] border-white bg-green-600"></span>
                         )}
                       </div>
                       <div className="flex w-full flex-col gap-2">
@@ -257,7 +257,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                             {message.timeago}
                           </p>
                         </div>
-                        <div className="w-full px-3 py-2 bg-zinc-200 rounded-lg text-sm">
+                        <div className="w-full rounded-lg bg-zinc-200 px-3 py-2 text-sm">
                           {message.message}
                         </div>
                         {message.msg_image && (
@@ -285,9 +285,9 @@ const Page: React.FC<UserProps> = ({ params }) => {
       {/* Form  */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex items-center gap-3 mt-4"
+        className="mt-4 flex w-full items-center gap-3"
       >
-        <div className="w-full flex items-center gap-3">
+        <div className="flex w-full items-center gap-3">
           <Controller
             name="msg_image"
             control={control}
@@ -298,7 +298,7 @@ const Page: React.FC<UserProps> = ({ params }) => {
                     className="cursor-pointer"
                     onClick={() => inputImgRef?.current?.click()}
                   >
-                    <ImagePlus className="w-10 h-10 text-gray-700 hover:text-gray-900 transition" />
+                    <ImagePlus className="h-10 w-10 text-gray-700 transition hover:text-gray-900" />
                   </div>
                   <input
                     ref={inputImgRef}
@@ -316,18 +316,18 @@ const Page: React.FC<UserProps> = ({ params }) => {
             }}
           />
           {selectedImage && (
-            <div className="relative w-[55px] h-[50px]">
+            <div className="relative h-[50px] w-[55px]">
               <Image
                 src={URL.createObjectURL(selectedImage)}
                 fill
                 alt=""
-                className="object-contain border-[2px] border-primary rounded-md p-1 z-10"
+                className="z-10 rounded-md border-[2px] border-primary object-contain p-1"
               />
               <span
                 onClick={() => setSelectedImage(undefined)}
-                className="absolute flex items-center justify-center z-20 cursor-pointer -top-1 -right-1 p-1 rounded-full bg-gray-700 hover:bg-black transition"
+                className="absolute -right-1 -top-1 z-20 flex cursor-pointer items-center justify-center rounded-full bg-gray-700 p-1 transition hover:bg-black"
               >
-                <X className="w-3 h-3 text-white text-center" />
+                <X className="h-3 w-3 text-center text-white" />
               </span>
             </div>
           )}

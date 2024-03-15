@@ -518,3 +518,12 @@ type TDashData = {
 // decreased
 // unchanged
 // undefined
+
+// for Notification
+type TNotification = {
+  roomId: number;
+  notify: {
+    data: string[];
+    count: number;
+  };
+};
