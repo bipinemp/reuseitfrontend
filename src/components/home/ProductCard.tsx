@@ -18,7 +18,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const imgurl = "http://127.0.0.1:8000/images/";
   const { formattedPrice } = useFormatPrice(product.price);
   const location =
-    (product.District + ", " + product.Municipality).substring(0, 25) + "...";
+    (product.District + ", " + product.Municipality).substring(0, 20) + "...";
 
   const istitlelong = product.pname.length;
   const formattedtitle =
@@ -36,7 +36,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
         </span>
       )}
       <div className="flex w-full flex-col gap-2">
-        <div className="relative aspect-square max-h-[14rem] w-full overflow-hidden rounded-xl">
+        <div className="relative aspect-square max-h-[14rem] w-full overflow-hidden rounded">
           <Image
             fill
             src={

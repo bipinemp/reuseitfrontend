@@ -22,6 +22,7 @@ const UserLists = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const handleResize = () => {
       setScreenWidth(window.innerWidth);
     };

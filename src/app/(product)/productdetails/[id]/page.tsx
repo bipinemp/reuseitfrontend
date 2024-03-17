@@ -37,8 +37,6 @@ const Page: React.FC<ProductProps> = ({ params }) => {
 
   const ProductDetails = data?.data[0];
 
-  // console.log(data);
-
   if (isPending) {
     return <ProductDetailsLoading />;
   }

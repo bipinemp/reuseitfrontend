@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
 import Navbar from "@/components/header/Navbar";
 import { Toaster } from "react-hot-toast";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Toaster position="top-center" reverseOrder={true} />
           <Navbar />
           {children}
+          <Footer />
         </QueryProvider>
       </body>
     </html>

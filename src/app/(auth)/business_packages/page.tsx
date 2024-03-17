@@ -8,7 +8,7 @@ import { BusinessPackages } from "@/lib/lists";
 import { cn } from "@/lib/utils";
 import { useProdIds } from "@/store/store";
 import axios from "axios";
-import { Loader2 } from "lucide-react";
+import { Check, Gem, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
@@ -28,7 +28,9 @@ const Page = () => {
     TPackProds[] | TPackProds
   >();
 
-  const { data, isPending } = useProductsPackages();
+  const { data, isPending, fetchStatus } = useProductsPackages(
+    selectedPack?.name !== undefined,
+  );
   const { data: UserData } = useUserProfile();
 
   useEffect(() => {
@@ -86,9 +88,6 @@ const Page = () => {
     }
   };
 
-  // console.log("SelectedPack: ", selectedPack);
-  // console.log("SelectedProducts: ", selectedProds);
-
   const handleKhaltiPayment = async () => {
     let prodList;
     if (Array.isArray(selectedProds)) {
@@ -129,7 +128,7 @@ const Page = () => {
   return (
     <Container>
       <div className="relative mx-auto my-20 flex w-[517px] flex-col gap-6 rounded-lg border border-input p-5 shadow-lg">
-        <h2 className="text-center font-bold text-gray-500">
+        <h2 className="text-center font-bold text-gray-500 underline underline-offset-4">
           Business packages
         </h2>
 
@@ -158,12 +157,48 @@ const Page = () => {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
 
-        {isPending && (
+        <div className="flex flex-col justify-center gap-4">
+          <h3 className="text-center font-bold text-gray-500">Featured AD</h3>
+          <div className="flex flex-col gap-2 text-sm text-gray-500">
+            <p className="flex items-center gap-3">
+              <Check className="h-5 w-5" /> Get noticed with 'FEATURED' tag in a
+              top position
+            </p>
+            <p className="flex items-center gap-3">
+              <Check className="h-5 w-5" />
+              Package available for 30 days
+            </p>
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col gap-2">
+              <div className="relative h-[100px] w-[200px] rounded bg-gray-300">
+                <span className="absolute z-20 ml-2 mt-2 flex items-center gap-2 rounded-md bg-primary px-3 py-[0.3rem] text-[0.8rem] leading-3 text-white shadow">
+                  <Gem className="h-3 w-3" />
+                  Featured
+                </span>
+              </div>
+              <p className="h-[20px] w-[180px] rounded bg-gray-300"></p>
+              <p className="h-[15px] w-[150px] rounded bg-gray-300"></p>
+            </div>
+            <div className="flex flex-col gap-2">
+              <div className="h-[100px] w-[200px] rounded bg-gray-300">
+                <span className="absolute z-20 ml-2 mt-2 flex items-center gap-2 rounded-md bg-primary px-3 py-[0.3rem] text-[0.8rem] leading-3 text-white shadow">
+                  <Gem className="h-3 w-3" />
+                  Featured
+                </span>
+              </div>
+              <p className="h-[20px] w-[180px] rounded bg-gray-300"></p>
+              <p className="h-[15px] w-[150px] rounded bg-gray-300"></p>
+            </div>
+          </div>
+        </div>
+
+        {fetchStatus === "fetching" && (
           <div className="mt-10 flex items-center justify-center">
             <Loader2 className="h-16 w-16 animate-spin text-primary" />
           </div>
         )}
-        {isPackSelected && (
+        {isPackSelected && fetchStatus !== "fetching" && (
           <>
             <h3 className="mt-5 font-semibold text-gray-500">
               Available Products
@@ -191,7 +226,7 @@ const Page = () => {
         )}
         {selectedPackLen > 0 && selectedProdLen > 0 && (
           <Button onClick={handleKhaltiPayment} className="text-lg">
-            Pay
+            Pay with Khalti
           </Button>
         )}
       </div>

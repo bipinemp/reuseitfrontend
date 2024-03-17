@@ -253,7 +253,10 @@ const Page: React.FC<UserProps> = ({ params }) => {
             return (
               <div key={message.id} className="flex w-full flex-col">
                 {message.sender_id === senderId ? (
-                  <div className="flex max-w-[350px] justify-end self-end">
+                  <div className="flex max-w-[350px] flex-col justify-end gap-2 self-end">
+                    <p className="text-[0.7rem] text-gray-700">
+                      {message.timeago}
+                    </p>
                     <div className="flex flex-col items-end gap-3">
                       <div className="w-fit rounded-lg bg-primary px-3 py-2 text-sm text-primary-foreground">
                         {message.message}
@@ -315,7 +318,13 @@ const Page: React.FC<UserProps> = ({ params }) => {
         </div>
       </div>
 
-      {isTyping && <p>typing...</p>}
+      {isTyping && (
+        <div className="flex h-[30px] w-[100px] items-center justify-center space-x-2">
+          <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-0.3s]"></div>
+          <div className="h-4 w-4 animate-bounce rounded-full bg-primary [animation-delay:-0.15s]"></div>
+          <div className="h-4 w-4 animate-bounce rounded-full bg-primary"></div>
+        </div>
+      )}
 
       {/* Form  */}
       <form

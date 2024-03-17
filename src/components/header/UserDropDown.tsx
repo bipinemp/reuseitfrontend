@@ -39,6 +39,8 @@ export function UserDropDown() {
     );
   }
 
+  let isAdmin = true;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,7 +53,7 @@ export function UserDropDown() {
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-[15rem]">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -69,6 +71,13 @@ export function UserDropDown() {
             >
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Link href={"/admin"} className="flex w-full items-center gap-1">
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Admin Dashboard</span>
             </Link>
           </DropdownMenuItem>
 

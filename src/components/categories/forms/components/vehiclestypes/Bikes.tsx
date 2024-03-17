@@ -60,7 +60,6 @@ const Bikes: React.FC = () => {
   });
 
   const brands = BikesBrands.data.map((bike) => bike);
-  console.log(brands);
   const [brandId, setBrandId] = useState<number>(0);
   const modelsDetails = BikesModels.data.filter(
     (bike) => bike.brand_id === brandId,

@@ -108,13 +108,13 @@ const Page: React.FC = () => {
               </TableCell>
               <TableCell>{product.category.category_name}</TableCell>
               <TableCell>NPR. {product.price}</TableCell>
-              <TableCell className="text-left flex items-center gap-1">
+              <TableCell className="flex items-center gap-1 text-left">
                 {product.status === 0 && (
                   <Dialog>
                     <DialogTrigger asChild>
                       <span
                         className={clsx(
-                          "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer bg-gray-500"
+                          "cursor-pointer rounded-full bg-gray-500 px-[0.5rem] py-[0.3rem] text-[0.76rem] font-semibold text-white",
                         )}
                       >
                         Progress
@@ -134,7 +134,7 @@ const Page: React.FC = () => {
                             Acutal Price in which Product is Sold
                           </Label>
                           <div className="relative">
-                            <span className="absolute left-2 top-2 pr-2 border-r-[1px] border-r-content">
+                            <span className="absolute left-2 top-2 border-r-[1px] border-r-content pr-2">
                               NPR
                             </span>
                             <Input
@@ -167,7 +167,7 @@ const Page: React.FC = () => {
                 {product.status === 1 && (
                   <span
                     className={clsx(
-                      "font-semibold text-[0.76rem] py-[0.3rem] px-[0.5rem] rounded-full text-white cursor-pointer bg-primary"
+                      "cursor-pointer rounded-full bg-primary px-[0.5rem] py-[0.3rem] text-[0.76rem] font-semibold text-white",
                     )}
                   >
                     Sold
@@ -185,7 +185,7 @@ const Page: React.FC = () => {
                           router.push(`/dashboard/products/${product.id}`)
                         }
                       >
-                        <Edit className="w-4 h-4" strokeWidth={2} />
+                        <Edit className="h-4 w-4" strokeWidth={2} />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -200,7 +200,7 @@ const Page: React.FC = () => {
                       <Tooltip>
                         <TooltipTrigger>
                           <Button size="sm" variant="destructive">
-                            <Trash className="w-4 h-4" strokeWidth={2} />
+                            <Trash className="h-4 w-4" strokeWidth={2} />
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -240,7 +240,7 @@ const Page: React.FC = () => {
 
   return (
     <DashboardContainer>
-      <div className="w-[1000px] mx-auto flex flex-col gap-5 mb-20">
+      <div className="mb-20 flex w-[1200px] flex-col gap-5 px-14">
         <div>
           <h1 className="font-bold text-gray-600">Products</h1>
         </div>
@@ -252,7 +252,7 @@ const Page: React.FC = () => {
           <Table className="relative w-full">
             {/* <TableCaption>Your Products</TableCaption> */}
             <TableHeader className="bg-neutral-100">
-              <TableRow className="font-semibold text-[1.1rem">
+              <TableRow className="text-[1.1rem font-semibold">
                 <TableHead className="w-[290px] text-black/80">
                   Product Name
                 </TableHead>
@@ -283,7 +283,7 @@ const Page: React.FC = () => {
                   >
                     {isFetchingNextPage ? (
                       <div className="flex items-center gap-2">
-                        <Loader2 className="w-4 h-4 animate-spin" /> Loading...
+                        <Loader2 className="h-4 w-4 animate-spin" /> Loading...
                       </div>
                     ) : hasNextPage ? (
                       "Load More"

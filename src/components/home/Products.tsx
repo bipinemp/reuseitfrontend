@@ -79,7 +79,9 @@ const Products: React.FC = () => {
         )}
 
         {status === "pending" ? (
-          <ProductsLoading />
+          <div className="mt-[3.4rem]">
+            <ProductsLoading />
+          </div>
         ) : status === "error" ? (
           <p>Error: {error?.message && error.message}</p>
         ) : !prods || prods.length === 0 ? (

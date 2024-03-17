@@ -65,6 +65,17 @@ const Page: FC<PageProps> = ({}) => {
       }),
     };
 
+    if (categoryName.trim() === "") {
+      toast.error("Please enter a category name");
+      return;
+    }
+
+    // Check if any field label is empty
+    if (fields.some((field) => field.label.trim() === "")) {
+      toast.error("Please enter a name for each field");
+      return;
+    }
+
     CreateCategory(actualData);
   };
 

@@ -18,16 +18,16 @@ export function ProductLoadingCard() {
 }
 
 export const productLoadingCard = (
-  <div className="aspect-square w-full h-[310px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
-    <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
-    <div className="px-2 flex flex-col gap-5 mt-1">
+  <div className="border-gray col-span-1 flex aspect-square h-[310px] w-full animate-pulse flex-col gap-2 rounded-md border-[1px] px-2 pb-2 pt-2 shadow-md">
+    <div className="relative h-[200px] w-full rounded-md bg-gray-300"></div>
+    <div className="mt-1 flex flex-col gap-5 px-2">
       <div className="flex flex-col gap-2">
-        <h3 className="w-[150px] h-[20px] bg-gray-300 rounded-md"></h3>
-        <p className="w-[90%] h-[20px] bg-gray-300 rounded-md"></p>
+        <h3 className="h-[20px] w-[150px] rounded-md bg-gray-300"></h3>
+        <p className="h-[20px] w-[90%] rounded-md bg-gray-300"></p>
       </div>
-      <div className="flex justify-between items-center">
-        <p className="w-[120px] h-[13px] bg-gray-300 rounded-md"></p>
-        <p className="w-[70px] h-[13px] bg-gray-300 rounded-md"></p>
+      <div className="flex items-center justify-between">
+        <p className="h-[13px] w-[120px] rounded-md bg-gray-300"></p>
+        <p className="h-[13px] w-[70px] rounded-md bg-gray-300"></p>
       </div>
     </div>
   </div>
@@ -35,22 +35,16 @@ export const productLoadingCard = (
 
 export function ProductsLoading() {
   const product = (
-    <div className="aspect-square w-full h-[310px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
-      <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
-      <div className="px-2 flex flex-col gap-5 mt-1">
-        <div className="flex flex-col gap-2">
-          <h3 className="w-[150px] h-[20px] bg-gray-300 rounded-md"></h3>
-          <p className="w-[90%] h-[20px] bg-gray-300 rounded-md"></p>
-        </div>
-        <div className="flex justify-between items-center">
-          <p className="w-[120px] h-[13px] bg-gray-300 rounded-md"></p>
-          <p className="w-[70px] h-[13px] bg-gray-300 rounded-md"></p>
-        </div>
+    <div className="col-span-1 flex aspect-square max-h-[14rem] w-full animate-pulse flex-col gap-2 rounded">
+      <div className="relative h-[228px] w-full rounded-md bg-gray-300"></div>
+      <div className="mt-1 flex flex-col gap-1 px-3 pb-2">
+        <p className="h-[30px] w-[90%] rounded-md bg-gray-300"></p>
+        <p className="h-[20px] w-[150px] rounded-md bg-gray-300"></p>
       </div>
     </div>
   );
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-5 mb-5">
+    <div className="mb-5 grid grid-cols-1 gap-x-2 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {product}
       {product}
       {product}
@@ -67,17 +61,11 @@ export function ProductsLoading() {
 
 export function ProductLoading2() {
   const product = (
-    <div className="aspect-square w-full h-[310px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
-      <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
-      <div className="px-2 flex flex-col gap-5 mt-1">
-        <div className="flex flex-col gap-2">
-          <h3 className="w-[150px] h-[20px] bg-gray-300 rounded-md"></h3>
-          <p className="w-[90%] h-[20px] bg-gray-300 rounded-md"></p>
-        </div>
-        <div className="flex justify-between items-center">
-          <p className="w-[120px] h-[13px] bg-gray-300 rounded-md"></p>
-          <p className="w-[70px] h-[13px] bg-gray-300 rounded-md"></p>
-        </div>
+    <div className="col-span-1 flex aspect-square max-h-[14rem] w-full animate-pulse flex-col gap-2 rounded">
+      <div className="relative h-[228px] w-full rounded-md bg-gray-300"></div>
+      <div className="mt-1 flex flex-col gap-1 px-3 pb-2">
+        <p className="h-[30px] w-[90%] rounded-md bg-gray-300"></p>
+        <p className="h-[20px] w-[150px] rounded-md bg-gray-300"></p>
       </div>
     </div>
   );
@@ -99,16 +87,16 @@ export function ProductLoading2() {
 
 export function ProductLoading3() {
   const product = (
-    <div className="aspect-square w-full h-[310px] max-h-[325px] shadow-md col-span-1 animate-pulse border-[1px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2">
-      <div className="relative w-full h-[200px] bg-gray-300 rounded-md"></div>
-      <div className="px-2 flex flex-col gap-5 mt-1">
+    <div className="border-gray col-span-1 flex aspect-square h-[310px] max-h-[325px] w-full animate-pulse flex-col gap-2 rounded-md border-[1px] px-2 pb-2 pt-2 shadow-md">
+      <div className="relative h-[200px] w-full rounded-md bg-gray-300"></div>
+      <div className="mt-1 flex flex-col gap-5 px-2">
         <div className="flex flex-col gap-2">
-          <h3 className="w-[150px] h-[20px] bg-gray-300 rounded-md"></h3>
-          <p className="w-[90%] h-[20px] bg-gray-300 rounded-md"></p>
+          <h3 className="h-[20px] w-[150px] rounded-md bg-gray-300"></h3>
+          <p className="h-[20px] w-[90%] rounded-md bg-gray-300"></p>
         </div>
-        <div className="flex justify-between items-center">
-          <p className="w-[120px] h-[13px] bg-gray-300 rounded-md"></p>
-          <p className="w-[70px] h-[13px] bg-gray-300 rounded-md"></p>
+        <div className="flex items-center justify-between">
+          <p className="h-[13px] w-[120px] rounded-md bg-gray-300"></p>
+          <p className="h-[13px] w-[70px] rounded-md bg-gray-300"></p>
         </div>
       </div>
     </div>

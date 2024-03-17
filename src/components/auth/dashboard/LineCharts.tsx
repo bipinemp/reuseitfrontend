@@ -18,9 +18,14 @@ const LineCharts = () => {
   var ThisYear = new Date().getFullYear();
   var PrevYear = ThisYear - 1;
 
+  if (LineDataLoading) {
+    return (
+      <div className="flex h-[530px] w-[65%] animate-pulse rounded-lg bg-gray-300"></div>
+    );
+  }
+
   return (
     <div className="flex h-[530px] w-[65%] flex-col justify-between rounded-lg border border-input pb-5 pr-5 pt-5 shadow-lg">
-      {LineDataLoading && <h1>Loading...</h1>}
       <h1 className="ml-14 font-bold text-gray-600">Users</h1>
       {/* Line Chart  */}
       {LineData && LineData.engagementData.length > 0 && (

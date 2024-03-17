@@ -790,3 +790,40 @@ export const DynamicFormSchema = z.object({
 });
 
 export type TDynamicForm = z.infer<typeof DynamicFormSchema>;
+
+// schema for user profile editing
+const MAX_FILE_SIZE = 5000000;
+
+export const ProfileDataSchema = z.object({
+  name: z
+    .string({ required_error: "Name is required" })
+    .min(1, { message: "You must enter a Name" })
+    .optional(),
+  email: z
+    .string({ required_error: "Email is required" })
+    .min(1, { message: "You must enter a Email" })
+    .optional(),
+  Province: z
+    .string({ required_error: "Province is required" })
+    .min(1, { message: "You must enter a Province" })
+    .optional(),
+  District: z
+    .string({ required_error: "District is required" })
+    .min(1, { message: "You must enter a District" })
+    .optional(),
+  Municipality: z
+    .string({ required_error: "Municipality is required" })
+    .min(1, { message: "You must enter a Municipality" })
+    .optional(),
+
+  Profile_image: z
+    .any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
+    )
+    .optional(),
+});
+
+export type TProfileData = z.infer<typeof ProfileDataSchema>;

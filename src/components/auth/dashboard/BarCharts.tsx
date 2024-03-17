@@ -22,6 +22,13 @@ const BarCharts = () => {
     ...data,
     name: data.month,
   }));
+
+  if (BarDataLoading) {
+    return (
+      <div className="h-[550px] w-full animate-pulse rounded-lg bg-gray-300"></div>
+    );
+  }
+
   return (
     <div className="flex h-[550px] w-full flex-col justify-between rounded-lg border border-input pb-7 pl-7 pr-7 pt-3 shadow-lg">
       <h1 className="font-bold text-gray-600">Sales</h1>

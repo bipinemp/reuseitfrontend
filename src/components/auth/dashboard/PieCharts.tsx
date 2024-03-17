@@ -20,9 +20,14 @@ const PieCharts = () => {
     0,
   );
 
+  if (isPending) {
+    return (
+      <div className="h-[530px] w-[33%] animate-pulse rounded-lg bg-gray-300"></div>
+    );
+  }
+
   return (
     <div className="flex h-[530px] w-[33%] flex-col justify-between rounded-lg border border-input p-5 shadow-lg">
-      {isPending && <h1>Loading...</h1>}
       {/* PieChart  */}
       <h1 className="text-center font-bold text-gray-600 underline underline-offset-2">
         Traffic

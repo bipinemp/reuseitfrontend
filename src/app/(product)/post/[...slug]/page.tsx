@@ -17,11 +17,13 @@ import { Loader2 } from "lucide-react";
 import DynamicLocationBox from "@/components/categories/forms/components/locations/DynamicLocationBox";
 import FileUpload from "@/components/categories/forms/components/FileUpload";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createNewProduct, sendOtp, sendPhoneNumber } from "@/apis/apicalls";
 import toast from "react-hot-toast";
 import OtpDialog from "@/components/categories/dialogs/OtpDialog";
 import PhoneDialog from "@/components/categories/dialogs/PhoneDialog";
+import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
+import Title from "@/components/categories/forms/components/Title";
 
 interface PageProps {
   params: {
@@ -37,6 +39,7 @@ interface PreviewFile extends File {
 let currentOTPIndex: number = 0;
 const Page: React.FC<PageProps> = ({ params }) => {
   const queryClient = useQueryClient();
+  const pathname = usePathname();
   const router = useRouter();
   const { data: cateData, isPending } = useCategoryDetails(
     parseInt(params.slug[1]),
@@ -221,11 +224,18 @@ const Page: React.FC<PageProps> = ({ params }) => {
   }, [files]);
 
   if (isPending) {
-    return <h2>Loading</h2>;
+    return <ProductDetailsLoading />;
   }
+
+  const modifiedArray = pathname
+    .split("/")
+    .slice(1, pathname.split("/").length - 1)
+    .map((item) => decodeURIComponent(item));
+  modifiedArray[0] = modifiedArray[0].split("%")[0];
 
   return (
     <div className="mx-auto max-w-[1920px] px-2 md:px-10 xl:px-52 2xl:px-80">
+      <Title array={modifiedArray} />
       {/* Check if data is available before rendering the form */}
       {cateData && (
         <form

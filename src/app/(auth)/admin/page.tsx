@@ -4,7 +4,7 @@ import React from "react";
 const page = () => {
   return (
     <DashboardContainer>
-      <div>
+      <div className="px-14">
         <h1>Admin Analytics</h1>
       </div>
     </DashboardContainer>

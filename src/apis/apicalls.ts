@@ -537,6 +537,39 @@ export const sendResetData = async (data: TResetPassword) => {
   }
 };
 
+// for editing User Details
+export const viewUserDetails = async (data: TResetPassword) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/reset-password",
+      data,
+    );
+
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for editing User Profile Details
+export const editUserProfile = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/editUser",
+      data,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Date formating
 export const formatDate = (date: string) => {
   const currentDate = new Date();

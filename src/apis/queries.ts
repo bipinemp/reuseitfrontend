@@ -259,14 +259,15 @@ export const useDashData = () => {
   return { data, isPending };
 };
 
-export const useProductsPackages = () => {
-  const { data, isPending } = useQuery<TPackProds[]>({
+export const useProductsPackages = (packSelected: boolean) => {
+  const { data, isPending, fetchStatus } = useQuery<TPackProds[]>({
     queryKey: ["prodspackages"],
     queryFn: getProductsForPackages,
+    enabled: packSelected,
     refetchInterval: 86400000,
   });
 
-  return { data, isPending };
+  return { data, isPending, fetchStatus };
 };
 
 // for deleting product
