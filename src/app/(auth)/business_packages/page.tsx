@@ -161,8 +161,8 @@ const Page = () => {
           <h3 className="text-center font-bold text-gray-500">Featured AD</h3>
           <div className="flex flex-col gap-2 text-sm text-gray-500">
             <p className="flex items-center gap-3">
-              <Check className="h-5 w-5" /> Get noticed with 'FEATURED' tag in a
-              top position
+              <Check className="h-5 w-5" /> Get noticed with
+              &apos;FEATURED&apos; tag in a top position
             </p>
             <p className="flex items-center gap-3">
               <Check className="h-5 w-5" />

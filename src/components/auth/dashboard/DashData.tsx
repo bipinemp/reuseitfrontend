@@ -13,6 +13,7 @@ import {
 
 const DashData = () => {
   const { data, isPending } = useDashData();
+  const { formattedPrice } = useFormatPrice(+data?.Income! || 0);
 
   if (isPending) {
     return (
@@ -23,8 +24,6 @@ const DashData = () => {
       </div>
     );
   }
-
-  const { formattedPrice } = useFormatPrice(+data?.Income! || 0);
 
   return (
     <div className="flex items-center gap-10">
