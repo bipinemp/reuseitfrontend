@@ -76,8 +76,10 @@ export function UserDropDown() {
 
           <DropdownMenuItem>
             <Link href={"/admin"} className="flex w-full items-center gap-1">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>Admin Dashboard</span>
+              <LayoutDashboard className="mr-2 h-5 w-5 font-semibold text-destructive" />
+              <span className="font-semibold text-destructive">
+                Admin Dashboard
+              </span>
             </Link>
           </DropdownMenuItem>
 
