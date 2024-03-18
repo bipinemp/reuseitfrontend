@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import success from "../../../../public/image/success.png";
 import failure from "../../../../public/image/failure.png";
 import Image from "next/image";
-import { Suspense } from "react";
 
 const Page = () => {
   const searchParams = useSearchParams();
@@ -76,30 +75,18 @@ const Page = () => {
   }
 
   return (
-    <Suspense>
-      <Container>
-        {message && (
-          <div className="mx-auto mt-20 flex h-[300px] w-fit flex-col items-center justify-center gap-5 rounded-lg border border-primary p-5 px-10 shadow-lg">
-            {message === "Payment Completed Successfully" ? (
-              <Image
-                width={150}
-                height={150}
-                alt="Success Check"
-                src={success}
-              />
-            ) : (
-              <Image
-                width={150}
-                height={150}
-                alt="Failure Cross"
-                src={failure}
-              />
-            )}
-            <h1 className="font-black text-gray-500">{message}</h1>
-          </div>
-        )}
-      </Container>
-    </Suspense>
+    <Container>
+      {message && (
+        <div className="mx-auto mt-20 flex h-[300px] w-fit flex-col items-center justify-center gap-5 rounded-lg border border-primary p-5 px-10 shadow-lg">
+          {message === "Payment Completed Successfully" ? (
+            <Image width={150} height={150} alt="Success Check" src={success} />
+          ) : (
+            <Image width={150} height={150} alt="Failure Cross" src={failure} />
+          )}
+          <h1 className="font-black text-gray-500">{message}</h1>
+        </div>
+      )}
+    </Container>
   );
 };
 

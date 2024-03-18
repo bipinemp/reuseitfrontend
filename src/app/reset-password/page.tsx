@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 const Page = () => {
@@ -50,42 +50,40 @@ const Page = () => {
   }
 
   return (
-    <Suspense>
-      <div className="relative mx-auto mt-20 flex h-full w-[500px] flex-col gap-6 rounded-lg border px-12 py-6 shadow-lg">
-        <h1 className="text-center font-semibold underline">
-          Enter New Password.
-        </h1>
-        <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
-          <Input
-            placeholder="Enter New Password"
-            value={password}
-            type="password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            className="border-content"
-          />
-          <Input
-            placeholder="Confirm New Password"
-            value={confirmPassword}
-            type="password"
-            required
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="border-content"
-          />
+    <div className="relative mx-auto mt-20 flex h-full w-[500px] flex-col gap-6 rounded-lg border px-12 py-6 shadow-lg">
+      <h1 className="text-center font-semibold underline">
+        Enter New Password.
+      </h1>
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+        <Input
+          placeholder="Enter New Password"
+          value={password}
+          type="password"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+          className="border-content"
+        />
+        <Input
+          placeholder="Confirm New Password"
+          value={confirmPassword}
+          type="password"
+          required
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className="border-content"
+        />
 
-          <Button size="lg" className="text-[1rem] font-semibold tracking-wide">
-            {isPending ? (
-              <div className="flex items-center gap-2">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <p>Resetting...</p>
-              </div>
-            ) : (
-              "Reset Password"
-            )}
-          </Button>
-        </form>
-      </div>
-    </Suspense>
+        <Button size="lg" className="text-[1rem] font-semibold tracking-wide">
+          {isPending ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <p>Resetting...</p>
+            </div>
+          ) : (
+            "Reset Password"
+          )}
+        </Button>
+      </form>
+    </div>
   );
 };
 
