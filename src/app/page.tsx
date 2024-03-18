@@ -1,11 +1,9 @@
 "use client";
 
-import { makeOffline, makeOnline } from "@/apis/apicalls";
+import Footer from "@/components/Footer";
 import Products from "@/components/home/Products";
 import { useSearchStore } from "@/store/store";
 import { useEffect } from "react";
-import io from "socket.io-client";
-const socket = io("http://localhost:4000", { autoConnect: false });
 
 export default function Home() {
   const { setSearch } = useSearchStore();
@@ -67,8 +65,11 @@ export default function Home() {
   // }, []);
 
   return (
-    <main>
-      <Products />
-    </main>
+    <>
+      <main>
+        <Products />
+      </main>
+      <Footer />
+    </>
   );
 }
