@@ -19,7 +19,9 @@ const UserLists = () => {
 
   const imgurl = "http://127.0.0.1:8000/images/";
 
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0,
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
