@@ -39,7 +39,6 @@ export type MsgData = {
 const Page: React.FC<UserProps> = ({ params }) => {
   const router = useRouter();
   const { showUsers, users } = useShowUsers();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const { register, handleSubmit, control, reset, getValues } =
     useForm<TMsgType>({
@@ -110,20 +109,6 @@ const Page: React.FC<UserProps> = ({ params }) => {
       bottomOfChatsRef.current.scrollIntoView();
     }
   }, [messages]);
-
-  // for chat sidebar responsive
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup function to remove the event listener when the component is unmounted
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   // for submitting message
   const onSubmit = async (data: TMsgType) => {
