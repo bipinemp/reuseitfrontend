@@ -19,6 +19,7 @@ import FilterProdCard from "@/components/filter/FilterProdCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ProductLoading2, ProductLoadingCard } from "@/loading/ProductsLoading";
+import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
 
 const Page: React.FC = () => {
   const searchParams = useSearchParams();
@@ -59,7 +60,7 @@ const Page: React.FC = () => {
   );
 
   return (
-    <Suspense>
+    <Suspense fallback={<ProductDetailsLoading />}>
       <Container>
         <div className="mb-10 flex flex-col items-center gap-3">
           <div className="mt-10 flex flex-col items-center gap-10 sm:flex-row sm:items-start sm:justify-between">
