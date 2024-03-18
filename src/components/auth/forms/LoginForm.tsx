@@ -36,14 +36,13 @@ const LoginForm = () => {
   };
 
   const { mutate: SendEmail, isPending: forgetPassPending } = useMutation({
-    mutationKey: ["forgetpassword"],
     mutationFn: sendEmail,
     onSuccess() {
       toast.success("Reset Link Send to Mail");
     },
-    onError(){
-      toast.error("Something went wrong, Try again")
-    }
+    onError() {
+      toast.error("Something went wrong, Try again");
+    },
   });
 
   function handleEmailSubmit(e: React.FormEvent<HTMLFormElement>) {

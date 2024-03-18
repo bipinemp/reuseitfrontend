@@ -175,6 +175,7 @@ export const nonavbarlist = [
   "/chart",
   "/business_packages",
   "/success",
+  "/reset-password",
 ];
 
 export const BusinessPackages = [
