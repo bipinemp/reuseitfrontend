@@ -26,9 +26,9 @@ const FilterProdCard: React.FC<ProductProps> = ({ product }) => {
   return (
     <div
       onClick={() => router.push(`/productdetails/${product.id}`)}
-      className="cursor-pointer hover:border-primary transition w-full h-[310px] max-h-[325px] col-span-1 shadow-md border-[2px] border-gray rounded-md px-2 pt-2 pb-2 flex flex-col gap-2"
+      className="border-gray col-span-1 flex h-[310px] max-h-[325px] w-full cursor-pointer flex-col gap-2 rounded-md border-[2px] px-2 pb-2 pt-2 shadow-md transition hover:border-primary"
     >
-      <div className="relative w-full aspect-square overflow-hidden">
+      <div className="relative aspect-square w-full overflow-hidden">
         <Image
           fill
           src={
@@ -40,16 +40,16 @@ const FilterProdCard: React.FC<ProductProps> = ({ product }) => {
               : imgurl + product.image[0]?.image_url
           }
           alt="product image"
-          className="rounded-md w-full h-full object-fill mix-blend-darken bg-gray-300"
+          className="h-full w-full rounded-md bg-gray-300 object-cover mix-blend-darken"
           // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
-      <div className="sm:px-2 flex flex-col gap-5">
+      <div className="flex flex-col gap-5 sm:px-2">
         <div>
           <h2 className="font-bold">{formattedPrice}</h2>
-          <p className="text-content text-lg">{formattedtitle}</p>
+          <p className="text-lg text-content">{formattedtitle}</p>
         </div>
-        <div className="text-xs text-content flex justify-between items-center">
+        <div className="flex items-center justify-between text-xs text-content">
           <p>{location.toUpperCase()}</p>
           <p className="hidden sm:block">{formattedDate}</p>
         </div>
