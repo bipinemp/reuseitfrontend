@@ -121,7 +121,7 @@ const EditFurniture: React.FC<EDetailsProps> = ({ ProductDetails, fnname }) => {
     const actualData = {
       ...data,
       price: parseInt(data.price),
-      id: ProductDetails?.product_id,
+      id: ProductDetails?.product.id,
       user_id: ProductDetails?.product.user_id,
       image_urls: files,
       old_image: oldImagesId,
