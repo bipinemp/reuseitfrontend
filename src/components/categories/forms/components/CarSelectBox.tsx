@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -31,7 +32,8 @@ const CarSelectBox = <T extends FieldValues>({
   placeholder,
 }: CarSelectBoxProps<T>) => {
   return (
-    <>
+    <div className="flex flex-col gap-1">
+      {label && <Label htmlFor={name as string}>{label}</Label>}
       <Controller
         name={name as Path<T>}
         control={control}
@@ -82,7 +84,7 @@ const CarSelectBox = <T extends FieldValues>({
           ** {error}
         </span>
       )}
-    </>
+    </div>
   );
 };
 

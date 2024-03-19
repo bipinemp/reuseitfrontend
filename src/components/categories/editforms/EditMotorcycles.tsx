@@ -7,7 +7,7 @@ import { useState } from "react";
 import BikesBrands from "@/json/bikesbrands.json";
 import BikesModels from "@/json/bikesmodels.json";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BicycleSchema, BikesSchema, TBikes } from "@/types/postTypes";
+import { BikesSchema, TBikes } from "@/types/postTypes";
 import InputBox from "./../forms/components/InputBox";
 import TextareaBox from "./../forms/components/TextareaBox";
 import PriceBox from "./../forms/components/PriceBox";
@@ -20,7 +20,6 @@ import { PiArrowLeftBold } from "react-icons/pi";
 import UpdateFileUpload from "../forms/components/UpdateFileUpload";
 import toast from "react-hot-toast";
 import CarSelectBox from "../forms/components/CarSelectBox";
-import BicyclesLocationBox from "../forms/components/locations/BicyclesLocationBox";
 import BikeSelectBox from "../forms/components/BikeSelectBox";
 import SelectBox from "../forms/components/SelectBox";
 import LabelRadio from "../forms/components/LabelRadio";
@@ -69,12 +68,12 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
       pname: ProductDetails.product.pname,
       price: ProductDetails.product.price.toString(),
       Province: ProductDetails.product.Province,
-      brand: ProductDetails.brand,
+      brand: ProductDetails.brand.toString(),
       color: ProductDetails.color,
       condition: ProductDetails.condition,
       km_driven: ProductDetails.km_driven.toString(),
       mileage: ProductDetails.mileage.toString(),
-      model: ProductDetails.model,
+      model: ProductDetails.model.toString(),
       owner: ProductDetails.owner,
       used_time: ProductDetails.used_time,
       year: ProductDetails.year.toString(),
