@@ -121,7 +121,7 @@ const EditMotorcycles: React.FC<EDetailsProps> = ({
       if (data.success === "Successful Update") {
         toast.success("Update Successfull");
         reset();
-        router.push(`/productdetails/${ProductDetails?.product_id}`);
+        router.push(`/productdetails/${ProductDetails?.product.id}`);
       }
       if (data.response.status === 422) {
         const errorArr: any[] = Object.values(data.response.data.errors);
