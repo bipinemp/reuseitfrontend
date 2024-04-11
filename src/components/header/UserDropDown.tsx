@@ -2,6 +2,7 @@ import {
   DollarSign,
   LayoutDashboard,
   LifeBuoy,
+  Megaphone,
   Settings,
   User,
 } from "lucide-react";
@@ -90,6 +91,16 @@ export function UserDropDown() {
             >
               <DollarSign className="mr-2 h-4 w-4" />
               <span>Buy Business Packages</span>
+            </Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem>
+            <Link
+              href={"/wanted_ad"}
+              className="flex w-full items-center gap-1"
+            >
+              <Megaphone className="mr-2 h-4 w-4" />
+              <span>Wanted Ad</span>
             </Link>
           </DropdownMenuItem>
 

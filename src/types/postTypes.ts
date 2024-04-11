@@ -827,3 +827,27 @@ export const ProfileDataSchema = z.object({
 });
 
 export type TProfileData = z.infer<typeof ProfileDataSchema>;
+
+export const WantedAdSchema = z.object({
+  user_id: z
+    .string({ required_error: "user_id is required" })
+    .min(1, { message: "You must enter a user_id" })
+    .optional(),
+  adname: z
+    .string({ required_error: "AdName is required" })
+    .min(1, { message: "You must enter a AdName" }),
+  description: z
+    .string({ required_error: "Description is required" })
+    .min(1, { message: "You must enter a Description" }),
+  Province: z
+    .string({ required_error: "Province is required" })
+    .min(1, { message: "You must enter a Province" }),
+  District: z
+    .string({ required_error: "District is required" })
+    .min(1, { message: "You must enter a District" }),
+  Municipality: z
+    .string({ required_error: "Municipality is required" })
+    .min(1, { message: "You must enter a Municipality" }),
+});
+
+export type TWantedAd = z.infer<typeof WantedAdSchema>;

@@ -64,25 +64,25 @@ const RegisterForm = () => {
   const typefile = file?.type.split("/")[0];
 
   return (
-    <div className="relative w-full h-full flex shadow-lg rounded-lg border">
+    <div className="relative flex h-full w-full rounded-lg border shadow-lg">
       <ScrollArea className="w-[60%]">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="w-full flex flex-col gap-4 py-6 px-12"
+          className="flex w-full flex-col gap-4 px-12 py-6"
         >
           <h1 className="font-semibold">Register</h1>
 
-          <p className="flex gap-2 items-center">
+          <p className="flex items-center gap-2">
             <span>Already have an account?</span>
             <Link
-              className="text-primary font-semibold underline underline-offset-2"
+              className="font-semibold text-primary underline underline-offset-2"
               href={"/login"}
             >
               Login here
             </Link>
           </p>
 
-          <div className="flex flex-col gap-4 mt-4">
+          <div className="mt-4 flex flex-col gap-4">
             <InputBox<TRegister>
               name="name"
               id="name"
@@ -140,7 +140,7 @@ const RegisterForm = () => {
             <p className="font-semibold underline">Select Image</p>
 
             <div
-              className="flex relative w-[100px] h-[100px] rounded-full flex-col gap-2 cursor-pointer"
+              className="relative flex h-[100px] w-[100px] cursor-pointer flex-col gap-2 rounded-full"
               onClick={() => imgRef?.current?.click()}
             >
               {file && typefile === "image" ? (
@@ -150,12 +150,12 @@ const RegisterForm = () => {
                   height={100}
                   alt=""
                   className={clsx(
-                    "p-1 border-[3px] border-content cursor-pointer rounded-full",
+                    "cursor-pointer rounded-full border-[3px] border-content p-1",
                     {
                       "border-[3px] border-red-500":
                         errors.Profile_image?.message &&
                         typeof errors.Profile_image?.message === "string",
-                    }
+                    },
                   )}
                 />
               ) : (
@@ -165,14 +165,14 @@ const RegisterForm = () => {
                     width={100}
                     height={100}
                     alt=""
-                    className="p-1 border-content cursor-pointer rounded-full"
+                    className="cursor-pointer rounded-full border-content p-1"
                   />
                 </>
               )}
             </div>
 
             {errors.Profile_image?.message ? (
-              <span className="text-destructive text-sm font-semibold pl-3">
+              <span className="pl-3 text-sm font-semibold text-destructive">
                 {typeof errors.Profile_image?.message === "string"
                   ? errors.Profile_image.message
                   : null}
@@ -184,7 +184,7 @@ const RegisterForm = () => {
               className="text-[1rem] font-semibold tracking-wide"
             >
               {isPending ? (
-                <div className="flex gap-2 items-center">
+                <div className="flex items-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin" />
                   <p>Registering..</p>
                 </div>
@@ -195,7 +195,7 @@ const RegisterForm = () => {
           </div>
         </form>
       </ScrollArea>
-      <div className="relative w-[40%] h-full flex items-center justify-between border-l-[2px]">
+      <div className="relative flex h-full w-[40%] items-center justify-between border-l-[2px]">
         <Image src={Register} fill alt="" className="object-contain" />
       </div>
     </div>

@@ -32,7 +32,7 @@ const InputBox = <T,>({
         name={name as string}
         placeholder={placeholder}
         className={clsx("border-content py-6", {
-          "border-destructive border-[2px] placeholder:text-destructive":
+          "border-[2px] border-destructive placeholder:text-destructive":
             error !== "",
         })}
       />
@@ -46,7 +46,7 @@ const InputBox = <T,>({
         </span>
       )}
       {error && (
-        <span className="text-destructive text-sm font-semibold pl-3">
+        <span className="pl-3 text-sm font-semibold text-destructive">
           ** {error}
         </span>
       )}

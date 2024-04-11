@@ -41,5 +41,6 @@ export const config = {
     "/register",
     "/business_packages",
     "/admin/:path*",
+    "/wanted_ad",
   ],
 };

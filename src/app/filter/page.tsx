@@ -19,11 +19,12 @@ import FilterProdCard from "@/components/filter/FilterProdCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ProductLoading2, ProductLoadingCard } from "@/loading/ProductsLoading";
-import { ProductDetailsLoading } from "@/loading/ProductDetailsLoading";
+import { useUserProfile } from "@/apis/queries";
 
 const Page: React.FC = () => {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
+  const { data: UserDetail } = useUserProfile();
 
   const [category, setCategory] = useState<string>("");
   const [minPrice, setMinPrice] = useState<string>("");
@@ -45,6 +46,7 @@ const Page: React.FC = () => {
           ...(category && { category: category }),
           ...(minAPrice && { min_price: minAPrice }),
           ...(maxAPrice && { max_price: maxAPrice }),
+          ...(UserDetail?.id && { user_id: UserDetail?.id }),
         }),
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
@@ -53,10 +55,11 @@ const Page: React.FC = () => {
       },
     });
 
-  const FilteredData = data?.pages.map((products) =>
-    products?.map((product: ActualRecommendation, i: number) => {
-      return <FilterProdCard product={product} key={i} />;
-    }),
+  const FilteredData = data?.pages.map(
+    (products) =>
+      products?.map((product: ActualRecommendation, i: number) => {
+        return <FilterProdCard product={product} key={i} />;
+      }),
   );
 
   return (

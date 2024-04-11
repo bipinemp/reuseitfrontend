@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Locations from "@/json/nepal_location.json";
-import LocSelectBox from "../LocSelectBox";
 import { Control, FieldErrors, FieldValues } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import LocSelectBox from "@/components/categories/forms/components/LocSelectBox";
 
 // Define a generic type for the item in the location array
 type LocationItem = {
@@ -20,11 +20,11 @@ interface LocationBoxProps<T extends FieldValues> {
   wanted?: boolean;
 }
 
-const DynamicLocationBox = <T extends Record<string, any>>({
+const LocationBox = <T extends Record<string, any>>({
   control,
   errors,
   whileEditing,
-  Prov,
+  Prov = "",
   Dist,
   wanted = true,
 }: LocationBoxProps<T>) => {
@@ -54,7 +54,7 @@ const DynamicLocationBox = <T extends Record<string, any>>({
 
   return (
     <div
-      className={cn("relative flex flex-col gap-4 px-3 py-8 lg:px-10", {
+      className={cn("relative flex w-full flex-col gap-4", {
         "border-b-[1px] border-content": wanted,
       })}
     >
@@ -124,4 +124,4 @@ const DynamicLocationBox = <T extends Record<string, any>>({
   );
 };
 
-export default DynamicLocationBox;
+export default LocationBox;

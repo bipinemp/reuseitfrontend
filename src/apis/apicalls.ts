@@ -570,6 +570,20 @@ export const editUserProfile = async (data: any) => {
   }
 };
 
+// for posting Wanted Ad
+export const postWantedAd = async (data: any) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8000/api/placewanted",
+      data,
+      { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 // Date formating
 export const formatDate = (date: string) => {
   const currentDate = new Date();
