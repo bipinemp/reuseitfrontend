@@ -115,13 +115,17 @@ const Electronics: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async () => {
-    if (files.length === 0) {
-      return;
+    if (UserData?.isBlocked === 1) {
+      toast.error("Sorry, Your are currently Blocked By Website Admin");
     } else {
-      if (UserData?.verifiedStatus === 1) {
-        handleCreateElectronics(getValues());
+      if (files.length === 0) {
+        return;
       } else {
-        setPhoneDialog(true);
+        if (UserData?.verifiedStatus === 1) {
+          handleCreateElectronics(getValues());
+        } else {
+          setPhoneDialog(true);
+        }
       }
     }
   };

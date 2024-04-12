@@ -240,7 +240,7 @@ const Page: React.FC = () => {
 
   return (
     <DashboardContainer>
-      <div className="mb-20 flex w-[1200px] flex-col gap-5 px-14">
+      <div className="mb-20 flex w-[1000px] flex-col gap-5 px-14">
         <div>
           <h1 className="font-bold text-gray-600">Products</h1>
         </div>

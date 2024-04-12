@@ -24,6 +24,7 @@ import { Button } from "../ui/button";
 
 export function UserDropDown() {
   const { data, isPending } = useUserProfile();
+
   const imgurl = "http://127.0.0.1:8000/images/";
 
   if (isPending) {
@@ -40,7 +41,7 @@ export function UserDropDown() {
     );
   }
 
-  let isAdmin = true;
+  let isAdmin = (data?.isAdmin === 1 ? true : false) || false;
 
   return (
     <DropdownMenu>
@@ -75,14 +76,16 @@ export function UserDropDown() {
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
-            <Link href={"/admin"} className="flex w-full items-center gap-1">
-              <LayoutDashboard className="mr-2 h-5 w-5 font-semibold text-destructive" />
-              <span className="font-semibold text-destructive">
-                Admin Dashboard
-              </span>
-            </Link>
-          </DropdownMenuItem>
+          {isAdmin && (
+            <DropdownMenuItem>
+              <Link href={"/admin"} className="flex w-full items-center gap-1">
+                <LayoutDashboard className="mr-2 h-5 w-5 font-semibold text-destructive" />
+                <span className="font-semibold text-destructive">
+                  Admin Dashboard
+                </span>
+              </Link>
+            </DropdownMenuItem>
+          )}
 
           <DropdownMenuItem>
             <Link

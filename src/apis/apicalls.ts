@@ -129,7 +129,7 @@ export const makeCategory = async (data: any) => {
       data,
       { withCredentials: true },
     );
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }
@@ -577,6 +577,86 @@ export const postWantedAd = async (data: any) => {
       "http://localhost:8000/api/placewanted",
       data,
       { withCredentials: true },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for getting the list of wanted Ads
+export const getWantedAds = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/getwantedads", {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+// for admin dashboard analytics
+export const getAdminDash = async () => {
+  try {
+    const response = await axios.get("http://localhost:8000/api/getadmindash", {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCustomersAnalytics = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/customersanalytics",
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getAdminPiecharts = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/pieadmincategory",
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getCustomersList = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/api/getallcustomers",
+      {
+        withCredentials: true,
+      },
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const blockCustomer = async (id: string) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/blockcustomers/${id}`,
+      {
+        withCredentials: true,
+      },
     );
     return response.data;
   } catch (error) {

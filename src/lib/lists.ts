@@ -56,11 +56,11 @@ export const admin_dash_links = [
     icon: Users,
     link: "/customers",
   },
-  {
-    name: "Account",
-    icon: User,
-    link: "/account",
-  },
+  // {
+  //   name: "Account",
+  //   icon: User,
+  //   link: "/account",
+  // },
 ];
 
 export const category_list = [

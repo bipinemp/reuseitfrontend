@@ -46,10 +46,14 @@ const Page: FC<PageProps> = ({}) => {
         toast.error(errorArr[0]);
       }
     },
-    onSuccess: () => {
-      toast.success("Category Made Successfully");
-      setCategoryName("");
-      setFields([{ id: "", label: "" }]);
+    onSuccess: (data) => {
+      if (data.status !== 401) {
+        toast.success("Category Made Successfully");
+        setCategoryName("");
+        setFields([{ id: "", label: "" }]);
+      } else {
+        toast.error(data.error);
+      }
     },
   });
 

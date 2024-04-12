@@ -1,3 +1,4 @@
+import axios from "axios";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -5,6 +6,20 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("jwt")?.value || "";
   const path = request.nextUrl.pathname;
   const isLogReg = path === "/login" || path === "/register";
+
+  // const response = await (
+  //   await fetch("http://localhost:8000/api/me", {
+  //     method: "POST",
+  //     body: JSON.stringify({}),
+  //     credentials: "include",
+  //     headers: {
+  //       accept: "application/json",
+  //       "Content-type": "application/json",
+  //     },
+  //   })
+  // ).json();
+
+  // console.log(response);
 
   const admin = true;
 

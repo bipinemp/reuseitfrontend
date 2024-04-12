@@ -108,13 +108,17 @@ const Bicycles: React.FC = () => {
 
   // actual form submission function
   const onSubmit = async (data: TBicycles) => {
-    if (files.length === 0) {
-      return;
+    if (UserData?.isBlocked === 1) {
+      toast.error("Sorry, Your are currently Blocked By Website Admin");
     } else {
-      if (UserData?.verifiedStatus === 1) {
-        handleCreateAppliance(getValues());
+      if (files.length === 0) {
+        return;
       } else {
-        setPhoneDialog(true);
+        if (UserData?.verifiedStatus === 1) {
+          handleCreateAppliance(getValues());
+        } else {
+          setPhoneDialog(true);
+        }
       }
     }
   };

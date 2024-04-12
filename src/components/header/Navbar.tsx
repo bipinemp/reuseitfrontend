@@ -12,6 +12,7 @@ import { PiArrowLeftBold } from "react-icons/pi";
 import Sidebar from "./Sidebar";
 import { nonavbarlist } from "@/lib/lists";
 import { UserDropDown } from "./UserDropDown";
+import { Button } from "../ui/button";
 
 const mainNavbar = (
   <div className=" mx-auto flex max-w-[1920px] items-center justify-between gap-5 px-4 lg:px-10 2xl:px-72">
@@ -29,6 +30,11 @@ const mainNavbar = (
       <div className="flex w-full items-center justify-between gap-3">
         <Search />
         <div className="hidden items-center gap-2 lg:flex">
+          <Link href={"/ads"}>
+            <Button variant={"secondary"} size={"icon"}>
+              Ads
+            </Button>
+          </Link>
           <UserDropDown />
           <Chat />
           <Notification />

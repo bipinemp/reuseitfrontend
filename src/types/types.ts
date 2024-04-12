@@ -140,6 +140,8 @@ type UserDetail = {
   name: string;
   updated_at: string;
   products: UserProducts[];
+  isAdmin: number;
+  isBlocked: number;
 };
 
 type TUserDetails = {
@@ -397,6 +399,8 @@ type TUserDetail = {
   ActiveStatus?: number;
   verifiedStatus?: number;
   Timeago?: string;
+  isAdmin: number;
+  isBlocked: number;
 };
 
 type EProduct = {
@@ -526,4 +530,16 @@ type TNotification = {
     data: string[];
     count: number;
   };
+};
+
+type TWantedAd = {
+  id: string;
+  adname: string;
+  description: string;
+  Province: string;
+  District: string;
+  Municipality: string;
+  user: UserDetail;
+  user_id: string;
+  created_at: string;
 };
