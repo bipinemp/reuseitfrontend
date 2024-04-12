@@ -13,13 +13,15 @@ import Sidebar from "./Sidebar";
 import { nonavbarlist } from "@/lib/lists";
 import { UserDropDown } from "./UserDropDown";
 import { Button } from "../ui/button";
+import Image from "next/image";
+import logo from "../../../public/image/logo.png";
 
 const mainNavbar = (
   <div className=" mx-auto flex max-w-[1920px] items-center justify-between gap-5 px-4 lg:px-10 2xl:px-72">
     <div className="flex w-full flex-col gap-3 lg:flex-row lg:gap-5">
       <div className="flex w-full items-center justify-between lg:w-[280px]">
         <Link href={"/"} className="text-2xl font-bold">
-          ReUseIt
+          <Image src={logo} width={100} height={100} alt="ReUseIt Logo" />
         </Link>
 
         <div className="flex items-center gap-2">
